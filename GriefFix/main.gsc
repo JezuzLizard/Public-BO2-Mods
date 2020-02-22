@@ -28,12 +28,11 @@ init()
 	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
 	thread add_bots(); //this overrides the typical start time logic
    	level.default_solo_laststandpistol = "m1911_zm"; //prevents players from having the solo pistol when downed in grief
-   	thread pregameResetPrevention();
    	for(;;)
     {
         level waittill("connected", player);
         player thread teamBalancing();
-        player thread pregameInvulernability();
+        player thread pregameInvulnernability();
     }
 }
 
