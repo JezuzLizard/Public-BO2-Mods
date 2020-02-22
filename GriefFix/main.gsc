@@ -20,7 +20,7 @@ init()
 	level.wait_time = 30; //change this to adjust the start time once the player quota is met
 	//this also gives players time to rejoin a game after its ended
 	level.player_invulernability_active = 1;
-	level.player_quota_active = 0; //set this to 0 to disable player quotas recommended to be 1 for grief
+	level.player_quota_active = 1; //set this to 0 to disable player quotas recommended to be 1 for grief
 	level.player_quota = 2; //number of players required before the game starts
 	level.waiting = 0;
 	level.countdown_start = 0;
