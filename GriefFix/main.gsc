@@ -1,3 +1,13 @@
+/*
+*	 Black Ops 2 - GSC Studio by iMCSx
+*
+*	 Creator : JezuzLizard
+*	 Project : grieffix2
+*    Mode : Zombies
+*	 Date : 2020/01/31 - 03:36:03	
+*
+*/	
+
 #include maps/mp/_utility;
 #include common_scripts/utility;
 #include maps/mp/gametypes_zm/_hud_util;
@@ -5,26 +15,50 @@
 #include maps/mp/zombies/_zm;
 #include maps/mp/zombies/_zm_utility;
 #include maps/mp/gametypes_zm/zgrief;
-
 init()
 {
-	level.pap_grab_by_anyone = true;
-	level.magic_box_grab_by_anyone = true;
-	level.perk_purchase_limit = 9;
-	level.wait_time = 30;
-	level.player_quota_active = 1;
-	level.player_quota = 2;
+	level.wait_time = 30; //change this to adjust the start time once the player quota is met
+	//this also gives players time to rejoin a game after its ended
+	level.player_invulernability_active = 1;
+	level.player_quota_active = 0; //set this to 0 to disable player quotas recommended to be 1 for grief
+	level.player_quota = 2; //number of players required before the game starts
 	level.waiting = 0;
 	level.countdown_start = 0;
-	level.round_prestart_func =::round_prestart_func;
-	SetDvar( "scr_zm_enable_bots", "1" );
-	thread add_bots();
-   	level.default_solo_laststandpistol = "m1911_zm";
+	level.round_prestart_func =::round_prestart_func; //delays the rounds from starting
+	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
+	thread add_bots(); //this overrides the typical start time logic
+   	level.default_solo_laststandpistol = "m1911_zm"; //prevents players from having the solo pistol when downed in grief
+   	thread pregameResetPrevention();
    	for(;;)
     {
         level waittill("connected", player);
         player thread teamBalancing();
+        player thread pregameInvulernability();
     }
+}
+
+pregameInvulnerability()
+{
+	while ( level.player_invulernability_active == 1 )
+	{
+		i = 0;
+		players = get_players();
+		while ( i < players.size )
+		{	
+			wait 0.05;
+			player = players[ i ];
+			if ( level.player_invulernability_active == 1 )
+			{
+				player enableinvulnerability();
+				i++;
+			}
+			else 
+			{
+				player disableinvulnerability();
+				i++;
+			}
+		}	
+	}
 }
 
 round_prestart_func()
@@ -70,6 +104,7 @@ teamBalancing()
 
 add_bots()
 {
+	flag_clear( "start_zombie_round_logic" );
     players = get_players();
     level.waiting = 1;
     thread waitMessage();
@@ -82,6 +117,7 @@ add_bots()
 	level.countdown_start = 1;
 	thread countdownTimer();
 	wait level.wait_time;
+	level.player_invulernability_active = 0;
     flag_set( "start_zombie_round_logic" );
 }
 
@@ -95,17 +131,16 @@ waitMessage()
 	}
 
    	Waiting = create_simple_hud();
-   	Waiting.horzAlign = "center";
+   	Waiting.horzAlign = "center"; //valid inputs: center, top, bottom, left, right, top_right, top_left, topcenter, bottom_right, bottom_left
    	Waiting.vertAlign = "middle";
    	Waiting.alignX = "center";
    	Waiting.alignY = "middle";
-   	Waiting.y = -130; 
-   	Waiting.x = 0;
+   	Waiting.y = 0; //- is top 0 is middle + is bottom
+   	Waiting.x = -1;
    	Waiting.foreground = 1;
-   	Waiting.fontscale = 2.0;
-   	Waiting.alpha = 1;
-   	Waiting.color = ( 1.000, 1.000, 1.000 );
-   	Waiting.hideWhenInMenu = true;
+   	Waiting.fontscale = 3.0;
+   	Waiting.alpha = 1; //transparency
+   	Waiting.color = ( 1.000, 1.000, 1.000 ); //RGB
    	Waiting SetText( "Waiting for 1 more player" );
    	
    	while ( 1 )
@@ -131,27 +166,27 @@ countdownTimer()
 	Remaining = create_simple_hud();
   	Remaining.horzAlign = "center";
   	Remaining.vertAlign = "middle";
-   	Remaining.alignX = "center";
+   	Remaining.alignX = "Left";
    	Remaining.alignY = "middle";
-   	Remaining.y = 20;
-   	Remaining.x = 0;
+   	Remaining.y = 0;
+   	Remaining.x = 135;
    	Remaining.foreground = 1;
-   	Remaining.fontscale = 2.0;
+   	Remaining.fontscale = 3.0;
    	Remaining.alpha = 1;
-   	Remaining.color = ( 0.98, 0.549, 0 );
+   	Remaining.color = ( 1.000, 1.000, 1.000 );
 
    	Countdown = create_simple_hud();
    	Countdown.horzAlign = "center"; 
    	Countdown.vertAlign = "middle";
    	Countdown.alignX = "center";
    	Countdown.alignY = "middle";
-   	Countdown.y = -20;
-   	Countdown.x = 0;
+   	Countdown.y = 0;
+   	Countdown.x = -1;
    	Countdown.foreground = 1;
-   	Countdown.fontscale = 2.0;
+   	Countdown.fontscale = 3.0;
    	Countdown.alpha = 1;
    	Countdown.color = ( 1.000, 1.000, 1.000 );
-   	Countdown SetText( "Match begins in" );
+   	Countdown SetText( "Time until game starts:" );
    	
    	timer = level.wait_time;
 	while ( level.countdown_start == 1 )
@@ -167,3 +202,24 @@ countdownTimer()
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
