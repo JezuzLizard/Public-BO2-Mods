@@ -42,14 +42,14 @@ pregameInvulnerability()
 	}
 	while ( level.player_invulernability_active == 0 )
 	{
-		i = 0;
-		while ( i < players.size )
+		i2 = 0;
+		while ( i2 < players.size )
 		{	
 			players = get_players();
 			wait 0.05;
-			player = players[ i ];
+			player = players[ i2 ];
 			player disableinvulnerability();
-			i++;
+			i2++;
 		}
 		break;
 	}
