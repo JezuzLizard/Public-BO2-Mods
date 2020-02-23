@@ -1,13 +1,3 @@
-/*
-*	 Black Ops 2 - GSC Studio by iMCSx
-*
-*	 Creator : JezuzLizard
-*	 Project : grieffix2
-*    Mode : Zombies
-*	 Date : 2020/01/31 - 03:36:03	
-*
-*/	
-
 #include maps/mp/_utility;
 #include common_scripts/utility;
 #include maps/mp/gametypes_zm/_hud_util;
@@ -130,16 +120,17 @@ waitMessage()
 	}
 
    	Waiting = create_simple_hud();
-   	Waiting.horzAlign = "center"; //valid inputs: center, top, bottom, left, right, top_right, top_left, topcenter, bottom_right, bottom_left
+   	Waiting.horzAlign = "center";
    	Waiting.vertAlign = "middle";
    	Waiting.alignX = "center";
    	Waiting.alignY = "middle";
-   	Waiting.y = 0; //- is top 0 is middle + is bottom
-   	Waiting.x = -1;
+   	Waiting.y = -130; 
+   	Waiting.x = 0;
    	Waiting.foreground = 1;
-   	Waiting.fontscale = 3.0;
-   	Waiting.alpha = 1; //transparency
-   	Waiting.color = ( 1.000, 1.000, 1.000 ); //RGB
+   	Waiting.fontscale = 2.0;
+   	Waiting.alpha = 1;
+   	Waiting.color = ( 1.000, 1.000, 1.000 );
+   	Waiting.hideWhenInMenu = true;
    	Waiting SetText( "Waiting for 1 more player" );
    	
    	while ( 1 )
@@ -165,27 +156,27 @@ countdownTimer()
 	Remaining = create_simple_hud();
   	Remaining.horzAlign = "center";
   	Remaining.vertAlign = "middle";
-   	Remaining.alignX = "Left";
+   	Remaining.alignX = "center";
    	Remaining.alignY = "middle";
-   	Remaining.y = 0;
-   	Remaining.x = 135;
+   	Remaining.y = 20;
+   	Remaining.x = 0;
    	Remaining.foreground = 1;
-   	Remaining.fontscale = 3.0;
+   	Remaining.fontscale = 2.0;
    	Remaining.alpha = 1;
-   	Remaining.color = ( 1.000, 1.000, 1.000 );
+   	Remaining.color = ( 0.98, 0.549, 0 );
 
    	Countdown = create_simple_hud();
    	Countdown.horzAlign = "center"; 
    	Countdown.vertAlign = "middle";
    	Countdown.alignX = "center";
    	Countdown.alignY = "middle";
-   	Countdown.y = 0;
-   	Countdown.x = -1;
+   	Countdown.y = -20;
+   	Countdown.x = 0;
    	Countdown.foreground = 1;
-   	Countdown.fontscale = 3.0;
+   	Countdown.fontscale = 2.0;
    	Countdown.alpha = 1;
    	Countdown.color = ( 1.000, 1.000, 1.000 );
-   	Countdown SetText( "Time until game starts:" );
+   	Countdown SetText( "Match begins in" );
    	
    	timer = level.wait_time;
 	while ( level.countdown_start == 1 )
@@ -201,24 +192,3 @@ countdownTimer()
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
