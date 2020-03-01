@@ -19,18 +19,12 @@
 
 init()
 {
-	level.disable_perks = 0;
-	if ( level.disable_perks == 1 && level.script == "zm_transit" || level.disable_perks == 1 && level.script == "zm_buried" )
-	{
-		level thread perk_machine_removal( "specialty_quickrevive" );
-		level thread perk_machine_removal( "specialty_armorvest" );
-	}
-	thread turn_power_on_and_open_doors();
+	randomGameSettings();
 	level.custom_spectate_permissions = ::setspectatepermissionsgrief;
-	level.wait_time = 30; //change this to adjust the start time once the player quota is met
+	level.wait_time = 45; //change this to adjust the start time once the player quota is met
 	//this also gives players time to rejoin a game after its ended
 	level.player_invulernability_active = 1;
-	level.player_quota_active = 0; //set this to 0 to disable player quotas recommended to be 1 for grief
+	level.player_quota_active = 1; //set this to 0 to disable player quotas recommended to be 1 for grief
 	level.player_quota = 2; //number of players required before the game starts
 	level.waiting = 0;
 	level.countdown_start = 0;
@@ -38,20 +32,112 @@ init()
 	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
 	thread add_bots(); //this overrides the typical start time logic
    	level.default_solo_laststandpistol = "m1911_zm"; //prevents players from having the solo pistol when downed in grief
-   	
-   	level.zombie_ai_limit = 32;
-	level.zombie_actor_limit = 40;
-	level.zombie_vars["zombie_intermission_time"] = 5;
-	level.zombie_vars["zombie_between_round_time"] = 10;
-	level.zombie_vars["zombie_powerup_drop_max_per_round"] = 8;
-	level.zombie_vars[ "zombie_spawn_delay" ] = 0.08;
-   	
+   	thread deleteBuyableDoors();
    	for(;;)
     {
         level waittill("connected", player);
         player thread teamBalancing();
         player thread pregameInvulnerability();
     }
+}
+
+randomGameSettings()
+{
+	level.disable_revive = 0;
+	level.disable_jugg = 0;
+	level.electric_doors_enabled = 0;
+	level.first_room_doors_enabled = 1;
+	if ( randomint( 100 ) > 80 )//20% chance of first room only
+	{
+		level.first_room_doors_enabled = 0; //turn on to close the first room doors
+	}
+	if ( randomint( 100 ) > 50 )//50% chance of no jugg
+	{
+		level.disable_jugg = 1;
+	}
+	if ( randomint( 100 ) > 50 )//50% chance of no revive
+	{
+		level.disable_revive = 1;
+	}
+	if ( randomint( 100 ) > 75 )//25% chance of hyper speed
+	{
+		level.zombie_vars[ "zombie_spawn_delay" ] = 0.08;
+		level.zombie_vars["zombie_between_round_time"] = 1;
+		level.zombie_move_speed = 105;
+		level.speed_change_round = undefined;
+		thread walkersDisabledAndAllRunners();
+	}
+	if ( randomint( 100 ) > 90 )//10% chance of quad drop amount
+	{
+		level.zombie_vars["zombie_powerup_drop_max_per_round"] = 16;
+	}
+	if ( randomint( 100 ) > 50 )//50% chance of more zombies
+	{
+		level.zombie_ai_limit = 32;
+		level.zombie_actor_limit = 40;
+	} 
+	if ( randomint( 100 ) > 80 )//20% chance of shorter rounds
+	{
+		level.zombie_vars["zombie_ai_per_player"] = 3;
+	} 
+	if ( randomint( 100 ) > 60 )//40% chance of immovable box
+	{
+		SetDvar( "magic_chest_movable", "0" );
+	} 
+	if ( randomint( 100 ) > 90 )//10% chance of deflation
+	{
+		level.zombie_vars["zombie_score_damage_normal"] = 0;
+		level.zombie_vars["zombie_score_damage_light"] = 0;
+		level.zombie_vars["zombie_score_bonus_melee"] = 0;
+		level.zombie_vars["zombie_score_bonus_head"] = 0;
+		level.zombie_vars["zombie_score_bonus_neck"] = 0;
+		level.zombie_vars["zombie_score_bonus_torso"] = 0;
+		level.zombie_vars["zombie_score_bonus_burn"] = 0;
+		level.zombie_vars["penalty_died"] = 0;
+		level.zombie_vars["penalty_downed"] = 0;
+	} 
+	if ( randomint( 100 ) > 50 )//50% chance of more deadly emps
+	{
+		level.zombie_vars["emp_perk_off_time"] = 240;
+	} 
+	if ( randomint( 100 ) > 85 && level.script == "zm_prison" )//15% chance of the warden army
+	{
+		level.brutus_max_count = 20;
+		level.brutus_wait_time = 20;
+		thread brutusArmy();
+	} 
+	if ( level.disable_jugg && level.script == "zm_transit" || level.disable_jugg && level.script == "zm_buried" )
+	{
+		level thread perk_machine_removal( "specialty_armorvest" );
+	}
+	if ( level.disable_revive && level.script == "zm_transit" || level.disable_revive && level.script == "zm_buried" )
+	{
+		level thread perk_machine_removal( "specialty_quickrevive" );
+	}
+}
+
+walkersDisabledAndAllRunners()
+{
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		level.zombie_move_speed = 105;
+		level.speed_change_round = undefined;
+		wait 1;
+	}
+}
+
+brutusArmy()
+{
+	level waittill( "start_of_round" );
+	i = 0;
+	while ( i < level.brutus_max_count )
+	{
+		wait level.brutus_wait_time;
+    	level notify( "spawn_brutus", 1 );
+    	i++;
+	}
+	brutusArmy();
 }
 
 pregameInvulnerability()
@@ -126,11 +212,12 @@ teamBalancing()
 
 add_bots()
 {
+	flag_clear( "solo_game" );
 	flag_clear( "start_zombie_round_logic" );
     players = get_players();
     level.waiting = 1;
     thread waitMessage();
-	while ( players.size < level.player_quota && level.player_quota_active == 1 || players.size < 1)
+	while ( players.size < level.player_quota && level.player_quota_active || players.size < 1)
 	{
 		wait 0.5;
 		players = get_players();
@@ -233,55 +320,79 @@ setspectatepermissionsgrief()
 	self allowspectateteam( "none", 1 );
 }
 
-depot_close_local_electric_doors()
+deleteBuyableDoors()
 {
-    if(!(level.scr_zm_ui_gametype == "zgrief" && level.scr_zm_map_start_location == "transit"))
+    doors_trigs = getentarray( "zombie_door", "targetname" );
+    _a41 = doors_trigs;
+    _k41 = getFirstArrayKey( _a41 );
+    while ( isDefined( _k41 ) )
     {
-        return;
-    }
-
-    zombie_doors = getentarray( "zombie_door", "targetname" );
-    _a144 = zombie_doors;
-    _k144 = getFirstArrayKey( _a144 );
-    while ( isDefined( _k144 ) )
-    {
-        door = _a144[ _k144 ];
-
-        if ( isDefined( door.script_noteworthy ) && door.script_noteworthy == "local_electric_door" )
+        door = _a41[ _k41 ];
+        //deletes the depot main door trigger
+        if (IsDefined(door.target) && door.target == "busstop_doors" && !level.first_room_doors_enabled)
         {
-            door maps/mp/zombies/_zm_blockers::door_block();
-            door maps/mp/zombies/_zm_blockers::door_opened( 0, 1 );
+        	door self_delete();
         }
-        _k144 = getNextArrayKey( _a144, _k144 );
+        //deletes the first electric door in depot
+        else if (IsDefined(door.target) && door.target == "pf1766_auto2352" && !level.electric_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //deletes the second electric door in depot
+        else if (IsDefined(door.target) && door.target == "pf1766_auto2353" && !level.electric_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //farm electric door
+        else if (IsDefined(door.target) && door.target == "pf1766_auto2358" && !level.electric_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //farm house door
+        else if (IsDefined(door.target) && door.target == "auto2434" && !level.electric_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //cellblock starting room door
+        else if (IsDefined(door.target) && door.target == "cellblock_start_door" && !level.first_room_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //cafeteria door
+        else if (IsDefined(door.target) && door.target == "pf3642_auto2546" && !level.first_room_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //wardens office door
+        else if (IsDefined(door.target) && door.target == "pf3663_auto2547" && !level.first_room_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //packapunch door
+        else if (IsDefined(door.target) && door.target == "pf3674_auto2555" && !level.first_room_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //bar door
+        else if (IsDefined(door.target) && door.target == "pf30_auto2282" && !level.first_room_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //bank door
+        else if (IsDefined(door.target) && door.target == "pf30_auto2174" && !level.first_room_doors_enabled)
+        {
+        	door self_delete();
+        }
+        //jugg door
+        else if (IsDefined(door.target) && door.target == "pf30_auto_2433" && !level.first_room_doors_enabled)
+        {
+        	door self_delete();
+        }
+        _k41 = getNextArrayKey( _a41, _k41 );
     }
 }
 
-turn_power_on_and_open_doors()
-{
-	level.local_doors_stay_open = 0;
-	level.power_local_doors_globally = 0;
-	//flag_set( "power_on" );
-	//level setclientfield( "zombie_power_on", 1 );
-	zombie_doors = getentarray( "zombie_door", "targetname" );
-	_a144 = zombie_doors;
-	_k144 = getFirstArrayKey( _a144 );
-	while ( isDefined( _k144 ) )
-	{
-		door = _a144[ _k144 ];
-		if ( isDefined( door.script_noteworthy ) && door.script_noteworthy == "electric_door" )
-		{
-			//door notify( "power_on" );
-		}
-		else
-		{
-			if ( isDefined( door.script_noteworthy ) && door.script_noteworthy == "local_electric_door" )
-			{
-				//door notify( "local_power_on" );
-			}
-		}
-		_k144 = getNextArrayKey( _a144, _k144 );
-	}
-}
+
 
 
 
