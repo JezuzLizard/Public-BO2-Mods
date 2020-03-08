@@ -379,23 +379,23 @@ randomizedSettings()
 	{
 		return;
 	}
-	if ( randomint( 100 ) <= level.first_room_doors_enabled_chance && level.first_room_doors_enabled_chance_active )//20% chance of first room only
+	if ( ( randomint( 100 ) <= level.first_room_doors_enabled_chance ) && level.first_room_doors_enabled_chance_active )//20% chance of first room only
 	{
 		level.first_room_doors_enabled = 0; //turn on to close the first room doors
 	}
-	if ( randomint( 100 ) <= level.electric_doors_enabled_chance && level.electric_doors_enabled_chance_active )//20% chance of first room only
+	if ( ( randomint( 100 ) <= level.electric_doors_enabled_chance ) && level.electric_doors_enabled_chance_active )//20% chance of first room only
 	{
 		level.electric_doors_enabled = 0; //turn on to close the first room doors
 	}
-	if ( randomint( 100 ) <= level.disable_jugg_chance && level.disable_jugg_chance_active )//50% chance of no jugg
+	if ( ( randomint( 100 ) <= level.disable_jugg_chance ) && level.disable_jugg_chance_active )//50% chance of no jugg
 	{
 		disable_jugg = 1;
 	}
-	if ( randomint( 100 ) <= level.disable_revive_chance && level.disable_revive_chance_active )//50% chance of no revive
+	if ( ( randomint( 100 ) <= level.disable_revive_chance ) && level.disable_revive_chance_active )//50% chance of no revive
 	{
 		disable_revive = 1;
 	}
-	if ( randomint( 100 ) <= level.hyper_speed_spawns_chance && level.hyper_speed_spawns_chance_active )//25% chance of hyper speed
+	if ( ( randomint( 100 ) <= level.hyper_speed_spawns_chance ) && level.hyper_speed_spawns_chance_active )//25% chance of hyper speed
 	{
 		level.zombie_vars[ "zombie_spawn_delay" ] = 0.08;
 		level.zombie_vars["zombie_between_round_time"] = 1;
@@ -403,24 +403,24 @@ randomizedSettings()
 		level.speed_change_round = undefined;
 		thread walkersDisabledAndAllRunners();
 	}
-	if ( randomint( 100 ) <= level.extra_drops_chance && level.extra_drops_chance_active)//10% chance of quad drop amount
+	if ( ( randomint( 100 ) <= level.extra_drops_chance ) && level.extra_drops_chance_active)//10% chance of quad drop amount
 	{
 		level.zombie_vars["zombie_powerup_drop_max_per_round"] = 16;
 	}
-	if ( randomint( 100 ) <= level.max_zombies_chance && level.max_zombies_chance_active)//50% chance of more zombies
+	if ( ( randomint( 100 ) <= level.max_zombies_chance ) && level.max_zombies_chance_active)//50% chance of more zombies
 	{
 		level.zombie_ai_limit = 32;
 		level.zombie_actor_limit = 40;
 	} 
-	if ( randomint( 100 ) <= level.reduced_zombies_per_round_chance && level.reduced_zombies_per_round_chance_active)//20% chance of shorter rounds
+	if ( ( randomint( 100 ) <= level.reduced_zombies_per_round_chance ) && level.reduced_zombies_per_round_chance_active)//20% chance of shorter rounds
 	{
 		level.zombie_vars["zombie_ai_per_player"] = 3;
 	} 
-	if ( randomint( 100 ) <= level.disable_box_moving_chance && level.disable_box_moving_chance_active)//40% chance of immovable box
+	if ( ( randomint( 100 ) <= level.disable_box_moving_chance ) && level.disable_box_moving_chance_active)//40% chance of immovable box
 	{
 		SetDvar( "magic_chest_movable", "0" );
 	} 
-	if ( randomint( 100 ) <= level.deflation_chance && level.deflation_chance_active)//10% chance of deflation
+	if ( ( randomint( 100 ) <= level.deflation_chance ) && level.deflation_chance_active)//10% chance of deflation
 	{
 		level.zombie_vars["zombie_score_damage_normal"] = 0;
 		level.zombie_vars["zombie_score_damage_light"] = 0;
@@ -432,11 +432,11 @@ randomizedSettings()
 		level.zombie_vars["penalty_died"] = 0;
 		level.zombie_vars["penalty_downed"] = 0;
 	} 
-	if ( randomint( 100 ) <= level.deadlier_emps_chance && level.deadlier_emps_chance_active )//50% chance of more deadly emps
+	if ( ( randomint( 100 ) <= level.deadlier_emps_chance ) && level.deadlier_emps_chance_active )//50% chance of more deadly emps
 	{
 		level.zombie_vars["emp_perk_off_time"] = 240;
 	} 
-	if ( disable_jugg && level.script == "zm_transit" || disable_jugg && level.script == "zm_buried" )
+	if (  disable_jugg && level.script == "zm_transit" || disable_jugg && level.script == "zm_buried" )
 	{
 		level thread perk_machine_removal( "specialty_armorvest" );
 	}
@@ -456,6 +456,7 @@ walkersDisabledAndAllRunners()
 		wait 1;
 	}
 }
+
 
 
 
