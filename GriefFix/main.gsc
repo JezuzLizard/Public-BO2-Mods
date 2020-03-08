@@ -14,159 +14,64 @@
 #include maps/mp/gametypes_zm/_hud_message;
 #include maps/mp/zombies/_zm;
 #include maps/mp/zombies/_zm_utility;
-#include maps/mp/gametypes_zm/zgrief;
 #include maps/mp/zombies/_zm_perks;
 
 init()
 {
-	randomGameSettings();
-	level.custom_spectate_permissions = ::setspectatepermissionsgrief;
-	level.wait_time = 45; //change this to adjust the start time once the player quota is met
-	//this also gives players time to rejoin a game after its ended
-	level.player_invulernability_active = 1;
-	level.player_quota_active = 1; //set this to 0 to disable player quotas recommended to be 1 for grief
-	level.player_quota = 2; //number of players required before the game starts
-	level.waiting = 0;
-	level.countdown_start = 0;
+	gameSettings();
+	randomizedSettings();
+	thread gscRestart();
+	thread emptyLobbyRestart();
+	thread gscMapChange();
 	level.round_prestart_func =::round_prestart_func; //delays the rounds from starting
 	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
 	thread add_bots(); //this overrides the typical start time logic
    	level.default_solo_laststandpistol = "m1911_zm"; //prevents players from having the solo pistol when downed in grief
-   	thread deleteBuyableDoors();
    	for(;;)
     {
         level waittill("connected", player);
         player thread teamBalancing();
-        player thread pregameInvulnerability();
     }
 }
 
-randomGameSettings()
+gameSettings()
 {
-	level.disable_revive = 0;
-	level.disable_jugg = 0;
-	level.electric_doors_enabled = 0;
-	level.first_room_doors_enabled = 1;
-	if ( randomint( 100 ) > 80 )//20% chance of first room only
-	{
-		level.first_room_doors_enabled = 0; //turn on to close the first room doors
-	}
-	if ( randomint( 100 ) > 50 )//50% chance of no jugg
-	{
-		level.disable_jugg = 1;
-	}
-	if ( randomint( 100 ) > 50 )//50% chance of no revive
-	{
-		level.disable_revive = 1;
-	}
-	if ( randomint( 100 ) > 75 )//25% chance of hyper speed
-	{
-		level.zombie_vars[ "zombie_spawn_delay" ] = 0.08;
-		level.zombie_vars["zombie_between_round_time"] = 1;
-		level.zombie_move_speed = 105;
-		level.speed_change_round = undefined;
-		thread walkersDisabledAndAllRunners();
-	}
-	if ( randomint( 100 ) > 90 )//10% chance of quad drop amount
-	{
-		level.zombie_vars["zombie_powerup_drop_max_per_round"] = 16;
-	}
-	if ( randomint( 100 ) > 50 )//50% chance of more zombies
-	{
-		level.zombie_ai_limit = 32;
-		level.zombie_actor_limit = 40;
-	} 
-	if ( randomint( 100 ) > 80 )//20% chance of shorter rounds
-	{
-		level.zombie_vars["zombie_ai_per_player"] = 3;
-	} 
-	if ( randomint( 100 ) > 60 )//40% chance of immovable box
-	{
-		SetDvar( "magic_chest_movable", "0" );
-	} 
-	if ( randomint( 100 ) > 90 )//10% chance of deflation
-	{
-		level.zombie_vars["zombie_score_damage_normal"] = 0;
-		level.zombie_vars["zombie_score_damage_light"] = 0;
-		level.zombie_vars["zombie_score_bonus_melee"] = 0;
-		level.zombie_vars["zombie_score_bonus_head"] = 0;
-		level.zombie_vars["zombie_score_bonus_neck"] = 0;
-		level.zombie_vars["zombie_score_bonus_torso"] = 0;
-		level.zombie_vars["zombie_score_bonus_burn"] = 0;
-		level.zombie_vars["penalty_died"] = 0;
-		level.zombie_vars["penalty_downed"] = 0;
-	} 
-	if ( randomint( 100 ) > 50 )//50% chance of more deadly emps
-	{
-		level.zombie_vars["emp_perk_off_time"] = 240;
-	} 
-	if ( randomint( 100 ) > 85 && level.script == "zm_prison" )//15% chance of the warden army
-	{
-		level.brutus_max_count = 20;
-		level.brutus_wait_time = 20;
-		thread brutusArmy();
-	} 
-	if ( level.disable_jugg && level.script == "zm_transit" || level.disable_jugg && level.script == "zm_buried" )
-	{
-		level thread perk_machine_removal( "specialty_armorvest" );
-	}
-	if ( level.disable_revive && level.script == "zm_transit" || level.disable_revive && level.script == "zm_buried" )
-	{
-		level thread perk_machine_removal( "specialty_quickrevive" );
-	}
-}
-
-walkersDisabledAndAllRunners()
-{
-	while ( 1 )
-	{
-		level waittill( "start_of_round" );
-		level.zombie_move_speed = 105;
-		level.speed_change_round = undefined;
-		wait 1;
-	}
-}
-
-brutusArmy()
-{
-	level waittill( "start_of_round" );
-	i = 0;
-	while ( i < level.brutus_max_count )
-	{
-		wait level.brutus_wait_time;
-    	level notify( "spawn_brutus", 1 );
-    	i++;
-	}
-	brutusArmy();
-}
-
-pregameInvulnerability()
-{
-	while ( level.player_invulernability_active == 1 )
-	{
-		i = 0;
-		while ( i < players.size )
-		{	
-			players = get_players();
-			wait 0.05;
-			player = players[ i ];
-			player enableinvulnerability();
-			i++;
-		}
-	}
-	while ( level.player_invulernability_active == 0 )
-	{
-		i = 0;
-		while ( i < players.size )
-		{	
-			players = get_players();
-			wait 0.05;
-			player = players[ i ];
-			player disableinvulnerability();
-			i++;
-		}
-		break;
-	}
+	//game delay functions options
+	level.wait_time = 30; //change this to adjust the start time once the player quota is met
+	level.player_quota_active = 1; //set this to 0 to disable player quotas recommended to be 1 for grief
+	level.player_quota = 2; //number of players required before the game starts
+	level.waiting = 0; //don't change this 
+	level.countdown_start = 0; //don't change this
+	
+	//random game settings options set these to 0 to disable them happening
+	level.random_game_settings = 1; //disable this to diable all random settings effects
+	level.hyper_speed_spawns_chance_active = 1; //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
+	level.extra_drops_chance_active = 1; //this enables a chance that drops will drop upto 4x as much per round
+	level.max_zombies_chance_active = 1; //this enables a chance to increase max ai at once to 32
+	level.reduced_zombies_per_round_chance_active = 1; //enable this for a chance to get to higher rounds quicker
+	level.deflation_chance_active = 1; //this enables a chance that the zombies only give points when killed
+	level.deadlier_emps_chance_active = 1; //this enables a chance to make emp duration 4x as long
+	level.disable_revive_chance_active = 1; //this enables a chance to disable revive from appearing in games
+	level.disable_jugg_chance_active = 1; //this enables a chance to disable jugg from appearing in games
+	level.electric_doors_enabled_chance_active = 1; //this enables a chance that the electric doors on transit maps will be disabled
+	level.first_room_doors_enabled_chance_active = 1; //this enables a chance that the first room doors on all grief maps will be disabled
+	level.disable_box_moving_chance_active = 1; //this enables a chance that the box won't move after too many uses
+	
+	//chances of something happening setting to 100 makes it always on
+	level.hyper_speed_spawns_chance = 30; //30% default
+	level.extra_drops_chance = 15; //15% default
+	level.max_zombies_chance = 50; //50 default
+	level.reduced_zombies_per_round_chance = 20; //20% default
+	level.deflation_chance = 20; //20% default
+	level.deadlier_emps_chance = 40; //40% default
+	level.disable_revive_chance = 50; //50% default
+	level.disable_jugg_chance = 30; //30% default
+	level.first_room_doors_enabled_chance = 20; //20% default
+	level.electric_doors_enabled_chance = 40; //40% default
+	level.disable_box_moving_chance = 10; //10% default
+	
+	//map rotate feature overrides the normal restart if active
+	level.map_rotate = 1;
 }
 
 round_prestart_func()
@@ -226,7 +131,6 @@ add_bots()
 	level.countdown_start = 1;
 	thread countdownTimer();
 	wait level.wait_time;
-	level.player_invulernability_active = 0;
     flag_set( "start_zombie_round_logic" );
 }
 
@@ -312,14 +216,6 @@ countdownTimer()
 	}
 }
 
-setspectatepermissionsgrief()
-{
-	self allowspectateteam( "allies", 1 );
-	self allowspectateteam( "axis", 1 );
-	self allowspectateteam( "freelook", 1 );
-	self allowspectateteam( "none", 1 );
-}
-
 deleteBuyableDoors()
 {
     doors_trigs = getentarray( "zombie_door", "targetname" );
@@ -384,7 +280,7 @@ deleteBuyableDoors()
         	door self_delete();
         }
         //jugg door
-        else if (IsDefined(door.target) && door.target == "pf30_auto_2433" && !level.first_room_doors_enabled)
+        else if (IsDefined(door.target) && door.target == "pf30_auto2433" && !level.first_room_doors_enabled)
         {
         	door self_delete();
         }
@@ -392,11 +288,174 @@ deleteBuyableDoors()
     }
 }
 
+gscRestart()
+{
+	if ( level.map_rotate && level.script == "zm_transit" )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		if ( level.intermission )
+		{
+			wait 20;
+			map_restart( false );
+		}
+		wait 1;
+	}
+}
 
+emptyLobbyRestart()
+{
+	while ( 1 )
+	{
+		players = get_players();
+		if (players.size > 0 )
+		{
+			while ( 1 )
+			{
+				players = get_players();
+				if ( players.size < 1  )
+				{
+					map_restart( false );
+				}
+				wait 1;
+			}
+		}
+		wait 1;
+	}
+}
 
+gscMapChange()
+{
+	if ( !level.map_rotate || !level.script == "zm_transit" )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		if ( level.intermission )
+		{
+			wait 20;
+			mapChange( location() );
+			map_restart( false );
+		}
+		wait 1;
+	}
+}
 
+location()
+{	
+	//move the order of the if statements to change the order of the rotation
+	if ( getDvarIntDefault( "farm", "1" ) )
+	{
+		setDvar( "farm", "0" );
+		return "farm";
+	}
+	if ( getDvarIntDefault( "town", "1" ) )
+	{
+		setDvar( "town", "0" );
+		return "town";
+	}
+	if ( getDvarIntDefault( "transit", "1" ) )
+	{
+		setDvar( "transit", "0" );
+		return "transit";
+	}
+	setDvar( "farm", "1" );
+	setDvar( "transit", "1" );
+	setDvar( "town", "1" );
+}
 
+mapChange( startlocation )
+{
+	setDvar( "ui_zm_mapstartlocation", startlocation );
+	makedvarserverinfo( "ui_zm_mapstartlocation", startlocation );
+}
 
+randomizedSettings()
+{
+	if ( !level.random_game_settings )
+	{
+		return;
+	}
+	if ( randomint( 100 ) <= level.first_room_doors_enabled_chance && level.first_room_doors_enabled_chance_active )//20% chance of first room only
+	{
+		level.first_room_doors_enabled = 0; //turn on to close the first room doors
+	}
+	if ( randomint( 100 ) <= level.electric_doors_enabled_chance && level.electric_doors_enabled_chance_active )//20% chance of first room only
+	{
+		level.electric_doors_enabled = 0; //turn on to close the first room doors
+	}
+	if ( randomint( 100 ) <= level.disable_jugg_chance && level.disable_jugg_chance_active )//50% chance of no jugg
+	{
+		disable_jugg = 1;
+	}
+	if ( randomint( 100 ) <= level.disable_revive_chance && level.disable_revive_chance_active )//50% chance of no revive
+	{
+		disable_revive = 1;
+	}
+	if ( randomint( 100 ) <= level.hyper_speed_spawns_chance && level.hyper_speed_spawns_chance_active )//25% chance of hyper speed
+	{
+		level.zombie_vars[ "zombie_spawn_delay" ] = 0.08;
+		level.zombie_vars["zombie_between_round_time"] = 1;
+		level.zombie_move_speed = 105;
+		level.speed_change_round = undefined;
+		thread walkersDisabledAndAllRunners();
+	}
+	if ( randomint( 100 ) <= level.extra_drops_chance && level.extra_drops_chance_active)//10% chance of quad drop amount
+	{
+		level.zombie_vars["zombie_powerup_drop_max_per_round"] = 16;
+	}
+	if ( randomint( 100 ) <= level.max_zombies_chance && level.max_zombies_chance_active)//50% chance of more zombies
+	{
+		level.zombie_ai_limit = 32;
+		level.zombie_actor_limit = 40;
+	} 
+	if ( randomint( 100 ) <= level.reduced_zombies_per_round_chance && level.reduced_zombies_per_round_chance_active)//20% chance of shorter rounds
+	{
+		level.zombie_vars["zombie_ai_per_player"] = 3;
+	} 
+	if ( randomint( 100 ) <= level.disable_box_moving_chance && level.disable_box_moving_chance_active)//40% chance of immovable box
+	{
+		SetDvar( "magic_chest_movable", "0" );
+	} 
+	if ( randomint( 100 ) <= level.deflation_chance && level.deflation_chance_active)//10% chance of deflation
+	{
+		level.zombie_vars["zombie_score_damage_normal"] = 0;
+		level.zombie_vars["zombie_score_damage_light"] = 0;
+		level.zombie_vars["zombie_score_bonus_melee"] = 0;
+		level.zombie_vars["zombie_score_bonus_head"] = 0;
+		level.zombie_vars["zombie_score_bonus_neck"] = 0;
+		level.zombie_vars["zombie_score_bonus_torso"] = 0;
+		level.zombie_vars["zombie_score_bonus_burn"] = 0;
+		level.zombie_vars["penalty_died"] = 0;
+		level.zombie_vars["penalty_downed"] = 0;
+	} 
+	if ( randomint( 100 ) <= level.deadlier_emps_chance && level.deadlier_emps_chance_active )//50% chance of more deadly emps
+	{
+		level.zombie_vars["emp_perk_off_time"] = 240;
+	} 
+	if ( disable_jugg && level.script == "zm_transit" || disable_jugg && level.script == "zm_buried" )
+	{
+		level thread perk_machine_removal( "specialty_armorvest" );
+	}
+	if ( disable_revive && level.script == "zm_transit" || disable_revive && level.script == "zm_buried" )
+	{
+		level thread perk_machine_removal( "specialty_quickrevive" );
+	}
+}
+
+walkersDisabledAndAllRunners()
+{
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		level.zombie_move_speed = 105;
+		level.speed_change_round = undefined;
+		wait 1;
+	}
+}
 
 
 
