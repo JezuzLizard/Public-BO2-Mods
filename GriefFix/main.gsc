@@ -474,7 +474,7 @@ killAllPlayers()
 		players[ i ] kill();
 		i++;
 	}
-	wait 5;
+	wait 10;
 	spawnAllPlayers();
 }
 
