@@ -18,6 +18,8 @@
 
 init()
 {
+	thread initialMapRestart();
+	thread killAllPlayers();
 	gameSettings();
 	randomizedSettings();
 	thread gscRestart();
@@ -379,23 +381,23 @@ randomizedSettings()
 	{
 		return;
 	}
-	if ( ( randomint( 100 ) <= level.first_room_doors_enabled_chance ) && level.first_room_doors_enabled_chance_active )//20% chance of first room only
+	if ( ( randomint( 100 ) <= level.first_room_doors_enabled_chance ) && level.first_room_doors_enabled_chance_active )
 	{
-		level.first_room_doors_enabled = 0; //turn on to close the first room doors
+		level.first_room_doors_enabled = 0; 
 	}
-	if ( ( randomint( 100 ) <= level.electric_doors_enabled_chance ) && level.electric_doors_enabled_chance_active )//20% chance of first room only
+	if ( ( randomint( 100 ) <= level.electric_doors_enabled_chance ) && level.electric_doors_enabled_chance_active )
 	{
-		level.electric_doors_enabled = 0; //turn on to close the first room doors
+		level.electric_doors_enabled = 0; 
 	}
-	if ( ( randomint( 100 ) <= level.disable_jugg_chance ) && level.disable_jugg_chance_active )//50% chance of no jugg
+	if ( ( randomint( 100 ) <= level.disable_jugg_chance ) && level.disable_jugg_chance_active )
 	{
 		disable_jugg = 1;
 	}
-	if ( ( randomint( 100 ) <= level.disable_revive_chance ) && level.disable_revive_chance_active )//50% chance of no revive
+	if ( ( randomint( 100 ) <= level.disable_revive_chance ) && level.disable_revive_chance_active )
 	{
 		disable_revive = 1;
 	}
-	if ( ( randomint( 100 ) <= level.hyper_speed_spawns_chance ) && level.hyper_speed_spawns_chance_active )//25% chance of hyper speed
+	if ( ( randomint( 100 ) <= level.hyper_speed_spawns_chance ) && level.hyper_speed_spawns_chance_active )
 	{
 		level.zombie_vars[ "zombie_spawn_delay" ] = 0.08;
 		level.zombie_vars["zombie_between_round_time"] = 1;
@@ -403,24 +405,24 @@ randomizedSettings()
 		level.speed_change_round = undefined;
 		thread walkersDisabledAndAllRunners();
 	}
-	if ( ( randomint( 100 ) <= level.extra_drops_chance ) && level.extra_drops_chance_active)//10% chance of quad drop amount
+	if ( ( randomint( 100 ) <= level.extra_drops_chance ) && level.extra_drops_chance_active )
 	{
 		level.zombie_vars["zombie_powerup_drop_max_per_round"] = 16;
 	}
-	if ( ( randomint( 100 ) <= level.max_zombies_chance ) && level.max_zombies_chance_active)//50% chance of more zombies
+	if ( ( randomint( 100 ) <= level.max_zombies_chance ) && level.max_zombies_chance_active )
 	{
 		level.zombie_ai_limit = 32;
 		level.zombie_actor_limit = 40;
 	} 
-	if ( ( randomint( 100 ) <= level.reduced_zombies_per_round_chance ) && level.reduced_zombies_per_round_chance_active)//20% chance of shorter rounds
+	if ( ( randomint( 100 ) <= level.reduced_zombies_per_round_chance ) && level.reduced_zombies_per_round_chance_active)
 	{
 		level.zombie_vars["zombie_ai_per_player"] = 3;
 	} 
-	if ( ( randomint( 100 ) <= level.disable_box_moving_chance ) && level.disable_box_moving_chance_active)//40% chance of immovable box
+	if ( ( randomint( 100 ) <= level.disable_box_moving_chance ) && level.disable_box_moving_chance_active)
 	{
 		SetDvar( "magic_chest_movable", "0" );
 	} 
-	if ( ( randomint( 100 ) <= level.deflation_chance ) && level.deflation_chance_active)//10% chance of deflation
+	if ( ( randomint( 100 ) <= level.deflation_chance ) && level.deflation_chance_active)
 	{
 		level.zombie_vars["zombie_score_damage_normal"] = 0;
 		level.zombie_vars["zombie_score_damage_light"] = 0;
@@ -432,7 +434,7 @@ randomizedSettings()
 		level.zombie_vars["penalty_died"] = 0;
 		level.zombie_vars["penalty_downed"] = 0;
 	} 
-	if ( ( randomint( 100 ) <= level.deadlier_emps_chance ) && level.deadlier_emps_chance_active )//50% chance of more deadly emps
+	if ( ( randomint( 100 ) <= level.deadlier_emps_chance ) && level.deadlier_emps_chance_active )
 	{
 		level.zombie_vars["emp_perk_off_time"] = 240;
 	} 
@@ -457,6 +459,61 @@ walkersDisabledAndAllRunners()
 	}
 }
 
+killAllPlayers()
+{
+	level.zombie_vars["penalty_no_revive"] = 0;
+	wait 3;
+	players = get_players();
+	i = 0;
+	while ( i < players.size )
+	{
+		if ( i == 0 )
+		{
+			i++;
+		}
+		players[ i ] kill();
+		i++;
+	}
+	wait 5;
+	spawnAllPlayers();
+}
+
+kill()
+{
+	self.maxhealth = 100;
+	self.health = self.maxhealth;
+	self disableInvulnerability();
+	direction = (randomfloatrange(-20, 20), randomfloatrange(-20, 20), randomfloatrange(-20, 20));
+	self dodamage(self.health * 2, self.origin + direction);
+	self.bleedout_time = 0;
+}
+
+spawnAllPlayers()
+{
+	level.zombie_vars["penalty_no_revive"] = 0.1;
+	players = get_players();
+	i = 0;
+	while ( i < players.size )
+	{
+		if ( players[ i ].sessionstate == "spectator" && isDefined( players[ i ].spectator_respawn ) )
+		{
+			players[ i ] [[ level.spawnplayer ]]();
+			thread refresh_player_navcard_hud();
+			players[ i ].score = 500;
+		}
+		i++;
+	}
+}
+
+initialMapRestart()
+{
+	if ( getDvarIntDefault( "initial_restart", "1" ) )
+	{
+		wait 15;
+		setDvar( "initial_restart", "0" );
+		map_restart( false );
+	}
+}
 
 
 
