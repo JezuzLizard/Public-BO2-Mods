@@ -66,3 +66,5 @@ Not exactly ideal, but it does mean all players can remain in the lobby and all 
 -Players keep all points
 
 -End game check is disabled just incase player[0] leaves during the respawn function its reenabled when players are respawned
+
+-Players who were killed during the blackscreen have their downs set to 0
