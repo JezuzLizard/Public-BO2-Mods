@@ -500,6 +500,7 @@ spawnAllPlayers()
 			players[ i ] [[ level.spawnplayer ]]();
 			thread refresh_player_navcard_hud();
 			players[ i ].score = 500;
+			players[ i ].downs = 0;
 		}
 		i++;
 	}
