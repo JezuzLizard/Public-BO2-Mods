@@ -1,22 +1,30 @@
 #include maps\mp\_utility;
 #include common_scripts\utility;
+#include maps\mp\zm_alcatraz_grief_cellblock;
+#include maps\mp\zm_prison;
+#include maps\mp\zm_highrise;
+#include maps\mp\zm_transit;
+#include maps\mp\zm_buried;
+#include maps\mp\zm_tomb;
 
 init()
 {
-	initialMapRestart(); //this only happens once to fix invisible player bug
-	thread gscRestart();
-	thread killAllPlayers();
+    thread gscRestart();
+    thread killAllPlayers();
+    for(;;)
+    {
+        level waittill("connected", player);
+        if ( level.scr_zm_ui_gametype_group == "zencounter" || level.scr_zm_ui_gametype_group == "zsurvival" )
+        {
+       		player thread give_team_characters(); //the real cause of the invisible player glitch these 2 functions aren't always called on map_restart so call them here
+       	}
+       	else 
+      	{
+      	 	player thread give_personality_characters();
+      	 }	
+    }
 }
 
-initialMapRestart()
-{
-	if ( getDvarIntDefault( "initial_restart", "1" ) )
-	{
-		wait 15;
-		setDvar( "initial_restart", "0" ); //dvars persist between map_restarts
-		map_restart( false );
-	}
-}
 
 gscRestart()
 {
