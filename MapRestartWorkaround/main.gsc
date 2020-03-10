@@ -28,15 +28,9 @@ init()
 
 gscRestart()
 {
-    while ( 1 )
-    {
-        if ( level.intermission )
-        {
-            wait 20; //20 is ideal
-            map_restart( false );
-        }
-        wait 1;
-    }
+	level waittill( "end_game" );
+      	wait 20; //20 is ideal
+        map_restart( false );
 }
 
 killAllPlayers()

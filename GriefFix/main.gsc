@@ -121,9 +121,9 @@ add_bots()
 {
 	flag_clear( "solo_game" );
 	flag_clear( "start_zombie_round_logic" );
-    players = get_players();
-    level.waiting = 1;
-    thread waitMessage();
+    	players = get_players();
+   	level.waiting = 1;
+    	thread waitMessage();
 	while ( players.size < level.player_quota && level.player_quota_active || players.size < 1)
 	{
 		wait 0.5;
@@ -133,7 +133,7 @@ add_bots()
 	level.countdown_start = 1;
 	thread countdownTimer();
 	wait level.wait_time;
-    flag_set( "start_zombie_round_logic" );
+    	flag_set( "start_zombie_round_logic" );
 }
 
 waitMessage()
@@ -296,15 +296,9 @@ gscRestart()
 	{
 		return;
 	}
-	while ( 1 )
-	{
-		if ( level.intermission )
-		{
-			wait 20;
-			map_restart( false );
-		}
-		wait 1;
-	}
+	level waittill( "end_game" );
+	wait 20;
+	map_restart( false );
 }
 
 emptyLobbyRestart()
@@ -334,16 +328,10 @@ gscMapChange()
 	{
 		return;
 	}
-	while ( 1 )
-	{
-		if ( level.intermission )
-		{
-			wait 20;
-			mapChange( location() );
-			map_restart( false );
-		}
-		wait 1;
-	}
+	level waittill( "end_game" );
+	wait 20;
+	mapChange( location() );
+	map_restart( false );
 }
 
 location()
@@ -500,6 +488,7 @@ spawnAllPlayers()
 			players[ i ] [[ level.spawnplayer ]]();
 			thread refresh_player_navcard_hud();
 			players[ i ].score = 500;
+			players[ i ].downs = 0;
 		}
 		i++;
 	}

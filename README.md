@@ -3,4 +3,5 @@
 Some Plutonium GSC mods
 
 * Grief Mode
-* Tombstone For Town server
+* Tombstone Fix
+* Map_restart Workaround
