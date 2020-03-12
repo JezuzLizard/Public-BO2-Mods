@@ -1,5 +1,6 @@
 #include maps\mp\_utility;
 #include common_scripts\utility;
+//these map specific includes are all required for give_team_characters(), and give_personality_characters to work
 #include maps\mp\zm_alcatraz_grief_cellblock;
 #include maps\mp\zm_prison;
 #include maps\mp\zm_highrise;
@@ -10,7 +11,7 @@
 init()
 {
     thread gscRestart();
-    thread killAllPlayers();
+    thread setPlayersToSpectator();
     for(;;)
     {
         level waittill("connected", player);
@@ -21,7 +22,7 @@ init()
        	else 
       	{
       	 	player thread give_personality_characters();
-      	 }	
+      	}	
     }
 }
 
@@ -33,10 +34,9 @@ gscRestart()
         map_restart( false );
 }
 
-killAllPlayers()
+setPlayersToSpectator()
 {
-	level.no_end_game_check = 1; //disable end game check just in case player[0] leaves before all players are respawned
-	level.zombie_vars["penalty_no_revive"] = 0;
+	level.no_end_game_check = 1;
 	wait 3;
 	players = get_players();
 	i = 0;
@@ -46,25 +46,24 @@ killAllPlayers()
 		{
 			i++;
 		}
-		players[ i ] kill();
+		players[ i ] setToSpectator();
 		i++;
 	}
 	wait 5; 
 	spawnAllPlayers();
 }
 
-kill()
+setToSpectator()
 {
-	self.maxhealth = 100;
-	self.health = self.maxhealth;
-	self disableInvulnerability();
-	self dodamage( self.health * 2, self.origin );
-	self.bleedout_time = 0;
+    self.sessionstate = "spectator"; 
+    if (isDefined(self.is_playing))
+    {
+        self.is_playing = false;
+    }
 }
 
 spawnAllPlayers()
 {
-	level.zombie_vars["penalty_no_revive"] = 0.1;
 	players = get_players();
 	i = 0;
 	while ( i < players.size )
@@ -73,8 +72,6 @@ spawnAllPlayers()
 		{
 			players[ i ] [[ level.spawnplayer ]]();
 			thread maps\mp\zombies\_zm::refresh_player_navcard_hud();
-			players[ i ].score = 500;
-			players[ i ].downs = 0; //set player downs to 0 since they didn't actually die during gameplay
 		}
 		i++;
 	}
