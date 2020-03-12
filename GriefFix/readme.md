@@ -69,3 +69,13 @@ Player downs are reset after players respawn
 The map can rotate between 3 locations 
 
 Town, Farm and Bus Depot //requires one of these maps to be loaded initially and only works on tranzit
+
+## Requirements
+Grief requires gts teamCount "2" to work properly in the server config turn it off when loading non-grief maps
+
+### Changelog
+Players are set to spectator state directly instead of being killed
+
+InitialMapRestart() replaced with give_team_characters
+
+Made the script map agnostic allowing it to be loaded on non-grief maps and 

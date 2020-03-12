@@ -8,43 +8,34 @@
 *
 */	
 
-#include maps/mp/_utility;
-#include common_scripts/utility;
-#include maps/mp/gametypes_zm/_hud_util;
-#include maps/mp/gametypes_zm/_hud_message;
-#include maps/mp/zombies/_zm;
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/zombies/_zm_perks;
+#include maps\mp\_utility;
+#include common_scripts\utility;
+#include maps\mp\gametypes_zm\_hud_util;
+#include maps\mp\gametypes_zm\_hud_message;
+#include maps\mp\zombies\_zm;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\zombies\_zm_perks;
+#include maps\mp\zm_alcatraz_grief_cellblock;
+#include maps\mp\zm_prison;
+#include maps\mp\zm_highrise;
+#include maps\mp\zm_transit;
+#include maps\mp\zm_buried;
+#include maps\mp\zm_tomb;
 
 init()
 {
-	thread initialMapRestart();
-	thread killAllPlayers();
+	thread griefFunctionsAndVars();
+	gameDelayFunctionsAndVars()
 	gameSettings();
 	randomizedSettings();
+	thread setPlayersToSpectator();
 	thread gscRestart();
 	thread emptyLobbyRestart();
 	thread gscMapChange();
-	level.round_prestart_func =::round_prestart_func; //delays the rounds from starting
-	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
-	thread add_bots(); //this overrides the typical start time logic
-   	level.default_solo_laststandpistol = "m1911_zm"; //prevents players from having the solo pistol when downed in grief
-   	for(;;)
-    {
-        level waittill("connected", player);
-        player thread teamBalancing();
-    }
 }
 
 gameSettings()
-{
-	//game delay functions options
-	level.wait_time = 30; //change this to adjust the start time once the player quota is met
-	level.player_quota_active = 1; //set this to 0 to disable player quotas recommended to be 1 for grief
-	level.player_quota = 2; //number of players required before the game starts
-	level.waiting = 0; //don't change this 
-	level.countdown_start = 0; //don't change this
-	
+{	
 	//random game settings options set these to 0 to disable them happening
 	level.random_game_settings = 1; //disable this to diable all random settings effects
 	level.hyper_speed_spawns_chance_active = 1; //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
@@ -74,6 +65,35 @@ gameSettings()
 	
 	//map rotate feature overrides the normal restart if active
 	level.map_rotate = 1;
+}
+
+gameDelayFunctionsAndVars()
+{
+	//game delay functions options
+	level.wait_time = 30; //change this to adjust the start time once the player quota is met
+	level.player_quota_active = 1; //set this to 0 to disable player quotas recommended to be 1 for grief
+	level.player_quota = 2; //number of players required before the game starts
+	level.waiting = 0; //don't change this 
+	level.countdown_start = 0; //don't change this
+	
+	level.round_prestart_func =::round_prestart_func; //delays the rounds from starting
+	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
+	thread add_bots(); //this overrides the typical start time logic
+}
+
+griefFunctionsAndVars()
+{
+	if ( !level.scr_zm_ui_gametype_group == "zencounter" )
+	{
+		return;
+	}
+   	level.default_solo_laststandpistol = "m1911_zm"; //prevents players from having the solo pistol when downed in grief
+   	for(;;)
+    	{
+    		level waittill("connected", player);
+       		player thread teamBalancing();
+		player thread give_team_characters();
+    	}
 }
 
 round_prestart_func()
@@ -447,9 +467,9 @@ walkersDisabledAndAllRunners()
 	}
 }
 
-killAllPlayers()
+setPlayersToSpectator()
 {
-	level.zombie_vars["penalty_no_revive"] = 0;
+	level.no_end_game_check = 1;
 	wait 3;
 	players = get_players();
 	i = 0;
@@ -459,26 +479,24 @@ killAllPlayers()
 		{
 			i++;
 		}
-		players[ i ] kill();
+		players[ i ] setToSpectator();
 		i++;
 	}
-	wait 10;
+	wait 10; 
 	spawnAllPlayers();
 }
 
-kill()
+setToSpectator()
 {
-	self.maxhealth = 100;
-	self.health = self.maxhealth;
-	self disableInvulnerability();
-	direction = (randomfloatrange(-20, 20), randomfloatrange(-20, 20), randomfloatrange(-20, 20));
-	self dodamage(self.health * 2, self.origin + direction);
-	self.bleedout_time = 0;
+    self.sessionstate = "spectator"; 
+    if (isDefined(self.is_playing))
+    {
+        self.is_playing = false;
+    }
 }
 
 spawnAllPlayers()
 {
-	level.zombie_vars["penalty_no_revive"] = 0.1;
 	players = get_players();
 	i = 0;
 	while ( i < players.size )
@@ -487,22 +505,13 @@ spawnAllPlayers()
 		{
 			players[ i ] [[ level.spawnplayer ]]();
 			thread refresh_player_navcard_hud();
-			players[ i ].score = 500;
-			players[ i ].downs = 0;
 		}
 		i++;
 	}
 }
 
-initialMapRestart()
-{
-	if ( getDvarIntDefault( "initial_restart", "1" ) )
-	{
-		wait 15;
-		setDvar( "initial_restart", "0" );
-		map_restart( false );
-	}
-}
+
+
 
 
 
