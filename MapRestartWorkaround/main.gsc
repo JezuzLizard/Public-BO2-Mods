@@ -7,6 +7,7 @@
 #include maps\mp\zm_transit;
 #include maps\mp\zm_buried;
 #include maps\mp\zm_tomb;
+#include maps\mp\zm_nuked;
 
 init()
 {
@@ -21,7 +22,10 @@ init()
        	}
        	else 
       	{
-      	 	player thread give_personality_characters();
+      	 	player thread give_personality_characters(); //this has to commented out when loading nuketown
+		//unfortunately nuketown is the only map without this function therefore it can't find it and the server will throw an error
+		//the only way to fix this would be to copy both give_team_characters() and give_personality_characters() into this file and account for all maps
+		//this would make the fix more cumbersome which is why I haven't done it
       	}	
     }
 }

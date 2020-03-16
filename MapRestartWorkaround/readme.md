@@ -71,4 +71,4 @@ Not exactly ideal, but it does mean all players can remain in the lobby and all 
 
 -Players are now directly set into spectator status instead being killed
 
-
+-Added the missing nuketown include
