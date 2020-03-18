@@ -37,18 +37,18 @@ init()
 gameSettings()
 {	
 	//random game settings options set these to 0 to disable them happening
-	level.random_game_settings = 1; //disable this to diable all random settings effects
-	level.hyper_speed_spawns_chance_active = 1; //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
-	level.extra_drops_chance_active = 1; //this enables a chance that drops will drop upto 4x as much per round
-	level.max_zombies_chance_active = 1; //this enables a chance to increase max ai at once to 32
+	level.random_game_settings = true; //disable this to diable all random settings effects
+	level.hyper_speed_spawns_chance_active = true; //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
+	level.extra_drops_chance_active = true; //this enables a chance that drops will drop upto 4x as much per round
+	level.max_zombies_chance_active = true; //this enables a chance to increase max ai at once to 32
 	level.reduced_zombies_per_round_chance_active = 1; //enable this for a chance to get to higher rounds quicker
-	level.deflation_chance_active = 1; //this enables a chance that the zombies only give points when killed
-	level.deadlier_emps_chance_active = 1; //this enables a chance to make emp duration 4x as long
-	level.disable_revive_chance_active = 1; //this enables a chance to disable revive from appearing in games
-	level.disable_jugg_chance_active = 1; //this enables a chance to disable jugg from appearing in games
-	level.electric_doors_enabled_chance_active = 1; //this enables a chance that the electric doors on transit maps will be disabled
-	level.first_room_doors_enabled_chance_active = 1; //this enables a chance that the first room doors on all grief maps will be disabled
-	level.disable_box_moving_chance_active = 1; //this enables a chance that the box won't move after too many uses
+	level.deflation_chance_active = true; //this enables a chance that the zombies only give points when killed
+	level.deadlier_emps_chance_active = true; //this enables a chance to make emp duration 4x as long
+	level.disable_revive_chance_active = true; //this enables a chance to disable revive from appearing in games
+	level.disable_jugg_chance_active = true; //this enables a chance to disable jugg from appearing in games
+	level.electric_doors_enabled_chance_active = true; //this enables a chance that the electric doors on transit maps will be disabled
+	level.first_room_doors_enabled_chance_active = true; //this enables a chance that the first room doors on all grief maps will be disabled
+	level.disable_box_moving_chance_active = true; //this enables a chance that the box won't move after too many uses
 	
 	//chances of something happening setting to 100 makes it always on
 	level.hyper_speed_spawns_chance = 30; //30% default
@@ -470,6 +470,7 @@ walkersDisabledAndAllRunners()
 setPlayersToSpectator()
 {
 	level.no_end_game_check = 1;
+	level.zombie_vars["penalty_no_revive"] = 0;
 	wait 3;
 	players = get_players();
 	i = 0;
@@ -479,24 +480,25 @@ setPlayersToSpectator()
 		{
 			i++;
 		}
-		players[ i ] setToSpectator();
+		players[ i ] kill();
 		i++;
 	}
 	wait 10; 
 	spawnAllPlayers();
 }
 
-setToSpectator()
+kill()
 {
-    self.sessionstate = "spectator"; 
-    if (isDefined(self.is_playing))
-    {
-        self.is_playing = false;
-    }
+	self.maxhealth = 100;
+	self.health = self.maxhealth;
+	self disableInvulnerability();
+	self dodamage( self.health * 2, self.origin );
+	self.bleedout_time = 0;
 }
 
 spawnAllPlayers()
 {
+	level.zombie_vars["penalty_no_revive"] = 0.1;
 	players = get_players();
 	i = 0;
 	while ( i < players.size )
@@ -505,6 +507,8 @@ spawnAllPlayers()
 		{
 			players[ i ] [[ level.spawnplayer ]]();
 			thread refresh_player_navcard_hud();
+			players[ i ].score = 500;
+			players[ i ].downs = 0; //set player downs to 0 since they didn't actually die during gameplay
 		}
 		i++;
 	}
