@@ -41,7 +41,7 @@ gameSettings()
 	level.hyper_speed_spawns_chance_active = true; //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
 	level.extra_drops_chance_active = true; //this enables a chance that drops will drop upto 4x as much per round
 	level.max_zombies_chance_active = true; //this enables a chance to increase max ai at once to 32
-	level.reduced_zombies_per_round_chance_active = 1; //enable this for a chance to get to higher rounds quicker
+	level.reduced_zombies_per_round_chance_active = true; //enable this for a chance to get to higher rounds quicker
 	level.deflation_chance_active = true; //this enables a chance that the zombies only give points when killed
 	level.deadlier_emps_chance_active = true; //this enables a chance to make emp duration 4x as long
 	level.disable_revive_chance_active = true; //this enables a chance to disable revive from appearing in games
@@ -64,7 +64,7 @@ gameSettings()
 	level.disable_box_moving_chance = 10; //10% default
 	
 	//map rotate feature overrides the normal restart if active
-	level.map_rotate = 1;
+	level.map_rotate = true;
 }
 
 gameDelayFunctionsAndVars()
