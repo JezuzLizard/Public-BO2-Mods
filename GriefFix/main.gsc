@@ -84,7 +84,7 @@ gameDelayFunctionsAndVars()
 
 griefFunctionsAndVars()
 {
-	if ( !level.scr_zm_ui_gametype_group == "zencounter" )
+	if ( level.scr_zm_ui_gametype_group != "zencounter" )
 	{
 		return;
 	}
@@ -345,7 +345,7 @@ emptyLobbyRestart()
 
 gscMapChange()
 {
-	if ( !level.map_rotate || !level.script == "zm_transit" )
+	if ( !level.map_rotate || level.script != "zm_transit" )
 	{
 		return;
 	}
