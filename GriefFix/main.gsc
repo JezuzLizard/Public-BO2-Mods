@@ -65,6 +65,7 @@ gameSettings()
 	
 	//map rotate feature overrides the normal restart if active
 	level.map_rotate = true;
+	return level.random_game_settings;
 }
 
 gameDelayFunctionsAndVars()
@@ -385,7 +386,7 @@ mapChange( startlocation )
 
 randomizedSettings()
 {
-	if ( !level.random_game_settings )
+	if ( !gameSettings() )
 	{
 		return;
 	}
