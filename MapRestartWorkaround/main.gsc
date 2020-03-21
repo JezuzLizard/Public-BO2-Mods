@@ -75,7 +75,10 @@ spawnAllPlayers()
 		if ( players[ i ].sessionstate == "spectator" && isDefined( players[ i ].spectator_respawn ) )
 		{
 			players[ i ] [[ level.spawnplayer ]]();
-			thread maps\mp\zombies\_zm::refresh_player_navcard_hud();
+			if ( !level.script == "zm_tomb" || !level.script == "zm_prison" || !is_classic() )
+			{
+				thread maps\mp\zombies\_zm::refresh_player_navcard_hud();
+			}
 		}
 		i++;
 	}
