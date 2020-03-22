@@ -8,6 +8,7 @@
 #include maps\mp\zm_buried;
 #include maps\mp\zm_tomb;
 #include maps\mp\zm_nuked;
+#include maps\mp\zombies\_zm_utility;
 
 init()
 {
@@ -75,7 +76,7 @@ spawnAllPlayers()
 		if ( players[ i ].sessionstate == "spectator" && isDefined( players[ i ].spectator_respawn ) )
 		{
 			players[ i ] [[ level.spawnplayer ]]();
-			if ( !level.script == "zm_tomb" || !level.script == "zm_prison" || !is_classic() )
+			if ( level.script != "zm_tomb" || level.script != "zm_prison" || !is_classic() )
 			{
 				thread maps\mp\zombies\_zm::refresh_player_navcard_hud();
 			}

@@ -94,7 +94,7 @@ gameDelayFunctionsAndVars()
 
 griefFunctionsAndVars()
 {
-	if ( !level.scr_zm_ui_gametype_group == "zencounter" )
+	if ( level.scr_zm_ui_gametype_group != "zencounter" )
 	{
 		return;
 	}
