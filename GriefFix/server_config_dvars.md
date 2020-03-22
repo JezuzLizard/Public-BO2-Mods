@@ -1,3 +1,4 @@
+```
 //add this to the gts settings
 gts teamCount "2"
 
@@ -33,3 +34,4 @@ set disableBoxMoveChance "10"
 set waitTime "30"
 set playerQuotaActive "1"
 set playerQuota "2"
+```
