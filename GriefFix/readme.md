@@ -12,6 +12,8 @@ Added map change option (only for farm, town, and bus depot)
 
 Added empty lobby restart 
 
+Added dvar support
+
 ## Team Balancing:
 
 Picks a team for a player on join based on how many players are on each team
@@ -79,4 +81,11 @@ Reverted to killing players on Grief only
 
 InitialMapRestart() replaced with give_team_characters
 
-Made the script map agnostic allowing it to be loaded on non-grief maps and 
+3/21/20
+//Made the script map agnostic allowing it to be loaded on non-grief maps and
+Map agnostic is too cumbersome to support don't load this mod on anything other than grief mode
+
+Added dvar support allowing server hosters to change the vars from the config
+
+Fixed a check involving mapMapChange()
+

@@ -8,6 +8,16 @@
 *
 */	
 
+/*
+*	 Black Ops 2 - GSC Studio by iMCSx
+*
+*	 Creator : JezuzLizard
+*	 Project : grieffix2
+*    Mode : Zombies
+*	 Date : 2020/01/31 - 03:36:03	
+*
+*/	
+
 #include maps\mp\_utility;
 #include common_scripts\utility;
 #include maps\mp\gametypes_zm\_hud_util;
@@ -17,10 +27,8 @@
 #include maps\mp\zombies\_zm_perks;
 #include maps\mp\zm_alcatraz_grief_cellblock;
 #include maps\mp\zm_prison;
-#include maps\mp\zm_highrise;
 #include maps\mp\zm_transit;
 #include maps\mp\zm_buried;
-#include maps\mp\zm_tomb;
 
 init()
 {
@@ -37,48 +45,50 @@ init()
 gameSettings()
 {	
 	//random game settings options set these to 0 to disable them happening
-	level.random_game_settings = true; //disable this to diable all random settings effects
-	level.hyper_speed_spawns_chance_active = true; //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
-	level.extra_drops_chance_active = true; //this enables a chance that drops will drop upto 4x as much per round
-	level.max_zombies_chance_active = true; //this enables a chance to increase max ai at once to 32
-	level.reduced_zombies_per_round_chance_active = true; //enable this for a chance to get to higher rounds quicker
-	level.deflation_chance_active = true; //this enables a chance that the zombies only give points when killed
-	level.deadlier_emps_chance_active = true; //this enables a chance to make emp duration 4x as long
-	level.disable_revive_chance_active = true; //this enables a chance to disable revive from appearing in games
-	level.disable_jugg_chance_active = true; //this enables a chance to disable jugg from appearing in games
-	level.electric_doors_enabled_chance_active = true; //this enables a chance that the electric doors on transit maps will be disabled
-	level.first_room_doors_enabled_chance_active = true; //this enables a chance that the first room doors on all grief maps will be disabled
-	level.disable_box_moving_chance_active = true; //this enables a chance that the box won't move after too many uses
+	level.random_game_settings = getDvarIntDefault( "randomGameSettings", "1" ); //disable this to disable all random settings effects
+	
+	level.hyper_speed_spawns_chance_active = getDvarIntDefault( "hyperSpeedSpawnsChanceActive", "1" ); //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
+	level.extra_drops_chance_active = getDvarIntDefault( "extraDropsChanceActive", "1" ); //this enables a chance that drops will drop upto 4x as much per round
+	level.max_zombies_chance_active = getDvarIntDefault( "maxHordeSizeIncreaseChanceActive", "1" ); //this enables a chance to increase max ai at once to 32
+	level.reduced_zombies_per_round_chance_active = getDvarIntDefault( "shorterRoundsChanceActive", "1" ); //enable this for a chance to get to higher rounds quicker
+	level.deflation_chance_active = getDvarIntDefault( "deflationChanceActive", "1" ); //this enables a chance that the zombies only give points when killed
+	level.deadlier_emps_chance_active = getDvarIntDefault( "deadlierEMPsChanceActive", "1" ); //this enables a chance to make emp duration 4x as long
+	level.disable_revive_chance_active = getDvarIntDefault( "disableReviveChanceActive", "1" ); //this enables a chance to disable revive from appearing in games
+	level.disable_jugg_chance_active = getDvarIntDefault( "disableJuggChanceActive", "1" ); //this enables a chance to disable jugg from appearing in games
+	level.electric_doors_enabled_chance_active = getDvarIntDefault( "electricDoorsDisabledChanceActive", "1" ); //this enables a chance that the electric doors on transit maps will be disabled
+	level.first_room_doors_enabled_chance_active = getDvarIntDefault( "firstRoomOnlyChanceActive", "1" ); //this enables a chance that the first room doors on all grief maps will be disabled
+	level.disable_box_moving_chance_active = getDvarIntDefault( "disableBoxMoveChanceActive", "1" ); //this enables a chance that the box won't move after too many uses
 	
 	//chances of something happening setting to 100 makes it always on
-	level.hyper_speed_spawns_chance = 30; //30% default
-	level.extra_drops_chance = 15; //15% default
-	level.max_zombies_chance = 50; //50 default
-	level.reduced_zombies_per_round_chance = 20; //20% default
-	level.deflation_chance = 20; //20% default
-	level.deadlier_emps_chance = 40; //40% default
-	level.disable_revive_chance = 50; //50% default
-	level.disable_jugg_chance = 30; //30% default
-	level.first_room_doors_enabled_chance = 20; //20% default
-	level.electric_doors_enabled_chance = 40; //40% default
-	level.disable_box_moving_chance = 10; //10% default
+	level.hyper_speed_spawns_chance = getDvarIntDefault( "hyperSpeedSpawnsChance", "50" ); //50% default
+	level.extra_drops_chance = getDvarIntDefault( "extraDropsChance", "15" ); //15% default
+	level.max_zombies_chance = getDvarIntDefault( "maxHordeSizeIncreaseChanceActive", "50" ); //50% default
+	level.reduced_zombies_per_round_chance = getDvarIntDefault( "shorterRoundsChanceActive", "20" ); //20% default
+	level.deflation_chance = getDvarIntDefault( "deflationChance", "20" ); //20% default
+	level.deadlier_emps_chance = getDvarIntDefault( "deadlierEMPsChance", "40" ); //40% default
+	level.disable_revive_chance = getDvarIntDefault( "disableReviveChance", "50" ); //50% default
+	level.disable_jugg_chance = getDvarIntDefault( "disableJuggChance", "30" ); //30% default
+	level.first_room_doors_enabled_chance = getDvarIntDefault( "electricDoorsDisabledChance", "20" ); //20% default
+	level.electric_doors_enabled_chance = getDvarIntDefault( "firstRoomOnlyChance", "40" ); //40% default
+	level.disable_box_moving_chance = getDvarIntDefault( "disableBoxMoveChance", "10" ); //10% default
 	
 	//map rotate feature overrides the normal restart if active
-	level.map_rotate = true;
+	level.map_rotate = getDvarIntDefault( "townFarmBusdepotRotation", "1" );
 	return level.random_game_settings;
 }
 
 gameDelayFunctionsAndVars()
 {
 	//game delay functions options
-	level.wait_time = 30; //change this to adjust the start time once the player quota is met
-	level.player_quota_active = 1; //set this to 0 to disable player quotas recommended to be 1 for grief
-	level.player_quota = 2; //number of players required before the game starts
+	level.wait_time = getDvarIntDefault( "waitTime", "30" ); //change this to adjust the start time once the player quota is met
+	level.player_quota_active = getDvarIntDefault( "playerQuotaActive", "1" ); //set this to 0 to disable player quotas recommended to be 1 for grief
+	level.player_quota = getDvarIntDefault( "playerQuota", "2" ); //number of players required before the game starts
 	level.waiting = 0; //don't change this 
 	level.countdown_start = 0; //don't change this
 	
 	level.round_prestart_func =::round_prestart_func; //delays the rounds from starting
 	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
+	thread flag_clearer();
 	thread add_bots(); //this overrides the typical start time logic
 }
 
@@ -90,11 +100,13 @@ griefFunctionsAndVars()
 	}
    	level.default_solo_laststandpistol = "m1911_zm"; //prevents players from having the solo pistol when downed in grief
    	for(;;)
-    	{
-    		level waittill("connected", player);
-       		player thread teamBalancing();
-		player thread give_team_characters();
-    	}
+    {
+    	level waittill("connected", player);
+    	level.playerTeamNameTag = player getTeamNameTag();
+    	player teamPicking();
+       	player teamBalancing();
+		player give_team_characters();
+    }
 }
 
 round_prestart_func()
@@ -108,43 +120,95 @@ round_prestart_func()
 	wait level.wait_time;
 }
 
+getTeamNameTag()
+{
+	name = self.name;
+	return name[0] + name[1] + name[2];
+}
+
+teamPicking()
+{
+	teamplayersallies = countplayers( "allies");
+	teamplayersaxis = countplayers( "axis");
+	if ( level.playerTeamNameTag == "cdc" && teamplayersallies < 4 && !level.isresetting_grief )
+	{
+		self.team = "allies";
+		self.sessionteam = "allies";
+		self [[level.allies]]();
+		self.pers["team"] = "allies";
+		self._encounters_team = "B";
+		return true;
+	}
+	else if ( level.playerTeamNameTag == "cia" && teamplayersaxis < 4 && !level.isresetting_grief )
+	{
+		self.team = "axis";
+		self.sessionteam = "axis";
+		self [[level.axis]]();
+	 	self.pers["team"] = "axis";
+		self._encounters_team = "A";
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 teamBalancing()
 {
-		teamplayersallies = countplayers( "allies");
-		teamplayersaxis = countplayers( "axis");
-		if (teamplayersallies > teamplayersaxis && !level.isresetting_grief)
+	teamChosen = teamPicking();
+	if ( teamChosen )
+	{
+		return;
+	}
+	teamplayersallies = countplayers( "allies");
+	teamplayersaxis = countplayers( "axis");
+	if (teamplayersallies > teamplayersaxis && !level.isresetting_grief)
+	{
+		self.team = "axis";
+		self.sessionteam = "axis";
+		self [[level.axis]]();
+	 	self.pers["team"] = "axis";
+		self._encounters_team = "A";
+	}
+	else if (teamplayersallies < teamplayersaxis && !level.isresetting_grief)
+	{
+		self.team = "allies";
+		self.sessionteam = "allies";
+		self [[level.allies]]();
+		self.pers["team"] = "allies";
+		self._encounters_team = "B";
+	}
+	else if (teamplayersallies == teamplayersaxis && !level.isresetting_grief)
+	{
+		self.team = "allies";
+		self.sessionteam = "allies";
+		self [[level.allies]]();
+		self.pers["team"] = "allies";
+		self._encounters_team = "B";
+	}
+}
+
+flag_clearer()
+{
+	//hopefully keep the game from starting prematurely on map_restart
+	while ( 1 )
+	{
+		flag_clear( "solo_game" );
+		flag_clear( "start_zombie_round_logic" );
+		wait 0.1;
+		if ( !level.waiting )
 		{
-			self.team = "axis";
-			self.sessionteam = "axis";
-			self [[level.axis]]();
-			self.pers["team"] = "axis";
-			self._encounters_team = "A";
+			break;
 		}
-		else if (teamplayersallies < teamplayersaxis && !level.isresetting_grief)
-		{
-			self.team = "allies";
-			self.sessionteam = "allies";
-			self [[level.allies]]();
-			self.pers["team"] = "allies";
-			self._encounters_team = "B";
-		}
-		else if (teamplayersallies == teamplayersaxis && !level.isresetting_grief)
-		{
-			self.team = "allies";
-			self.sessionteam = "allies";
-			self [[level.allies]]();
-			self.pers["team"] = "allies";
-			self._encounters_team = "B";
-		}
+	}
 }
 
 add_bots()
 {
-	flag_clear( "solo_game" );
-	flag_clear( "start_zombie_round_logic" );
-    	players = get_players();
+    players = get_players();
    	level.waiting = 1;
-    	thread waitMessage();
+    thread waitMessage();
 	while ( players.size < level.player_quota && level.player_quota_active || players.size < 1)
 	{
 		wait 0.5;
@@ -154,7 +218,7 @@ add_bots()
 	level.countdown_start = 1;
 	thread countdownTimer();
 	wait level.wait_time;
-    	flag_set( "start_zombie_round_logic" );
+    flag_set( "start_zombie_round_logic" );
 }
 
 waitMessage()
@@ -345,7 +409,7 @@ emptyLobbyRestart()
 
 gscMapChange()
 {
-	if ( !level.map_rotate || !level.script == "zm_transit" )
+	if ( !level.map_rotate || level.script != "zm_transit" )
 	{
 		return;
 	}
@@ -386,10 +450,12 @@ mapChange( startlocation )
 
 randomizedSettings()
 {
+	//level.random_game_settings = 0;
 	if ( !gameSettings() )
 	{
-		return;
+		return 0;
 	}
+	
 	if ( ( randomint( 100 ) <= level.first_room_doors_enabled_chance ) && level.first_room_doors_enabled_chance_active )
 	{
 		level.first_room_doors_enabled = 0; 
@@ -471,7 +537,6 @@ walkersDisabledAndAllRunners()
 setPlayersToSpectator()
 {
 	level.no_end_game_check = 1;
-	level.zombie_vars["penalty_no_revive"] = 0;
 	wait 3;
 	players = get_players();
 	i = 0;
@@ -499,7 +564,6 @@ kill()
 
 spawnAllPlayers()
 {
-	level.zombie_vars["penalty_no_revive"] = 0.1;
 	players = get_players();
 	i = 0;
 	while ( i < players.size )
@@ -508,28 +572,7 @@ spawnAllPlayers()
 		{
 			players[ i ] [[ level.spawnplayer ]]();
 			thread refresh_player_navcard_hud();
-			players[ i ].score = 500;
-			players[ i ].downs = 0; //set player downs to 0 since they didn't actually die during gameplay
 		}
 		i++;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
