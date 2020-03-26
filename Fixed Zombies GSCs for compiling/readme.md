@@ -1,4 +1,4 @@
-###The following gscs compile and run successfully with no known errors:
+### The following gscs compile and run successfully with no known errors:
 ```
 patch_zm/maps/mp/zombies/_zm_ai_basic.gsc
 patch_zm/maps/mp/zombies/_zm_ai_dogs.gsc
@@ -26,22 +26,22 @@ patch_zm/maps/mp/gametypes_zm/zclassic.gsc
 ```
 zm_transit_patch/maps/mp/zm_transit_utility.gsc
 ```
-###The following scripts compile and run successfully with minor errors:
+### The following scripts compile and run successfully with minor errors:
 ```
 zm_transit_patch/maps/mp/gametypes_zm/zgrief.gsc
 ```
-###The following scripts compile and run successfully with major errors:
+### The following scripts compile and run successfully with major errors:
 ```
 zm_transit_patch/maps/mp/zombies/_zm_weap_jetgun.gsc
 ```
-###The following scripts compile and run serverside but clients cannot join due to exe_client_field_mismatch
+### The following scripts compile and run serverside but clients cannot join due to exe_client_field_mismatch
 ```
 patch_zm/maps/mp/zombies/_zm_weapons.gsc
 patch_zm/maps/mp/zombies/_zm_gump.gsc
 patch_zm/maps/mp/zombies/_zm_equipment.gsc
 patch_zm/maps/mp/zombies/_zm_perks.gsc
 ```
-###The following scripts compile but cause a minidump or other severe error:
+### The following scripts compile but cause a minidump or other severe error:
 ```
 patch_zm/maps/mp/zombies/_load.gsc
 patch_zm/maps/mp/zombies/_zm.gsc
@@ -49,7 +49,7 @@ patch_zm/maps/mp/zombies/_zm_powerups.gsc
 patch_zm/maps/mp/zombies/_zm_magicbox.gsc
 ```
 
-###notes:
+### notes:
 ```
 zm_transit_utility.gsc can be recompiled to fix tombstone
 ```
