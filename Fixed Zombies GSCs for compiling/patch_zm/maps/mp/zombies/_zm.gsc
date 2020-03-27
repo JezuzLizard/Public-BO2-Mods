@@ -21,11 +21,12 @@
 
 init()
 {
-	//level.player_out_of_playable_area_monitor = 1;
-	//level.player_too_many_weapons_monitor = 1;
-	//level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
-	//level.player_too_many_players_check = 1;
-	//level.player_too_many_players_check_func = ::player_too_many_players_check;
+
+	level.player_out_of_playable_area_monitor = 1;
+	level.player_too_many_weapons_monitor = 1;
+	level.player_too_many_weapons_monitor_func = ::player_too_many_weapons_monitor;
+	level.player_too_many_players_check = 1;
+	level.player_too_many_players_check_func = ::player_too_many_players_check;
 	level._use_choke_weapon_hints = 1;
 	level._use_choke_blockers = 1;
 	level.passed_introscreen = 0;
@@ -120,11 +121,8 @@ init()
 	}
 	register_offhand_weapons_for_level_defaults();
 	level thread drive_client_connected_notifies();
-	/*
-/#
-	maps/mp/zombies/_zm_devgui::init();
-#/
-	*/
+
+	//not the cause of the minidump
 	maps/mp/zombies/_zm_zonemgr::init();
 	maps/mp/zombies/_zm_unitrigger::init();
 	maps/mp/zombies/_zm_audio::init();
@@ -136,15 +134,24 @@ init()
 	maps/mp/zombies/_zm_laststand::init();
 	maps/mp/zombies/_zm_magicbox::init();
 	maps/mp/zombies/_zm_perks::init();
-	maps/mp/zombies/_zm_playerhealth::init();
+	
+	//causes the server to minidump
+	//maps/mp/zombies/_zm_playerhealth::init();
+	
+	//ok
 	maps/mp/zombies/_zm_power::init();
 	maps/mp/zombies/_zm_powerups::init();
 	maps/mp/zombies/_zm_score::init();
 	maps/mp/zombies/_zm_spawner::init();
 	maps/mp/zombies/_zm_gump::init();
-	maps/mp/zombies/_zm_timer::init();
+	
+	//causes the server to minidump
+	//maps/mp/zombies/_zm_timer::init();
+	
+	//ok
 	maps/mp/zombies/_zm_traps::init();
 	maps/mp/zombies/_zm_weapons::init();
+	
 	init_function_overrides();
 	level thread last_stand_pistol_rank_init();
 	level thread maps/mp/zombies/_zm_tombstone::init();
@@ -177,6 +184,7 @@ init()
 	level thread onallplayersready();
 	level thread startunitriggers();
 	level thread maps/mp/gametypes_zm/_zm_gametype::post_init_gametype();
+	
 }
 
 post_main()
@@ -1450,7 +1458,7 @@ onplayerspawned()
 		self.zmbdialogactive = 0;
 		self.zmbdialoggroups = [];
 		self.zmbdialoggroup = "";
-		/*
+
 		if ( isDefined( level.player_out_of_playable_area_monitor ) && level.player_out_of_playable_area_monitor )
 		{
 			self thread player_out_of_playable_area_monitor();
@@ -1463,7 +1471,6 @@ onplayerspawned()
 		{
 			level thread [[ level.player_too_many_players_check_func ]]();
 		}
-		*/
 		self.disabled_perks = [];
 		if ( isDefined( self.player_initialized ) )
 		{
@@ -1586,7 +1593,7 @@ in_enabled_playable_area()
 	}
 	return 0;
 }
-/*
+
 get_player_out_of_playable_area_monitor_wait_time()
 {
 	
@@ -1599,8 +1606,7 @@ get_player_out_of_playable_area_monitor_wait_time()
 	
 	return 3;
 }
-*/
-/*
+
 player_out_of_playable_area_monitor()
 {
 	self notify( "stop_player_out_of_playable_area_monitor" );
@@ -1638,7 +1644,7 @@ player_out_of_playable_area_monitor()
 					wait get_player_out_of_playable_area_monitor_wait_time();
 #/
 				}
-				
+				*/
 				self maps/mp/zombies/_zm_stats::increment_map_cheat_stat( "cheat_out_of_playable" );
 				self maps/mp/zombies/_zm_stats::increment_client_stat( "cheat_out_of_playable", 0 );
 				self maps/mp/zombies/_zm_stats::increment_client_stat( "cheat_total", 0 );
@@ -1743,7 +1749,7 @@ player_too_many_weapons_monitor()
 			wait get_player_too_many_weapons_monitor_wait_time();
 #/
 		}
-		
+		*/
 		weapon_limit = get_player_weapon_limit( self );
 		primaryweapons = self getweaponslistprimaries();
 		if ( primaryweapons.size > weapon_limit )
@@ -1775,7 +1781,7 @@ player_too_many_weapons_monitor()
 		wait get_player_too_many_weapons_monitor_wait_time();
 	}
 }
-*/
+
 player_monitor_travel_dist()
 {
 	self endon( "disconnect" );
@@ -6067,7 +6073,7 @@ update_quick_revive( solo_mode )
 	level.quick_revive_machine thread maps/mp/zombies/_zm_perks::reenable_quickrevive( clip, solo_mode );
 }
 
-/*
+
 player_too_many_players_check()
 {
 	max_players = 4;
@@ -6081,6 +6087,7 @@ player_too_many_players_check()
 		level notify( "end_game" );
 	}
 }
-*/
+
+
 
 
