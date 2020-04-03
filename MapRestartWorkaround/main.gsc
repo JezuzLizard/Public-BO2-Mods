@@ -1,14 +1,5 @@
 #include maps\mp\_utility;
 #include common_scripts\utility;
-//these map specific includes are all required for give_team_characters(), and give_personality_characters to work
-#include maps\mp\zm_alcatraz_grief_cellblock;
-#include maps\mp\zm_prison;
-#include maps\mp\zm_highrise;
-#include maps\mp\zm_transit;
-#include maps\mp\zm_buried;
-#include maps\mp\zm_tomb;
-#include maps\mp\zm_nuked;
-#include maps\mp\zombies\_zm_utility;
 
 init()
 {
@@ -17,17 +8,10 @@ init()
     for(;;)
     {
         level waittill("connected", player);
-        if ( level.scr_zm_ui_gametype_group == "zencounter" || level.scr_zm_ui_gametype_group == "zsurvival" )
-        {
-       		player thread give_team_characters(); //the real cause of the invisible player glitch these 2 functions aren't always called on map_restart so call them here
-       	}
-       	else 
-      	{
-      	 	player thread give_personality_characters(); //this has to commented out when loading nuketown
-		//unfortunately nuketown is the only map without this function therefore it can't find it and the server will throw an error
-		//the only way to fix this would be to copy both give_team_characters() and give_personality_characters() into this file and account for all maps
-		//this would make the fix more cumbersome which is why I haven't done it
-      	}	
+		player thread [[level.givecustomcharacters]]();
+		//The real cause of the invisible player glitch is that this function isn't always called on map_restart so call it here.
+		//This will just call the method the map uses for give_personality_characters or give_team_characters without all the includes and it workes on NukeTown as well.
+		//We don't need to check the game mode since each game mode's init function does set level.givecustomcharacters with an pointer to the correct method.
     }
 }
 
