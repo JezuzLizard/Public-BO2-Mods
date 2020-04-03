@@ -105,7 +105,7 @@ griefFunctionsAndVars()
     	level.playerTeamNameTag = player getTeamNameTag();
     	player teamPicking();
        	player teamBalancing();
-		player give_team_characters();
+	player [[ level.givecustomcharacters ]]();
     }
 }
 
