@@ -71,4 +71,4 @@ Not exactly ideal, but it does mean all players can remain in the lobby and all 
 
 -Players are now directly set into spectator status instead being killed
 
--Added the missing nuketown include
+-Changed how give_team_characters() and give_personality_characters() is called -credit X3RX35
