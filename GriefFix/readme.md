@@ -82,10 +82,11 @@ Reverted to killing players on Grief only
 InitialMapRestart() replaced with give_team_characters
 
 3/21/20
-//Made the script map agnostic allowing it to be loaded on non-grief maps and
-Map agnostic is too cumbersome to support don't load this mod on anything other than grief mode
+Made the script map agnostic allowing it to be loaded on non-grief map -credit X3RX35
 
 Added dvar support allowing server hosters to change the vars from the config
 
 Fixed a check involving mapMapChange()
+
+
 
