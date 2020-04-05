@@ -88,5 +88,6 @@ Added dvar support allowing server hosters to change the vars from the config
 
 Fixed a check involving mapMapChange()
 
-
+4/4/20
+Fixed getDvarIntDefault() not properly defining the default dvars
 
