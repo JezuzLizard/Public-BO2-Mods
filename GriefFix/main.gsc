@@ -1,34 +1,11 @@
-/*
-*	 Black Ops 2 - GSC Studio by iMCSx
-*
-*	 Creator : JezuzLizard
-*	 Project : grieffix2
-*    Mode : Zombies
-*	 Date : 2020/01/31 - 03:36:03	
-*
-*/	
-
-/*
-*	 Black Ops 2 - GSC Studio by iMCSx
-*
-*	 Creator : JezuzLizard
-*	 Project : grieffix2
-*    Mode : Zombies
-*	 Date : 2020/01/31 - 03:36:03	
-*
-*/	
-
 #include maps\mp\_utility;
 #include common_scripts\utility;
+#include maps\mp\zombies\_zm_utility;
 #include maps\mp\gametypes_zm\_hud_util;
 #include maps\mp\gametypes_zm\_hud_message;
 #include maps\mp\zombies\_zm;
-#include maps\mp\zombies\_zm_utility;
 #include maps\mp\zombies\_zm_perks;
-#include maps\mp\zm_alcatraz_grief_cellblock;
-#include maps\mp\zm_prison;
-#include maps\mp\zm_transit;
-#include maps\mp\zm_buried;
+
 
 init()
 {
@@ -45,49 +22,49 @@ init()
 gameSettings()
 {	
 	//random game settings options set these to 0 to disable them happening
-	level.random_game_settings = getDvarIntDefault( "randomGameSettings", "1" ); //disable this to disable all random settings effects
+	level.random_game_settings = getDvarIntDefault( "randomGameSettings", 1 ); //disable this to disable all random settings effects
 	
-	level.hyper_speed_spawns_chance_active = getDvarIntDefault( "hyperSpeedSpawnsChanceActive", "1" ); //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
-	level.extra_drops_chance_active = getDvarIntDefault( "extraDropsChanceActive", "1" ); //this enables a chance that drops will drop upto 4x as much per round
-	level.max_zombies_chance_active = getDvarIntDefault( "maxHordeSizeIncreaseChanceActive", "1" ); //this enables a chance to increase max ai at once to 32
-	level.reduced_zombies_per_round_chance_active = getDvarIntDefault( "shorterRoundsChanceActive", "1" ); //enable this for a chance to get to higher rounds quicker
-	level.deflation_chance_active = getDvarIntDefault( "deflationChanceActive", "1" ); //this enables a chance that the zombies only give points when killed
-	level.deadlier_emps_chance_active = getDvarIntDefault( "deadlierEMPsChanceActive", "1" ); //this enables a chance to make emp duration 4x as long
-	level.disable_revive_chance_active = getDvarIntDefault( "disableReviveChanceActive", "1" ); //this enables a chance to disable revive from appearing in games
-	level.disable_jugg_chance_active = getDvarIntDefault( "disableJuggChanceActive", "1" ); //this enables a chance to disable jugg from appearing in games
-	level.electric_doors_enabled_chance_active = getDvarIntDefault( "electricDoorsDisabledChanceActive", "1" ); //this enables a chance that the electric doors on transit maps will be disabled
-	level.first_room_doors_enabled_chance_active = getDvarIntDefault( "firstRoomOnlyChanceActive", "1" ); //this enables a chance that the first room doors on all grief maps will be disabled
-	level.disable_box_moving_chance_active = getDvarIntDefault( "disableBoxMoveChanceActive", "1" ); //this enables a chance that the box won't move after too many uses
+	level.hyper_speed_spawns_chance_active = getDvarIntDefault( "hyperSpeedSpawnsChanceActive", 1 ); //this enables a chance that zombies will have max move speed, max spawnrate, no walkers, and 1 second between rounds
+	level.extra_drops_chance_active = getDvarIntDefault( "extraDropsChanceActive", 1 ); //this enables a chance that drops will drop upto 4x as much per round
+	level.max_zombies_chance_active = getDvarIntDefault( "maxHordeSizeIncreaseChanceActive", 1 ); //this enables a chance to increase max ai at once to 32
+	level.reduced_zombies_per_round_chance_active = getDvarIntDefault( "shorterRoundsChanceActive", 1 ); //enable this for a chance to get to higher rounds quicker
+	level.deflation_chance_active = getDvarIntDefault( "deflationChanceActive", 1 ); //this enables a chance that the zombies only give points when killed
+	level.deadlier_emps_chance_active = getDvarIntDefault( "deadlierEMPsChanceActive", 1 ); //this enables a chance to make emp duration 4x as long
+	level.disable_revive_chance_active = getDvarIntDefault( "disableReviveChanceActive", 1 ); //this enables a chance to disable revive from appearing in games
+	level.disable_jugg_chance_active = getDvarIntDefault( "disableJuggChanceActive", 1 ); //this enables a chance to disable jugg from appearing in games
+	level.electric_doors_enabled_chance_active = getDvarIntDefault( "electricDoorsDisabledChanceActive", 1 ); //this enables a chance that the electric doors on transit maps will be disabled
+	level.first_room_doors_enabled_chance_active = getDvarIntDefault( "firstRoomOnlyChanceActive", 1 ); //this enables a chance that the first room doors on all grief maps will be disabled
+	level.disable_box_moving_chance_active = getDvarIntDefault( "disableBoxMoveChanceActive", 1 ); //this enables a chance that the box won't move after too many uses
 	
 	//chances of something happening setting to 100 makes it always on
-	level.hyper_speed_spawns_chance = getDvarIntDefault( "hyperSpeedSpawnsChance", "50" ); //50% default
-	level.extra_drops_chance = getDvarIntDefault( "extraDropsChance", "15" ); //15% default
-	level.max_zombies_chance = getDvarIntDefault( "maxHordeSizeIncreaseChanceActive", "50" ); //50% default
-	level.reduced_zombies_per_round_chance = getDvarIntDefault( "shorterRoundsChanceActive", "20" ); //20% default
-	level.deflation_chance = getDvarIntDefault( "deflationChance", "20" ); //20% default
-	level.deadlier_emps_chance = getDvarIntDefault( "deadlierEMPsChance", "40" ); //40% default
-	level.disable_revive_chance = getDvarIntDefault( "disableReviveChance", "50" ); //50% default
-	level.disable_jugg_chance = getDvarIntDefault( "disableJuggChance", "30" ); //30% default
-	level.first_room_doors_enabled_chance = getDvarIntDefault( "electricDoorsDisabledChance", "20" ); //20% default
-	level.electric_doors_enabled_chance = getDvarIntDefault( "firstRoomOnlyChance", "40" ); //40% default
-	level.disable_box_moving_chance = getDvarIntDefault( "disableBoxMoveChance", "10" ); //10% default
+	level.hyper_speed_spawns_chance = getDvarIntDefault( "hyperSpeedSpawnsChance", 50 ); //50% default
+	level.extra_drops_chance = getDvarIntDefault( "extraDropsChance", 15 ); //15% default
+	level.max_zombies_chance = getDvarIntDefault( "maxHordeSizeIncreaseChanceActive", 50 ); //50% default
+	level.reduced_zombies_per_round_chance = getDvarIntDefault( "shorterRoundsChanceActive", 20 ); //20% default
+	level.deflation_chance = getDvarIntDefault( "deflationChance", 20 ); //20% default
+	level.deadlier_emps_chance = getDvarIntDefault( "deadlierEMPsChance", 40 ); //40% default
+	level.disable_revive_chance = getDvarIntDefault( "disableReviveChance", 50 ); //50% default
+	level.disable_jugg_chance = getDvarIntDefault( "disableJuggChance", 30 ); //30% default
+	level.first_room_doors_enabled_chance = getDvarIntDefault( "electricDoorsDisabledChance", 20 ); //20% default
+	level.electric_doors_enabled_chance = getDvarIntDefault( "firstRoomOnlyChance", 40 ); //40% default
+	level.disable_box_moving_chance = getDvarIntDefault( "disableBoxMoveChance", 10 ); //10% default
 	
 	//map rotate feature overrides the normal restart if active
-	level.map_rotate = getDvarIntDefault( "townFarmBusdepotRotation", "1" );
+	level.map_rotate = getDvarIntDefault( "townFarmBusdepotRotation", 1 );
 	return level.random_game_settings;
 }
 
 gameDelayFunctionsAndVars()
 {
 	//game delay functions options
-	level.wait_time = getDvarIntDefault( "waitTime", "30" ); //change this to adjust the start time once the player quota is met
-	level.player_quota_active = getDvarIntDefault( "playerQuotaActive", "1" ); //set this to 0 to disable player quotas recommended to be 1 for grief
-	level.player_quota = getDvarIntDefault( "playerQuota", "2" ); //number of players required before the game starts
+	level.wait_time = getDvarIntDefault( "waitTime", 30 ); //change this to adjust the start time once the player quota is met
+	level.player_quota_active = getDvarIntDefault( "playerQuotaActive", 1 ); //set this to 0 to disable player quotas recommended to be 1 for grief
+	level.player_quota = getDvarIntDefault( "playerQuota", 2 ); //number of players required before the game starts
 	level.waiting = 0; //don't change this 
 	level.countdown_start = 0; //don't change this
 	
 	level.round_prestart_func =::round_prestart_func; //delays the rounds from starting
-	SetDvar( "scr_zm_enable_bots", "1" ); //this is required for the mod to work
+	SetDvar( "scr_zm_enable_bots", 1 ); //this is required for the mod to work
 	thread flag_clearer();
 	thread add_bots(); //this overrides the typical start time logic
 }
@@ -105,7 +82,7 @@ griefFunctionsAndVars()
     	level.playerTeamNameTag = player getTeamNameTag();
     	player teamPicking();
        	player teamBalancing();
-	player [[ level.givecustomcharacters ]]();
+		player [[ level.givecustomcharacters ]]();
     }
 }
 
@@ -312,65 +289,21 @@ deleteBuyableDoors()
     {
         door = _a41[ _k41 ];
         //deletes the depot main door trigger
-        if (IsDefined(door.target) && door.target == "busstop_doors" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //deletes the first electric door in depot
-        else if (IsDefined(door.target) && door.target == "pf1766_auto2352" && !level.electric_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //deletes the second electric door in depot
-        else if (IsDefined(door.target) && door.target == "pf1766_auto2353" && !level.electric_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //farm electric door
-        else if (IsDefined(door.target) && door.target == "pf1766_auto2358" && !level.electric_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //farm house door
-        else if (IsDefined(door.target) && door.target == "auto2434" && !level.electric_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //cellblock starting room door
-        else if (IsDefined(door.target) && door.target == "cellblock_start_door" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //cafeteria door
-        else if (IsDefined(door.target) && door.target == "pf3642_auto2546" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //wardens office door
-        else if (IsDefined(door.target) && door.target == "pf3663_auto2547" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //packapunch door
-        else if (IsDefined(door.target) && door.target == "pf3674_auto2555" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //bar door
-        else if (IsDefined(door.target) && door.target == "pf30_auto2282" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //bank door
-        else if (IsDefined(door.target) && door.target == "pf30_auto2174" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
-        //jugg door
-        else if (IsDefined(door.target) && door.target == "pf30_auto2433" && !level.first_room_doors_enabled)
-        {
-        	door self_delete();
-        }
+        door self_delete();
+        _k41 = getNextArrayKey( _a41, _k41 );
+    }
+}
+
+deleteBuyableDebris()
+{
+    debris_trigs = getentarray( "zombie_debris", "targetname" );
+    _a41 = debris_trigs;
+    _k41 = getFirstArrayKey( _a41 );
+    while ( isDefined( _k41 ) )
+    {
+        debris = _a41[ _k41 ];
+        //deletes the depot main door trigger
+        debris self_delete();
         _k41 = getNextArrayKey( _a41, _k41 );
     }
 }
@@ -422,24 +355,24 @@ gscMapChange()
 location()
 {	
 	//move the order of the if statements to change the order of the rotation
-	if ( getDvarIntDefault( "farm", "1" ) )
+	if ( getDvarIntDefault( "farm", 1 ) )
 	{
-		setDvar( "farm", "0" );
+		setDvar( "farm", 0 );
 		return "farm";
 	}
-	if ( getDvarIntDefault( "town", "1" ) )
+	if ( getDvarIntDefault( "town", 1 ) )
 	{
-		setDvar( "town", "0" );
+		setDvar( "town", 0 );
 		return "town";
 	}
-	if ( getDvarIntDefault( "transit", "1" ) )
+	if ( getDvarIntDefault( "transit", 1 ) )
 	{
-		setDvar( "transit", "0" );
+		setDvar( "transit", 0 );
 		return "transit";
 	}
-	setDvar( "farm", "1" );
-	setDvar( "transit", "1" );
-	setDvar( "town", "1" );
+	setDvar( "farm", 1 );
+	setDvar( "transit", 1 );
+	setDvar( "town", 1 );
 }
 
 mapChange( startlocation )
@@ -458,7 +391,8 @@ randomizedSettings()
 	
 	if ( ( randomint( 100 ) <= level.first_room_doors_enabled_chance ) && level.first_room_doors_enabled_chance_active )
 	{
-		level.first_room_doors_enabled = 0; 
+		deleteBuyableDebris();
+		deleteBuyableDoors();
 	}
 	if ( ( randomint( 100 ) <= level.electric_doors_enabled_chance ) && level.electric_doors_enabled_chance_active )
 	{
@@ -495,7 +429,7 @@ randomizedSettings()
 	} 
 	if ( ( randomint( 100 ) <= level.disable_box_moving_chance ) && level.disable_box_moving_chance_active)
 	{
-		SetDvar( "magic_chest_movable", "0" );
+		SetDvar( "magic_chest_movable", 0 );
 	} 
 	if ( ( randomint( 100 ) <= level.deflation_chance ) && level.deflation_chance_active)
 	{
@@ -513,7 +447,7 @@ randomizedSettings()
 	{
 		level.zombie_vars["emp_perk_off_time"] = 240;
 	} 
-	if (  disable_jugg && level.script == "zm_transit" || disable_jugg && level.script == "zm_buried" )
+	if ( disable_jugg && level.script == "zm_transit" || disable_jugg && level.script == "zm_buried" )
 	{
 		level thread perk_machine_removal( "specialty_armorvest" );
 	}
