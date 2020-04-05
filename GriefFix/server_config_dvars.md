@@ -17,6 +17,9 @@ set electricDoorsDisabledChanceActive "1"
 set firstRoomOnlyChanceActive "1"
 set disableBoxMoveChanceActive "1"
 
+//this controls the simple map rotation between town, farm and bus depot
+set mapRotate "1"
+
 //change settings chances of happening each time the server restarts
 set hyperSpeedSpawnsChance "50"
 set extraDropsChance "15"
