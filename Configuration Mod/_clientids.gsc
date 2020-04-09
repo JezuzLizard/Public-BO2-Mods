@@ -26,19 +26,6 @@ init()
 	level.default_laststandpistol = getDvar( "coopLaststandWeapon" );
 	//set the starting weapon
 	level.start_weapon = getDvar( "startWeaponZm" );
-	if ( level.mixed_rounds_enabled )
-	{
-		if ( level.script != "zm_transit" || is_classic() || level.scr_zm_ui_gametype == "zgrief" )
-		{
-			level.mixed_rounds_enabled = 0;
-		}
-	}
-	//disables walkers 
-	level.disableWalkers = getDvarIntDefault( "disableWalkers", 0 );
-	if ( level.disableWalkers )
-	{
-		level.speed_change_round = undefined;
-	}
 	//sets all zombies to this speed lower values result in walkers and runners
 	level.zombie_move_speed = getDvarIntDefault( "zombieMoveSpeed", 1 );
 	//sets the round number any value between 1-255
@@ -47,7 +34,20 @@ init()
 	level.zombie_health = getDvarIntDefault( "currentZombieHealth", 100 );
 	//sets the number of zombies in reserve changes every round
 	level.zombie_total = getDvarIntDefault( "currentZombieTotal", 6 );
+	//disables walkers 
+	level.disableWalkers = getDvarIntDefault( "disableWalkers", 0 );
+	if ( level.disableWalkers )
+	{
+		level.speed_change_round = undefined;
+	}
+	//set afterlives on mob to 1 like a normal coop match and sets the prices of doors on origins to be higher
+	level.disableSoloMode = getDvarIntDefault( "disableSoloMode", 0 );
+	if ( level.disableSoloMode )
+	{
+		level.is_forever_solo_game = undefined;
+	}
 	
+	checks();
 	//Zombie_Vars:
 	//The reason zombie_vars are first set to a var is because they don't reliably set when set directly to the value of a dvar
 	//sets the maximum number of drops per round
@@ -191,4 +191,42 @@ init()
 	level.phdDamageRadius = getDvarIntDefault( "phdDamageRadius", 300 );
 	level.zombie_vars[ "zombie_perk_divetonuke_radius" ] = level.phdDamageRadius;
 }
+
+checks()
+{
+	if ( level.mixed_rounds_enabled )
+	{
+		if ( level.script != "zm_transit" || is_classic() || level.scr_zm_ui_gametype == "zgrief" )
+		{
+			level.mixed_rounds_enabled = 0;
+		}
+	}
+
+	if ( level.start_weapon == "" )
+	{
+		level.start_weapon = "m1911_zm";
+		if ( level.script == "zm_tomb" )
+		{
+			level.start_weapon == "c96_zm";
+		}
+	}
+	if ( level.default_laststandpistol == "" )
+	{
+		level.default_laststandpistol = "m1911_zm";
+		if ( level.script == "zm_tomb" )
+		{
+			level.default_laststandpistol == "c96_zm";
+		}
+	}
+	if ( level.default_solo_laststandpistol == "" )
+	{
+		level.default_solo_laststandpistol = "m1911_upgraded_zm";
+		if ( level.script == "zm_tomb" )
+		{
+			level.default_solo_laststandpistol == "c96_upgraded_zm";
+		}
+	}
+
+}
+
 
