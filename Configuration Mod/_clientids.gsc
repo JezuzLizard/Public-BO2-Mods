@@ -207,7 +207,7 @@ checks()
 		level.start_weapon = "m1911_zm";
 		if ( level.script == "zm_tomb" )
 		{
-			level.start_weapon == "c96_zm";
+			level.start_weapon = "c96_zm";
 		}
 	}
 	if ( level.default_laststandpistol == "" )
@@ -215,7 +215,7 @@ checks()
 		level.default_laststandpistol = "m1911_zm";
 		if ( level.script == "zm_tomb" )
 		{
-			level.default_laststandpistol == "c96_zm";
+			level.default_laststandpistol = "c96_zm";
 		}
 	}
 	if ( level.default_solo_laststandpistol == "" )
@@ -223,7 +223,7 @@ checks()
 		level.default_solo_laststandpistol = "m1911_upgraded_zm";
 		if ( level.script == "zm_tomb" )
 		{
-			level.default_solo_laststandpistol == "c96_upgraded_zm";
+			level.default_solo_laststandpistol = "c96_upgraded_zm";
 		}
 	}
 
