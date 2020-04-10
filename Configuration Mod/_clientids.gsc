@@ -5,7 +5,7 @@
 
 init()
 {
-
+	//level thread onplayerconnect();
 	//Useful zombie_vars, vars, and dvars:
 	//Variables:
 	//sets the players starting points when first joining a server
@@ -26,14 +26,29 @@ init()
 	level.default_laststandpistol = getDvar( "coopLaststandWeapon" );
 	//set the starting weapon
 	level.start_weapon = getDvar( "startWeaponZm" );
-	//sets all zombies to this speed lower values result in walkers and runners
+	//sets all zombies to this speed lower values result in walkers higher values sprinters
 	level.zombie_move_speed = getDvarIntDefault( "zombieMoveSpeed", 1 );
+	//locks the zombie movespeed to the above value
+	level.zombieMoveSpeedLocked = getDvarIntDefault( "zombieMoveSpeedLocked", 0 );
+	//sets whether there is a cap to the zombie movespeed active
+	level.zombieMoveSpeedCap = getDvarIntDefault( "zombieMoveSpeedCap", 0 );
+	//sets the value to the zombie movespeed cap
+	level.zombieMoveSpeedCapValue = getDvarIntDefault( "zombieMoveSpeedCapValue", 1 );
 	//sets the round number any value between 1-255
 	level.round_number = getDvarIntDefault( "roundNumber", 1 );
-	//sets the zombies health //changed every round
-	level.zombie_health = getDvarIntDefault( "currentZombieHealth", 100 );
-	//sets the number of zombies in reserve changes every round
-	level.zombie_total = getDvarIntDefault( "currentZombieTotal", 6 );
+	//enables the override for zombies per round
+	level.overrideZombieTotalPermanently = getDvarIntDefault( "overrideZombieTotalPermanently", 0 );
+	//sets the number of zombies per round to the value indicated
+	level.overrideZombieTotalPermanentlyValue = getDvarIntDefault( "overrideZombieTotalPermanentlyValue", 6 );
+	//enables the override for zombie health
+	level.overrideZombieHealthPermanently = getDvarIntDefault( "overrideZombieHealthPermanently", 0 );
+	//sets the health of zombies every round to the value indicated
+	level.overrideZombieHealthPermanentlyValue = getDvarIntDefault( "overrideZombieHealthPermanentlyValue", 150 );
+	//enables the health cap override so zombies health won't grow beyond the value indicated
+	level.overrideZombieMaxHealth = getDvarIntDefault( "overrideZombieMaxHealth", 0 );
+	//sets the maximum health zombie health will increase to 
+	level.overrideZombieMaxHealthValue = getDvarIntDefault( "overrideZombieMaxHealthValue" , 150 );
+	
 	//disables walkers 
 	level.disableWalkers = getDvarIntDefault( "disableWalkers", 0 );
 	if ( level.disableWalkers )
@@ -46,8 +61,9 @@ init()
 	{
 		level.is_forever_solo_game = undefined;
 	}
+	//disables all drops
+	level.zmPowerupsNoPowerupDrops = getDvarIntDefault( "zmPowerupsNoPowerupDrops", 0 );
 	
-	checks();
 	//Zombie_Vars:
 	//The reason zombie_vars are first set to a var is because they don't reliably set when set directly to the value of a dvar
 	//sets the maximum number of drops per round
@@ -84,9 +100,13 @@ init()
 	//points for torso kills to the powerup increment to a powerup drop
 	level.powerupScoreTorsoKill = getDvarIntDefault( "powerupScoreTorsoKill", 10 );
 	level.zombie_vars[ "zombie_score_bonus_torso" ] = level.powerupScoreTorsoKill;
-	//sets the zombie spawnrate; max is 0.08 WARNING: won't change midgame by itself anymore once set from the config or console
+	//sets the zombie spawnrate; max is 0.08 
 	level.zombieSpawnRate = getDvarFloatDefault( "zombieSpawnRate", 2 );
 	level.zombie_vars[ "zombie_spawn_delay" ] = level.zombieSpawnRate;
+	//sets the zombie spawnrate multiplier increase
+	level.zombieSpawnRateMultiplier = getDvarFloatDefault( "zombieSpawnRateMultiplier", 0.95 );
+	//locks the spawnrate so it does not change throughout gameplay
+	level.zombieSpawnRateLocked = getDvarIntDefault( "zombieSpawnRateLocked", 0 );
 	//alters the number of zombies per round formula amount of zombies per round is roughly correlated to this value
 	//ie half as many zombies per player is half as many zombies per round
 	level.zombiesPerPlayer = getDvarIntDefault( "zombiesPerPlayer", 6 );
@@ -190,6 +210,14 @@ init()
 	//phd explosion radius
 	level.phdDamageRadius = getDvarIntDefault( "phdDamageRadius", 300 );
 	level.zombie_vars[ "zombie_perk_divetonuke_radius" ] = level.phdDamageRadius;
+	disable_specific_powerups();
+	checks();
+	thread zombies_always_drop_powerups();
+	thread zombies_per_round_override();
+	thread zombie_health_override();
+	thread zombie_health_cap_override();
+	thread zombie_spawn_delay_fix();
+	thread zombie_speed_fix();
 }
 
 checks()
@@ -202,7 +230,7 @@ checks()
 		}
 	}
 
-	if ( level.start_weapon == "" )
+	if ( level.start_weapon == "" || level.start_weapon== "m1911_zm" )
 	{
 		level.start_weapon = "m1911_zm";
 		if ( level.script == "zm_tomb" )
@@ -210,7 +238,7 @@ checks()
 			level.start_weapon = "c96_zm";
 		}
 	}
-	if ( level.default_laststandpistol == "" )
+	if ( level.default_laststandpistol == "" || level.default_laststandpistol == "m1911_zm" )
 	{
 		level.default_laststandpistol = "m1911_zm";
 		if ( level.script == "zm_tomb" )
@@ -218,7 +246,7 @@ checks()
 			level.default_laststandpistol = "c96_zm";
 		}
 	}
-	if ( level.default_solo_laststandpistol == "" )
+	if ( level.default_solo_laststandpistol == "" || level.default_solo_laststandpistol == "m1911_upgraded_zm" )
 	{
 		level.default_solo_laststandpistol = "m1911_upgraded_zm";
 		if ( level.script == "zm_tomb" )
@@ -229,4 +257,220 @@ checks()
 
 }
 
+disable_specific_powerups()
+{
+	level.powerupNames = array( "nuke", "insta_kill", "full_ammo", "double_points", "fire_sale", "free_perk", "carpenter" );
+	array = level.powerupNames;
+	//all powerups are enabled by default disable them manually
+	//remove nukes from the drop cycle and special drops
+	level.zmPowerupsEnabled = [];
+	level.zmPowerupsEnabled[ "nuke" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "nuke" ].name = "nuke";
+	level.zmPowerupsEnabled[ "nuke" ].active = getDvarIntDefault( "zmPowerupsNukeEnabled", 1 );
+	//remove insta kills from the drop cycle and special drops
+	level.zmPowerupsEnabled[ "insta_kill" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "insta_kill" ].name = "insta_kill";
+	level.zmPowerupsEnabled[ "insta_kill" ].active = getDvarIntDefault( "zmPowerupsInstaKillEnabled", 1 );
+	//remove max ammos from the drop cycle and special drops
+	level.zmPowerupsEnabled[ "full_ammo" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "full_ammo" ].name = "full_ammo";
+	level.zmPowerupsEnabled[ "full_ammo" ].active = getDvarIntDefault( "zmPowerupsMaxAmmoEnabled", 1 );
+	//remove carpenter from the drop cycle and special drops
+	level.zmPowerupsEnabled[ "double_points" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "double_points" ].name = "double_points";
+	level.zmPowerupsEnabled[ "double_points" ].active = getDvarIntDefault( "zmPowerupsDoublePointsEnabled", 1 );
+	//remove fire sale from the drop cycle and special drops NOTE: fire sale isn't on all maps already this being enabled won't make it spawn
+	level.zmPowerupsEnabled[ "fire_sale" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "fire_sale" ].name = "fire_sale";
+	level.zmPowerupsEnabled[ "fire_sale" ].active = getDvarIntDefault( "zmPowerupsFireSaleEnabled", 1 );
+	//remove the perk bottle from the drop cycle and special drops
+	level.zmPowerupsEnabled[ "free_perk" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "free_perk" ].name = "free_perk";
+	level.zmPowerupsEnabled[ "free_perk" ].active = getDvarIntDefault( "zmPowerupsPerkBottleEnabled", 1 );
+	//removes carpenter from the drop cycle and special drops
+	level.zmPowerupsEnabled[ "carpenter" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "carpenter" ].name = "carpenter";
+	level.zmPowerupsEnabled[ "carpenter" ].active = getDvarIntDefault( "zmPowerupsCarpenterEnabled", 1 );
+	//removes zombie blood from the drop cycle and special drops
+	level.zmPowerupsEnabled[ "zombie_blood" ] = spawnstruct();
+	level.zmPowerupsEnabled[ "zombie_blood" ].name = "zombie_blood";
+	level.zmPowerupsEnabled[ "zombie_blood" ].active = getDvarIntDefault( "zmPowerupsZombieBloodEnabled", 1 );
+	
+	//you can expand this list with custom powerups if you'd like just add a new spawnstruct() and add to the array at the top
+	
+	for ( i = 0; i < array.size; i++ )
+	{	
+		if ( !level.zmPowerupsEnabled[ array[ i ] ].active )
+		{
+			name = level.zmPowerupsEnabled[ array[ i ] ].name;
+			if ( isInArray( level.zombie_include_powerups, name ) )
+			{
+				arrayremovevalue( level.zombie_include_powerups, name );
+			}
+			if ( isInArray( level.zombie_powerups, name ) )
+			{
+				arrayremovevalue( level.zombie_powerups, name );
+			}
+			if ( isInArray( level.zombie_powerup_array, name ) )
+			{
+				arrayremovevalue( level.zombie_powerup_array, name );
+			}
+		}
+	}
+}
 
+disable_all_powerups()
+{
+	if ( level.zmPowerupsNoPowerupDrops )
+	{
+		flag_clear( "zombie_drop_powerups" );
+	}
+}
+
+zombies_always_drop_powerups()
+{
+	if ( !level.zombiesAlwaysDropPowerups )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		level.zombie_vars[ "zombie_drop_item" ] = level.zombiesAlwaysDropPowerups;
+		wait 0.05;
+	}
+}
+/*
+onplayerconnect()
+{
+	level waittill( "connected", player );
+	player thread onplayerspawned();
+}
+
+onplayerspawned()
+{
+	self waittill( "spawned_player" );
+	self iprintln( level.zmPowerupsEnabled[ "full_ammo" ].name );
+	self iprintln( level.zmPowerupsEnabled[ "full_ammo" ].active );
+}
+*/
+
+zombies_per_round_override()
+{
+	if ( !level.overrideZombieTotalPermanently )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		level.zombie_total = getDvarIntDefault( "overrideZombieTotalPermanentlyValue", 6 );
+	}
+}
+
+zombie_health_override()
+{
+	if ( !level.overrideZombieHealthPermanently )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		level.zombie_health = getDvarIntDefault( "overrideZombieHealthPermanentlyValue", 150 );
+	}
+}
+
+zombie_health_cap_override()
+{
+	if ( !level.overrideZombieMaxHealth )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		if ( level.zombie_health > level.overrideZombieMaxHealthValue )
+		{
+			level.zombie_health = getDvarIntDefault( "overrideZombieHealthMaxHealthValue", 150 );
+		}
+	}
+}
+
+zombie_spawn_delay_fix()
+{
+	if ( level.zombieSpawnRateLocked )
+	{
+		return;
+	}
+	i = 1;
+	while ( i <= level.round_number )
+	{
+		timer = level.zombieSpawnRate;
+		if ( timer > 0.08 )
+		{
+			level.zombieSpawnRate = timer * level.zombieSpawnRateMultiplier;
+			i++;
+			continue;
+		}
+		else if ( timer < 0.08 )
+		{
+			level.zombieSpawnRate = 0.08;
+			break;
+		}
+		i++;
+	}
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		if ( level.zombieSpawnRate > 0.08 )
+		{
+			level.zombieSpawnRate = level.zombieSpawnRate * level.zombieSpawnRateMultiplier;
+		}
+		level.zombie_vars[ "zombie_spawn_delay" ] = level.zombieSpawnRate;
+	}
+}
+
+zombie_speed_fix()
+{
+	if ( level.zombieMoveSpeedLocked )
+	{
+		return;
+	}
+	if ( level.gamedifficulty == 0 )
+	{
+		level.zombie_move_speed = level.round_number * level.zombie_vars[ "zombie_move_speed_multiplier_easy" ];
+	}
+	else
+	{
+		level.zombie_move_speed = level.round_number * level.zombie_vars[ "zombie_move_speed_multiplier" ];
+	}
+}
+
+zombie_speed_override()
+{
+	if ( !level.zombieMoveSpeedLocked )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		level.zombie_move_speed = getDvarIntDefault( "zombieMoveSpeed", 1 );
+	}
+}
+
+zombie_speed_cap_override()
+{
+	if ( !level.zombieMoveSpeedCap )
+	{
+		return;
+	}
+	while ( 1 )
+	{
+		level waittill( "start_of_round" );
+		if ( level.zombie_move_speed > level.zombieMoveSpeedCapValue )
+		{
+			level.zombie_move_speed = level.zombieMoveSpeedCapValue;
+		}
+	}
+}
