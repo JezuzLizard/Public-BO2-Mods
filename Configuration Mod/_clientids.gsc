@@ -100,7 +100,7 @@ init()
 	//points for torso kills to the powerup increment to a powerup drop
 	level.powerupScoreTorsoKill = getDvarIntDefault( "powerupScoreTorsoKill", 10 );
 	level.zombie_vars[ "zombie_score_bonus_torso" ] = level.powerupScoreTorsoKill;
-	//sets the zombie spawnrate; max is 0.08 
+	//sets the zombie spawnrate; max is 0.08 this is in seconds
 	level.zombieSpawnRate = getDvarFloatDefault( "zombieSpawnRate", 2 );
 	level.zombie_vars[ "zombie_spawn_delay" ] = level.zombieSpawnRate;
 	//sets the zombie spawnrate multiplier increase
