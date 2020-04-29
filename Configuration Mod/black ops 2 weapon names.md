@@ -1,4 +1,5 @@
 ## Tranzit
+```
 870mcs_upgraded_zm
 870mcs_zm //remington shotgun
 ak74u_upgraded_zm
@@ -56,8 +57,10 @@ type95_upgraded_zm
 type95_zm //type 25
 xm8_upgraded_zm
 xm8_zm //m8a1
+```
 
 ## Nuketown
+```
 870mcs_upgraded_zm
 870mcs_zm
 ak74u_upgraded_zm
@@ -119,8 +122,9 @@ usrpg_upgraded_zm
 usrpg_zm
 xm8_upgraded_zm
 xm8_zm
-
+```
 ## Die Rise
+```
 870mcs_upgraded_zm
 870mcs_zm
 ak74u_upgraded_zm
@@ -184,8 +188,9 @@ usrpg_upgraded_zm
 usrpg_zm
 xm8_upgraded_zm
 xm8_zm
-
+```
 ## Buried
+```
 ak74u_upgraded_zm
 ak74u_zm
 an94_upgraded_zm
@@ -237,8 +242,9 @@ time_bomb_zm
 tazer_knuckles_zm
 usrpg_upgraded_zm
 usrpg_zm
-
-## Mob of The Dead
+```
+## Mob of The Dead]
+```
 870mcs_upgraded_zm
 870mcs_zm
 ak47_upgraded_zm
@@ -282,8 +288,9 @@ usrpg_zm
 upgraded_tomahawk_zm
 uzi_upgraded_zm
 uzi_zm
-
+```
 ## Origins
+```
 870mcs_upgraded_zm
 870mcs_zm
 ak74u_upgraded_zm
@@ -361,8 +368,9 @@ thompson_zm
 tomb_shield_zm
 type95_upgraded_zm
 type95_zm
-
+```
 ## All maps
+```
 barretm82_upgraded_zm
 barretm82_zm
 beretta93r_upgraded_zm
@@ -389,3 +397,4 @@ ray_gun_upgraded_zm
 ray_gun_zm
 raygun_mark2_upgraded_zm
 raygun_mark2_zm
+```
