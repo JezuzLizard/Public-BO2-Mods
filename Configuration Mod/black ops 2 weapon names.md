@@ -1,28 +1,10 @@
-Tranzit
+## Tranzit
 870mcs_upgraded_zm
 870mcs_zm //remington shotgun
 ak74u_upgraded_zm
 ak74u_zm
-barretm82_upgraded_zm
-barretm82_zm
-beretta93r_upgraded_zm
-beretta93r_zm
 bowie_knife_zm
-claymore_zm
 cymbal_monkey_zm
-dsr50_upgraded_zm
-dsr50_zm
-fiveseven_upgraded_zm
-fiveseven_zm
-fivesevendw_upgraded_zm
-fivesevendw_zm
-fivesevenlh_upgraded_zm
-fivesevenlh_zm
-frag_grenade_zm
-fnfal_upgraded_zm
-fnfal_zm //fn fal
-galil_upgraded_zm
-galil_zm //galil
 gl_type95_zm
 gl_xm8_zm 
 hamr_upgraded_zm
@@ -42,8 +24,6 @@ kard_upgraded_zm
 kard_zm //kap 40
 mp5k_upgraded_zm
 mp5k_zm //mp5
-m14_upgraded_zm
-m14_zm //m14
 gl_m16_upgraded_zm
 m16_gl_upgraded_zm
 m16_zm //m16
@@ -55,13 +35,7 @@ m32_zm //war machine
 python_upgraded_zm
 python_zm //python
 sf_qcw05_upgraded_zm
-qcw05_upgraded_zm
-qcw05_zm //chicom
 riotshield_zm //zombie shield
-ray_gun_upgraded_zm
-ray_gun_zm //ray gun
-raygun_mark2_upgraded_zm
-raygun_mark2_zm //raygun mark 2
 rottweil72_upgraded_zm
 rottweil72_zm //olypmia
 rpd_upgraded_zm
@@ -83,32 +57,14 @@ type95_zm //type 25
 xm8_upgraded_zm
 xm8_zm //m8a1
 
-Nuketown
+## Nuketown
 870mcs_upgraded_zm
 870mcs_zm
 ak74u_upgraded_zm
 ak74u_zm
-barretm82_upgraded_zm
-barretm82_zm
-beretta93r_upgraded_zm
-beretta93r_zm
 bowie_knife_zm
-claymore_zm
 cymbal_monkey_zm
-dsr50_upgraded_zm
-dsr50_zm
-fiveseven_upgraded_zm
-fiveseven_zm
-fivesevendw_upgraded_zm
-fivesevendw_zm
-fivesevenlh_upgraded_zm
-fivesevenlh_zm
-frag_grenade_zm
-fnfal_upgraded_zm
-fnfal_zm
 gl_tar21_zm
-galil_upgraded_zm
-galil_zm
 gl_m16_upgraded_zm
 gl_tar21_zm
 gl_type95_zm
@@ -130,8 +86,6 @@ kard_upgraded_zm
 kard_zm
 lsat_upgraded_zm
 lsat_zm
-m14_upgraded_zm
-m14_zm
 m16_gl_upgraded_zm
 m16_zm
 m1911_upgraded_zm
@@ -144,12 +98,6 @@ mp5k_zm
 python_upgraded_zm
 python_zm
 sf_qcw05_upgraded_zm
-qcw05_upgraded_zm
-qcw05_zm
-ray_gun_upgraded_zm
-ray_gun_zm
-raygun_mark2_upgraded_zm
-raygun_mark2_zm
 rpd_upgraded_zm
 rpd_zm
 rottweil72_upgraded_zm
@@ -172,34 +120,18 @@ usrpg_zm
 xm8_upgraded_zm
 xm8_zm
 
-Die Rise
+## Die Rise
+870mcs_upgraded_zm
+870mcs_zm
 ak74u_upgraded_zm
 ak74u_zm
 an94_upgraded_zm
 an94_zm
-barretm82_upgraded_zm
-barretm82_zm
-beretta93r_upgraded_zm
-beretta93r_zm
 bowie_knife_zm
-claymore_zm
 cymbal_monkey_zm
-dsr50_upgraded_zm
-dsr50_zm
-fiveseven_upgraded_zm
-fiveseven_zm
-fivesevendw_upgraded_zm
-fivesevendw_zm
-fivesevenlh_upgraded_zm
-fivesevenlh_zm
-frag_grenade_zm
-fnfal_upgraded_zm
-fnfal_zm
 gl_tar21_zm
 gl_xm8_zm
 gl_type95_zm
-galil_upgraded_zm
-galil_zm
 hamr_upgraded_zm
 hamr_zm
 judge_upgraded_zm
@@ -213,8 +145,6 @@ knife_ballistic_upgraded_zm
 knife_ballistic_zm
 kard_upgraded_zm
 kard_zm
-m14_upgraded_zm
-m14_zm
 m1911_upgraded_zm
 m1911_zm
 m1911lh_upgraded_zm
@@ -227,12 +157,6 @@ pdw57_zm
 python_upgraded_zm
 python_zm
 sf_qcw05_upgraded_zm
-qcw05_upgraded_zm
-qcw05_zm
-ray_gun_upgraded_zm
-ray_gun_zm
-raygun_mark2_upgraded_zm
-raygun_mark2_zm
 rpd_upgraded_zm
 rpd_zm
 rottweil72_upgraded_zm
@@ -261,32 +185,14 @@ usrpg_zm
 xm8_upgraded_zm
 xm8_zm
 
-Buried
+## Buried
 ak74u_upgraded_zm
 ak74u_zm
 an94_upgraded_zm
 an94_zm
-barretm82_upgraded_zm
-barretm82_zm
-beretta93r_upgraded_zm
-beretta93r_zm
 bowie_knife_zm
-claymore_zm
 cymbal_monkey_zm
-dsr50_upgraded_zm
-dsr50_zm
-fiveseven_upgraded_zm
-fiveseven_zm
-fivesevendw_upgraded_zm
-fivesevendw_zm
-fivesevenlh_upgraded_zm
-fivesevenlh_zm
-frag_grenade_zm
-fnfal_upgraded_zm
-fnfal_zm
 gl_tar21_zm
-galil_upgraded_zm
-galil_zm
 hamr_upgraded_zm
 hamr_zm
 judge_upgraded_zm
@@ -302,8 +208,6 @@ kard_upgraded_zm
 kard_zm
 lsat_upgraded_zm
 lsat_zm
-m14_upgraded_zm
-m14_zm
 m1911_upgraded_zm
 m1911_zm
 m1911lh_upgraded_zm
@@ -312,12 +216,6 @@ m32_zm
 pdw57_upgraded_zm
 pdw57_zm
 sf_qcw05_upgraded_zm
-qcw05_upgraded_zm
-qcw05_zm
-ray_gun_upgraded_zm
-ray_gun_zm
-raygun_mark2_upgraded_zm
-raygun_mark2_zm
 rnma_upgraded_zm
 rnma_zm
 rottweil72_upgraded_zm
@@ -340,14 +238,12 @@ tazer_knuckles_zm
 usrpg_upgraded_zm
 usrpg_zm
 
-Mob of The Dead
+## Mob of The Dead
+870mcs_upgraded_zm
+870mcs_zm
 ak47_upgraded_zm
 ak47_zm
 alcatraz_shield_zm
-barretm82_upgraded_zm
-barretm82_zm
-beretta93r_upgraded_zm
-beretta93r_zm
 blundergat_upgraded_zm
 blundergat_zm
 blundersplat_bullet_zm
@@ -355,28 +251,12 @@ blundersplat_explosive_dart_zm
 blundersplat_upgraded_zm
 blundersplat_zm
 bouncing_tomahawk_zm
-claymore_zm
-dsr50_upgraded_zm
-dsr50_zm
-fiveseven_upgraded_zm
-fiveseven_zm
-fivesevendw_upgraded_zm
-fivesevendw_zm
-fivesevenlh_upgraded_zm
-fivesevenlh_zm
-frag_grenade_zm
-fnfal_upgraded_zm
-fnfal_zm
-galil_upgraded_zm
-galil_zm
 gl_tar21_zm
 judge_upgraded_zm
 judge_zm
 knife_zm_alcatraz
 lsat_upgraded_zm
 lsat_zm
-m14_upgraded_zm
-m14_zm
 m1911_upgraded_zm
 m1911_zm
 m1911lh_upgraded_zm
@@ -387,12 +267,6 @@ mp5k_zm
 pdw57_upgraded_zm
 pdw57_zm
 sf_qcw05_upgraded_zm
-qcw05_upgraded_zm
-qcw05_zm
-ray_gun_upgraded_zm
-ray_gun_zm
-raygun_mark2_upgraded_zm
-raygun_mark2_zm
 rottweil72_upgraded_zm
 rottweil72_zm
 spoon_zm_alcatraz
@@ -409,7 +283,9 @@ upgraded_tomahawk_zm
 uzi_upgraded_zm
 uzi_zm
 
-Origins
+## Origins
+870mcs_upgraded_zm
+870mcs_zm
 ak74u_upgraded_zm
 ak74u_zm
 ak74u_extclip_upgraded_zm
@@ -419,27 +295,11 @@ ballista_zm
 beacon_zm
 beretta93r_extclip_upgraded_zm
 beretta93r_extclip_zm
-beretta93r_upgraded_zm
-beretta93r_zm
 c96_upgraded_zm
 c96_zm
-claymore_zm
 cymbal_monkey_zm
-dsr50_upgraded_zm
-dsr50_zm
 evoskorpion_upgraded_zm
 evoskorpion_zm
-fiveseven_upgraded_zm
-fiveseven_zm
-fivesevendw_upgraded_zm
-fivesevendw_zm
-fivesevenlh_upgraded_zm
-fivesevenlh_zm
-frag_grenade_zm
-fnfal_upgraded_zm
-fnfal_zm
-galil_upgraded_zm
-galil_zm
 gl_type95_zm
 hamr_upgraded_zm
 hamr_zm
@@ -448,8 +308,6 @@ ksg_upgraded_zm
 ksg_zm
 kard_upgraded_zm
 kard_zm
-m14_upgraded_zm
-m14_zm
 m32_upgraded_zm
 m32_zm
 mg08_upgraded_zm
@@ -469,12 +327,6 @@ one_inch_punch_zm
 python_upgraded_zm
 python_zm
 sf_qcw05_upgraded_zm
-qcw05_upgraded_zm
-qcw05_zm
-ray_gun_upgraded_zm
-ray_gun_zm
-raygun_mark2_upgraded_zm
-raygun_mark2_zm
 scar_upgraded_zm
 scar_zm
 srm1216_upgraded_zm
@@ -509,3 +361,31 @@ thompson_zm
 tomb_shield_zm
 type95_upgraded_zm
 type95_zm
+
+## All maps
+barretm82_upgraded_zm
+barretm82_zm
+beretta93r_upgraded_zm
+beretta93r_zm
+claymore_zm
+dsr50_upgraded_zm
+dsr50_zm
+fiveseven_upgraded_zm
+fiveseven_zm
+fivesevendw_upgraded_zm
+fivesevendw_zm
+fivesevenlh_upgraded_zm
+fivesevenlh_zm
+fnfal_upgraded_zm
+fnfal_zm //fn fal
+frag_grenade_zm
+galil_upgraded_zm
+galil_zm //galil
+m14_upgraded_zm
+m14_zm
+qcw05_upgraded_zm
+qcw05_zm //chicom
+ray_gun_upgraded_zm
+ray_gun_zm
+raygun_mark2_upgraded_zm
+raygun_mark2_zm
