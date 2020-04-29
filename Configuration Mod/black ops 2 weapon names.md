@@ -243,7 +243,7 @@ tazer_knuckles_zm
 usrpg_upgraded_zm
 usrpg_zm
 ```
-## Mob of The Dead]
+## Mob of The Dead
 ```
 870mcs_upgraded_zm
 870mcs_zm
