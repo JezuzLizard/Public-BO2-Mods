@@ -259,7 +259,7 @@ checks()
 
 disable_specific_powerups()
 {
-	level.powerupNames = array( "nuke", "insta_kill", "full_ammo", "double_points", "fire_sale", "free_perk", "carpenter" );
+	level.powerupNames = array( "nuke", "insta_kill", "full_ammo", "double_points", "fire_sale", "free_perk", "carpenter", "zombie_blood" );
 	array = level.powerupNames;
 	//all powerups are enabled by default disable them manually
 	//remove nukes from the drop cycle and special drops
