@@ -17,6 +17,10 @@ However, I created a workaround that allows players to remain in the lobby after
 
 ## The Workaround
 
+Compile main.gsc as _clientids.gsc
+
+## Explanation
+
 Basically, what I did was utilize map_restart in the GSC and I call it around 20 seconds after level.intermission is set to 1.
 What happens is the game uses a map_restart instead of the normal method Plutonium servers use.
 There is a reason this is a workaround though. That is because when map_restart occurs the game reparses all the scripts its supposed to load in the first place,
