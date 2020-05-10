@@ -556,6 +556,10 @@ watch_for_respawn()
 
 init_custom_zm_powerups_gsc_exclusive_dvars()
 {
+	if ( !level.custom_zm_powerups_loaded )
+	{
+		return;
+	}
 	//%chance that a powerup will drop everytime a zombie is killed
 	level.cmPowerupRandomDropChance = getDvarIntDefault( "cmPowerupRandomDropChance", 2 );
 	//time before a powerup starts to blink and then disappear if not grabbed
