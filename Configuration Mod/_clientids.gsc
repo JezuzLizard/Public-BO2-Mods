@@ -8,208 +8,231 @@ init()
 	//level thread onplayerconnect();
 	//Useful zombie_vars, vars, and dvars:
 	//Variables:
-	//sets the players starting points when first joining a server
-	level.player_starting_points = getDvarIntDefault( "playerStartingPoints", 500 );
-	//sets the perk limit for all players
-	level.perk_purchase_limit = getDvarIntDefault( "perkLimit", 4 );
-	//sets the maximum number of zombies that can be on the map at once 32 max
-	level.zombie_ai_limit = getDvarIntDefault( "zombieAiLimit", 24 );
-	//sets the number of zombie bodies that can be on the map at once
-	level.zombie_actor_limit = getDvarIntDefault( "zombieActorLimit", 32 );
-	//enables midround hellhounds WARNING: causes permanent round pauses on maps that aren't bus depot, town or farm
-	level.mixed_rounds_enabled = getDvarIntDefault( "midroundDogs", 0 );
-	//disables the end game check WARNING: make sure to include a spectator respawner and auto revive function
-	level.no_end_game_check = getDvarIntDefault( "noEndGameCheck", 0 );
-	//sets the solo laststand pistol
-	level.default_solo_laststandpistol = getDvar( "soloLaststandWeapon" );
-	//the default laststand pistol
-	level.default_laststandpistol = getDvar( "coopLaststandWeapon" );
-	//set the starting weapon
-	level.start_weapon = getDvar( "startWeaponZm" );
-	//sets all zombies to this speed lower values result in walkers higher values sprinters
-	level.zombie_move_speed = getDvarIntDefault( "zombieMoveSpeed", 1 );
-	//locks the zombie movespeed to the above value
-	level.zombieMoveSpeedLocked = getDvarIntDefault( "zombieMoveSpeedLocked", 0 );
-	//sets whether there is a cap to the zombie movespeed active
-	level.zombieMoveSpeedCap = getDvarIntDefault( "zombieMoveSpeedCap", 0 );
-	//sets the value to the zombie movespeed cap
-	level.zombieMoveSpeedCapValue = getDvarIntDefault( "zombieMoveSpeedCapValue", 1 );
 	//sets the round number any value between 1-255
-	level.round_number = getDvarIntDefault( "roundNumber", 1 );
+	level.round_number = getDvarIntDefault( "cmLevelRoundNumber", 1 );
+	//sets the players starting points when first joining a server
+	level.player_starting_points = getDvarIntDefault( "cmPlayerStartingPoints", 500 );
+	//sets the perk limit for all players
+	level.perk_purchase_limit = getDvarIntDefault( "cmPlayerPerkLimit", 4 );
+	//sets the maximum number of zombies that can be on the map at once 32 max
+	level.zombie_ai_limit = getDvarIntDefault( "cmZombieAiLimit", 24 );
+	//sets the number of zombie bodies that can be on the map at once
+	level.zombie_actor_limit = getDvarIntDefault( "cmZombieActorLimit", 32 );
+	//enables midround hellhounds WARNING: causes permanent round pauses on maps that aren't bus depot, town or farm
+	level.mixed_rounds_enabled = getDvarIntDefault( "cmZombieMidroundDogs", 0 );
+	//disables the end game check WARNING: make sure to include a spectator respawner and auto revive function
+	level.no_end_game_check = getDvarIntDefault( "cmLevelNoEndGameCheck", 0 );
+	//sets the solo laststand pistol
+	level.default_solo_laststandpistol = getDvar( "cmPlayerSoloLaststandWeapon" );
+	//the default laststand pistol
+	level.default_laststandpistol = getDvar( "cmPlayerCoopLaststandWeapon" );
+	//set the starting weapon
+	level.start_weapon = getDvar( "cmPlayerStartWeapon" );
+	//sets all zombies to this speed lower values result in walkers higher values sprinters
+	level.zombie_move_speed = getDvarIntDefault( "cmZombieMoveSpeed", 1 );
+	//locks the zombie movespeed to the above value
+	level.cmZombieMoveSpeedLocked = getDvarIntDefault( "cmZombieMoveSpeedLocked", 0 );
+	//sets whether there is a cap to the zombie movespeed active
+	level.cmZombieMoveSpeedCap = getDvarIntDefault( "cmZombieMoveSpeedCap", 0 );
+	//sets the value to the zombie movespeed cap
+	level.cmZombieMoveSpeedCapValue = getDvarIntDefault( "cmZombieMoveSpeedCapValue", 1 );
+	//sets the zombies move animation valid inputs are "walk", "run", "sprint", "super_sprint", and tranzit only "chase_bus"
+	level.cmZombieMoveAnimation = getDvar( "cmZombieMoveAnimation" );
 	//enables the override for zombies per round
-	level.overrideZombieTotalPermanently = getDvarIntDefault( "overrideZombieTotalPermanently", 0 );
+	level.cmZombieTotalPermanentOverride = getDvarIntDefault( "cmZombieTotalPermanentOverride", 0 );
 	//sets the number of zombies per round to the value indicated
-	level.overrideZombieTotalPermanentlyValue = getDvarIntDefault( "overrideZombieTotalPermanentlyValue", 6 );
+	level.cmZombieTotalPermanentOverrideValue = getDvarIntDefault( "cmZombieTotalPermanentOverrideValue", 6 );
 	//enables the override for zombie health
-	level.overrideZombieHealthPermanently = getDvarIntDefault( "overrideZombieHealthPermanently", 0 );
+	level.cmZombieHealthPermanentOverride = getDvarIntDefault( "cmZombieHealthPermanentOverride", 0 );
 	//sets the health of zombies every round to the value indicated
-	level.overrideZombieHealthPermanentlyValue = getDvarIntDefault( "overrideZombieHealthPermanentlyValue", 150 );
+	level.cmZombieHealthPermanentOverrideValue = getDvarIntDefault( "cmZombieHealthPermanentOverrideValue", 150 );
 	//enables the health cap override so zombies health won't grow beyond the value indicated
-	level.overrideZombieMaxHealth = getDvarIntDefault( "overrideZombieMaxHealth", 0 );
+	level.cmZombieMaxHealthOverride = getDvarIntDefault( "cmZombieMaxHealthOverride", 0 );
 	//sets the maximum health zombie health will increase to 
-	level.overrideZombieMaxHealthValue = getDvarIntDefault( "overrideZombieMaxHealthValue" , 150 );
+	level.cmZombieMaxHealthOverrideValue = getDvarIntDefault( "cmZombieMaxHealthOverrideValue" , 150 );
+	//sets the players maximum health zombies do 60 damage so 121 would be 3 hits 181 would be 4 and so on
+	level.cmPlayerMaxHealth = getDvarIntDefault( "cmPlayerMaxHealth", 100 );
+	
 	
 	//disables walkers 
-	level.disableWalkers = getDvarIntDefault( "disableWalkers", 0 );
-	if ( level.disableWalkers )
+	level.cmZombieDisableWalkers = getDvarIntDefault( "cmZombieDisableWalkers", 0 );
+	if ( level.cmZombieDisableWalkers )
 	{
 		level.speed_change_round = undefined;
 	}
 	//set afterlives on mob to 1 like a normal coop match and sets the prices of doors on origins to be higher
-	level.disableSoloMode = getDvarIntDefault( "disableSoloMode", 0 );
-	if ( level.disableSoloMode )
+	level.cmLevelSoloModeDisabled = getDvarIntDefault( "cmLevelSoloModeDisabled", 0 );
+	if ( level.cmLevelSoloModeDisabled )
 	{
 		level.is_forever_solo_game = undefined;
 	}
 	//disables all drops
-	level.zmPowerupsNoPowerupDrops = getDvarIntDefault( "zmPowerupsNoPowerupDrops", 0 );
+	level.cmPowerupNoPowerupDrops = getDvarIntDefault( "cmPowerupNoPowerupDrops", 0 );
 	
 	//Zombie_Vars:
 	//The reason zombie_vars are first set to a var is because they don't reliably set when set directly to the value of a dvar
 	//sets the maximum number of drops per round
-	level.maxPowerupsPerRound = getDvarIntDefault( "maxPowerupsPerRound", 4 );
-	level.zombie_vars["zombie_powerup_drop_max_per_round"] = level.maxPowerupsPerRound;
+	level.cmPowerupMaxPerRound = getDvarIntDefault( "cmPowerupMaxPerRound", 4 );
+	level.zombie_vars["zombie_powerup_drop_max_per_round"] = level.cmPowerupMaxPerRound;
 	//sets the powerup drop rate lower is better
-	level.powerupDropRate = getDvarIntDefault( "powerupDropRate", 2000 );
-	level.zombie_vars["zombie_powerup_drop_increment"] = level.powerupDropRate;
+	level.cmPowerupDropRate = getDvarIntDefault( "cmPowerupDropRate", 2000 );
+	level.zombie_vars["zombie_powerup_drop_increment"] = level.cmPowerupDropRate;
 	//makes every zombie drop a powerup
-	level.zombiesAlwaysDropPowerups = getDvarIntDefault( "zombiesAlwaysDropPowerups", 0 );
-	level.zombie_vars[ "zombie_drop_item" ] = level.zombiesAlwaysDropPowerups;
+	level.cmPowerupAlwaysDrop = getDvarIntDefault( "cmPowerupAlwaysDrop", 0 );
+	level.zombie_vars[ "zombie_drop_item" ] = level.cmPowerupAlwaysDrop;
 	//increase these below vars to increase drop rate
 	//points to the powerup increment to a powerup drop related to level.zombie_vars["zombie_powerup_drop_increment"]
-	level.fourPlayerPowerupScore = getDvarIntDefault( "fourPlayerPowerupScore", 50 );
-	level.zombie_vars[ "zombie_score_kill_4p_team" ] = level.fourPlayerPowerupScore;
+	level.cmPowerupFourPlayerScore = getDvarIntDefault( "cmPowerupFourPlayerScore", 50 );
+	level.zombie_vars[ "zombie_score_kill_4p_team" ] = level.cmPowerupFourPlayerScore;
 	//points to the powerup increment to a powerup drop related to level.zombie_vars["zombie_powerup_drop_increment"]
-	level.threePlayerPowerupScore = getDvarIntDefault( "threePlayerPowerupScore", 50 );
-	level.zombie_vars[ "zombie_score_kill_3p_team" ] = level.threePlayerPowerupScore;
+	level.cmPowerupThreePlayerScore = getDvarIntDefault( "cmPowerupThreePlayerScore", 50 );
+	level.zombie_vars[ "zombie_score_kill_3p_team" ] = level.cmPowerupThreePlayerScore;
 	//points to the powerup increment to a powerup drop related to level.zombie_vars["zombie_powerup_drop_increment"]
-	level.twoPlayerPowerupScore = getDvarIntDefault( "twoPlayerPowerupScore", 50 );
-	level.zombie_vars[ "zombie_score_kill_2p_team" ] = level.twoPlayerPowerupScore;
+	level.cmPowerupTwoPlayerScore = getDvarIntDefault( "cmPowerupTwoPlayerScore", 50 );
+	level.zombie_vars[ "zombie_score_kill_2p_team" ] = level.cmPowerupTwoPlayerScore;
 	//points to the powerup increment to a powerup drop related to level.zombie_vars["zombie_powerup_drop_increment"]
-	level.onePlayerPowerupScore = getDvarIntDefault( "onePlayerPowerupScore", 50 );
-	level.zombie_vars[ "zombie_score_kill_1p_team" ] = level.onePlayerPowerupScore;
+	level.cmPowerupOnePlayerScore = getDvarIntDefault( "cmPowerupOnePlayerScore", 50 );
+	level.zombie_vars[ "zombie_score_kill_1p_team" ] = level.cmPowerupOnePlayerScore;
 	//points for melee kills to the powerup increment to a powerup drop
-	level.powerupScoreMeleeKill = getDvarIntDefault( "powerupScoreMeleeKill", 80 );
-	level.zombie_vars[ "zombie_score_bonus_melee" ] = level.powerupScoreMeleeKill;
+	level.cmPowerupScoreMeleeKill = getDvarIntDefault( "cmPowerupScoreMeleeKill", 80 );
+	level.zombie_vars[ "zombie_score_bonus_melee" ] = level.cmPowerupScoreMeleeKill;
 	//points for headshot kills to the powerup increment to a powerup drop
-	level.powerupScoreHeadshotKill = getDvarIntDefault( "powerupScoreHeadshotKill", 50 );
-	level.zombie_vars[ "zombie_score_bonus_head" ] = level.powerupScoreHeadshotKill;
+	level.cmPowerupScoreHeadshotKill = getDvarIntDefault( "cmPowerupScoreHeadshotKill", 50 );
+	level.zombie_vars[ "zombie_score_bonus_head" ] = level.cmPowerupScoreHeadshotKill;
 	//points for neck kills to the powerup increment to a powerup drop
-	level.powerupScoreNeckKill = getDvarIntDefault( "powerupScoreNeckKill", 20 );
-	level.zombie_vars[ "zombie_score_bonus_neck" ] = level.powerupScoreNeckKill;
+	level.cmPowerupScoreNeckKill = getDvarIntDefault( "cmPowerupScoreNeckKill", 20 );
+	level.zombie_vars[ "zombie_score_bonus_neck" ] = level.cmPowerupScoreNeckKill;
 	//points for torso kills to the powerup increment to a powerup drop
-	level.powerupScoreTorsoKill = getDvarIntDefault( "powerupScoreTorsoKill", 10 );
-	level.zombie_vars[ "zombie_score_bonus_torso" ] = level.powerupScoreTorsoKill;
+	level.cmPowerupScoreTorsoKill = getDvarIntDefault( "cmPowerupScoreTorsoKill", 10 );
+	level.zombie_vars[ "zombie_score_bonus_torso" ] = level.cmPowerupScoreTorsoKill;
 	//sets the zombie spawnrate; max is 0.08 this is in seconds
-	level.zombieSpawnRate = getDvarFloatDefault( "zombieSpawnRate", 2 );
-	level.zombie_vars[ "zombie_spawn_delay" ] = level.zombieSpawnRate;
+	level.cmZombieSpawnRate = getDvarFloatDefault( "cmZombieSpawnRate", 2 );
+	level.zombie_vars[ "zombie_spawn_delay" ] = level.cmZombieSpawnRate;
 	//sets the zombie spawnrate multiplier increase
-	level.zombieSpawnRateMultiplier = getDvarFloatDefault( "zombieSpawnRateMultiplier", 0.95 );
+	level.cmZombieSpawnRateMultiplier = getDvarFloatDefault( "cmZombieSpawnRateMultiplier", 0.95 );
 	//locks the spawnrate so it does not change throughout gameplay
-	level.zombieSpawnRateLocked = getDvarIntDefault( "zombieSpawnRateLocked", 0 );
+	level.cmZombieSpawnRateLocked = getDvarIntDefault( "cmZombieSpawnRateLocked", 0 );
 	//alters the number of zombies per round formula amount of zombies per round is roughly correlated to this value
 	//ie half as many zombies per player is half as many zombies per round
-	level.zombiesPerPlayer = getDvarIntDefault( "zombiesPerPlayer", 6 );
-	level.zombie_vars["zombie_ai_per_player"] = level.zombiesPerPlayer;
+	level.cmZombiePerPlayer = getDvarIntDefault( "cmZombiePerPlayer", 6 );
+	level.zombie_vars["zombie_ai_per_player"] = level.cmZombiePerPlayer;
 	//sets the flat amount of hp the zombies gain per round not used after round 10
-	level.zombieHealthIncreaseFlat = getDvarIntDefault( "zombieHealthIncreaseFlat", 100 );
-	level.zombie_vars[ "zombie_health_increase" ] = level.zombieHealthIncreaseFlat;
+	level.cmZombieHealthIncreaseFlat = getDvarIntDefault( "cmZombieHealthIncreaseFlat", 100 );
+	level.zombie_vars[ "zombie_health_increase" ] = level.cmZombieHealthIncreaseFlat;
 	//multiplies zombie health by this value every round after round 10
-	level.zombieHealthIncreaseMultiplier = getDvarFloatDefault( "zombieHealthIncreaseMultiplier", 0.1 );
-	level.zombie_vars[ "zombie_health_increase_multiplier" ] = level.zombieHealthIncreaseMultiplier;
+	level.cmZombieHealthIncreaseMultiplier = getDvarFloatDefault( "cmZombieHealthIncreaseMultiplier", 0.1 );
+	level.zombie_vars[ "zombie_health_increase_multiplier" ] = level.cmZombieHealthIncreaseMultiplier;
 	//base zombie health before any multipliers or additions
-	level.zombieHealthStart = getDvarIntDefault( "zombieHealthStart", 150 );
-	level.zombie_vars[ "zombie_health_start" ] = level.zombieHealthStart;
+	level.cmZombieHealthStart = getDvarIntDefault( "cmZombieHealthStart", 150 );
+	level.zombie_vars[ "zombie_health_start" ] = level.cmZombieHealthStart;
 	//time before new runners spawn on early rounds
-	level.zombieNewRunnerInterval = getDvarIntDefault( "zombieNewRunnerInterval", 10 );
-	level.zombie_vars[ "zombie_new_runner_interval" ] = level.zombieNewRunnerInterval;
+	level.cmZombieNewRunnerInterval = getDvarIntDefault( "cmZombieNewRunnerInterval", 10 );
+	level.zombie_vars[ "zombie_new_runner_interval" ] = level.cmZombieNewRunnerInterval;
 	//determines level.zombie_move_speed on original
-	level.zombieMoveSpeedMultiplier = getDvarIntDefault( "zombieMoveSpeedMultiplier", 10 );
-	level.zombie_vars[ "zombie_move_speed_multiplier" ] = level.zombieMoveSpeedMultiplier;
+	level.cmZombieMoveSpeedMultiplier = getDvarIntDefault( "cmZombieMoveSpeedMultiplier", 10 );
+	level.zombie_vars[ "zombie_move_speed_multiplier" ] = level.cmZombieMoveSpeedMultiplier;
 	//determines level.zombie_move_speed on easy
-	level.zombieMoveSpeedMultiplierEasy = getDvarIntDefault( "zombieMoveSpeedMultiplierEasy", 8 );
-	level.zombie_vars[ "zombie_move_speed_multiplier_easy"] = level.zombieMoveSpeedMultiplierEasy;
+	level.cmZombieMoveSpeedMultiplierEasy = getDvarIntDefault( "cmZombieMoveSpeedMultiplierEasy", 8 );
+	level.zombie_vars[ "zombie_move_speed_multiplier_easy"] = level.cmZombieMoveSpeedMultiplierEasy;
 	//affects the number of zombies per round formula
-	level.zombieMaxAi = getDvarIntDefault( "zombieMaxAi", 24 );
-	level.zombie_vars[ "zombie_max_ai" ] = level.zombieMaxAi;
+	level.cmZombieMaxAi = getDvarIntDefault( "cmZombieMaxAi", 24 );
+	level.zombie_vars[ "zombie_max_ai" ] = level.cmZombieMaxAi;
 	//affects the check for zombies that have fallen thru the map
-	level.belowWorldCheck = getDvarIntDefault( "belowWorldCheck", -1000 );
-	level.zombie_vars[ "below_world_check" ] = level.belowWorldCheck;
+	level.cmZombieBelowWorldCheck = getDvarIntDefault( "cmZombieBelowWorldCheck", -1000 );
+	level.zombie_vars[ "below_world_check" ] = level.cmZombieBelowWorldCheck;
 	//sets whether spectators respawn at the end of the round
-	level.customSpectatorsRespawn = getDvarIntDefault( "customSpectatorsRespawn", 1 );
-	level.zombie_vars[ "spectators_respawn" ] = level.customSpectatorsRespawn;
+	level.cmLevelDoSpectatorsRespawn = getDvarIntDefault( "cmLevelDoSpectatorsRespawn", 1 );
+	level.zombie_vars[ "spectators_respawn" ] = level.cmLevelDoSpectatorsRespawn;
 	//sets the time that the game takes during the end game intermission
-	level.zombieIntermissionTime = getDvarIntDefault( "zombieIntermissionTime", 20 );
-	level.zombie_vars["zombie_intermission_time"] = level.zombieIntermissionTime;
+	level.cmLevelIntermissionTime = getDvarIntDefault( "cmLevelIntermissionTime", 20 );
+	level.zombie_vars["zombie_intermission_time"] = level.cmLevelIntermissionTime;
 	//the time between rounds
-	level.zombieBetweenRoundTime = getDvarIntDefault( "zombieBetweenRoundTime", 15 );
-	level.zombie_vars["zombie_between_round_time"] = level.zombieBetweenRoundTime;
+	level.cmLevelBetweenRoundTime = getDvarIntDefault( "cmLevelBetweenRoundTime", 15 );
+	level.zombie_vars["zombie_between_round_time"] = level.cmLevelBetweenRoundTime;
 	//time before the game starts 
-	level.roundStartDelay = getDvarIntDefault( "roundStartDelay", 0 );
-	level.zombie_vars[ "game_start_delay" ] = level.roundStartDelay;
+	level.cmLevelGameStartDelay = getDvarIntDefault( "cmLevelGameStartDelay", 0 );
+	level.zombie_vars[ "game_start_delay" ] = level.cmLevelGameStartDelay;
 	//points all players lose when a player bleeds out %10 default
-	level.bleedoutPointsLostAllPlayers = getDvarFloatDefault( "bleedoutPointsLostAllPlayers", 0.1 );
-	level.zombie_vars[ "penalty_no_revive" ] = level.bleedoutPointsLostAllPlayers;
+	level.cmPlayerBleedoutPointsLostAllPlayers = getDvarFloatDefault( "cmPlayerBleedoutPointsLostAllPlayers", 0.1 );
+	level.zombie_vars[ "penalty_no_revive" ] = level.cmPlayerBleedoutPointsLostAllPlayers;
 	//penalty to the player who died 10% of points by default
-	level.bleedoutPointsLostSelf = getDvarFloatDefault( "bleedoutPointsLostSelf", 0.1 );
-	level.zombie_vars[ "penalty_died" ] = level.bleedoutPointsLostSelf;
+	level.cmPlayerBleedoutPointsLostSelf = getDvarFloatDefault( "cmPlayerBleedoutPointsLostSelf", 0.1 );
+	level.zombie_vars[ "penalty_died" ] = level.cmPlayerBleedoutPointsLostSelf;
 	//points players lose on down %5 by default
-	level.downedPointsLostSelf = getDvarFloatDefault( "downedPointsLostSelf", 0.05 );
-	level.zombie_vars[ "penalty_downed" ] = level.downedPointsLostSelf;
+	level.cmPlayerDownedPointsLostSelf = getDvarFloatDefault( "cmPlayerDownedPointsLostSelf", 0.05 );
+	level.zombie_vars[ "penalty_downed" ] = level.cmPlayerDownedPointsLostSelf;
 	//unknown
-	level.playerStartingLives = getDvarIntDefault( "playerStartingLives", 1 );
-	level.zombie_vars[ "starting_lives" ] = level.playerStartingLives;
+	level.cmPlayerStartingLives = getDvarIntDefault( "cmPlayerStartingLives", 1 );
+	level.zombie_vars[ "starting_lives" ] = level.cmPlayerStartingLives;
 	//points earned per zombie kill in a 4 player game
-	level.fourPlayerScorePerZombieKill = getDvarIntDefault( "fourPlayerScorePerZombieKill", 50 );
-	level.zombie_vars[ "zombie_score_kill_4player" ] = level.fourPlayerScorePerZombieKill;
+	level.cmPlayerFourPlayerScorePerZombieKill = getDvarIntDefault( "cmPlayerFourPlayerScorePerZombieKill", 50 );
+	level.zombie_vars[ "zombie_score_kill_4player" ] = level.cmPlayerFourPlayerScorePerZombieKill;
 	//points earned per zombie kill in a 3 player game
-	level.threePlayerScorePerZombieKill = getDvarIntDefault( "threePlayerScorePerZombieKill", 50 );
-	level.zombie_vars[ "zombie_score_kill_3player" ] = level.threePlayerScorePerZombieKill;
+	level.cmPlayerThreePlayerScorePerZombieKill = getDvarIntDefault( "cmPlayerThreePlayerScorePerZombieKill", 50 );
+	level.zombie_vars[ "zombie_score_kill_3player" ] = level.cmPlayerThreePlayerScorePerZombieKill;
 	//points earned per zombie kill in a 2 player game
-	level.twoPlayerScorePerZombieKill = getDvarIntDefault( "twoPlayerScorePerZombieKill", 50 );
-	level.zombie_vars[ "zombie_score_kill_2player" ] = level.twoPlayerScorePerZombieKill;
+	level.cmPlayerTwoPlayerScorePerZombieKill = getDvarIntDefault( "cmPlayerTwoPlayerScorePerZombieKill", 50 );
+	level.zombie_vars[ "zombie_score_kill_2player" ] = level.cmPlayerTwoPlayerScorePerZombieKill;
 	//points earned per zombie kill in a 1 player game
-	level.onePlayerScorePerZombieKill = getDvarIntDefault( "onePlayerScorePerZombieKill", 50 );
-	level.zombie_vars[ "zombie_score_kill_1player" ] = level.onePlayerScorePerZombieKill;
+	level.cmPlayerOnePlayerScorePerZombieKill = getDvarIntDefault( "cmPlayerOnePlayerScorePerZombieKill", 50 );
+	level.zombie_vars[ "zombie_score_kill_1player" ] = level.cmPlayerOnePlayerScorePerZombieKill;
 	//points given for a normal attack
-	level.pointsPerNormalAttack = getDvarIntDefault( "pointsPerNormalAttack", 10 );
-	level.zombie_vars[ "zombie_score_damage_normal" ] = level.pointsPerNormalAttack;
+	level.cmPlayerPointsPerNormalAttack = getDvarIntDefault( "cmPlayerPointsPerNormalAttack", 10 );
+	level.zombie_vars[ "zombie_score_damage_normal" ] = level.cmPlayerPointsPerNormalAttack;
 	//points given for a light attack
-	level.pointsPerLightAttack = getDvarIntDefault( "pointsPerLightAttack", 10 );
-	level.zombie_vars[ "zombie_score_damage_light" ] = level.pointsPerLightAttack;
+	level.cmPlayerPointsPerLightAttack = getDvarIntDefault( "cmPlayerPointsPerLightAttack", 10 );
+	level.zombie_vars[ "zombie_score_damage_light" ] = level.cmPlayerPointsPerLightAttack;
 	//players turn into a zombie on death WARNING: buggy as can be and is missing assets
-	level.shouldZombifyPlayer = getDvarIntDefault( "shouldZombifyPlayer", 0 );
-	level.zombie_vars[ "zombify_player" ] = level.shouldZombifyPlayer;
+	level.cmPlayerShouldZombify = getDvarIntDefault( "cmPlayerShouldZombify", 0 );
+	level.zombie_vars[ "zombify_player" ] = level.cmPlayerShouldZombify;
 	//points scalar for allies team
-	level.alliesPointsMultiplier = getDvarIntDefault( "alliesPointsMultiplier", 1 );
-	level.zombie_vars[ "allies" ][ "zombie_point_scalar" ] = level.alliesPointsMultiplier;
+	level.cmTeamAlliesPointsMultiplier = getDvarIntDefault( "cmTeamAlliesPointsMultiplier", 1 );
+	level.zombie_vars[ "allies" ][ "zombie_point_scalar" ] = level.cmTeamAlliesPointsMultiplier;
 	//points scalar for axis team
-	level.axisPointsMultiplier = getDvarIntDefault( "axisPointsMultiplier", 1 );
-	level.zombie_vars[ "axis" ][ "zombie_point_scalar" ] = level.axisPointsMultiplier;
+	level.cmTeamAxisPointsMultiplier = getDvarIntDefault( "cmTeamAxisPointsMultiplier", 1 );
+	level.zombie_vars[ "axis" ][ "zombie_point_scalar" ] = level.cmTeamAxisPointsMultiplier;
 	//sets the radius of emps explosion lower this to 1 to render emps useless
-	level.empPerkExplosionRadius = getDvarIntDefault( "empPerkExplosionRadius", 420 );
-	level.zombie_vars[ "emp_perk_off_range" ] = level.empPerkExplosionRadius;
-	//sets the duration of emps on perks set to 0 for infiinite emps
-	level.empPerkOffDuration = getDvarIntDefault( "empPerkOffDuration", 90 );
-	level.zombie_vars[ "emp_perk_off_time" ] = level.empPerkOffDuration;
+	level.cmWeaponEmpPerkExplosionRadius = getDvarIntDefault( "cmWeaponEmpPerkExplosionRadius", 420 );
+	level.zombie_vars[ "emp_perk_off_range" ] = level.cmWeaponEmpPerkExplosionRadius;
+	//sets the duration of emps on perks set to 0 for infiinite duration
+	level.cmWeaponEmpPerkOffDuration = getDvarIntDefault( "cmWeaponEmpPerkOffDuration", 90 );
+	level.zombie_vars[ "emp_perk_off_time" ] = level.cmWeaponEmpPerkOffDuration;
 	//riotshield health 
-	level.riotshieldHitPoints = getDvarIntDefault( "riotshieldHitPoints", 2250 );
-	level.zombie_vars[ "riotshield_hit_points" ] = level.riotshieldHitPoints;
+	level.cmEquipmentRiotshieldHitPoints = getDvarIntDefault( "cmEquipmentRiotshieldHitPoints", 2250 );
+	level.zombie_vars[ "riotshield_hit_points" ] = level.cmEquipmentRiotshieldHitPoints;
 	//jugg health bonus
-	level.juggHealthBonus = getDvarIntDefault( "juggHealthBonus", 160 );
-	level.zombie_vars[ "zombie_perk_juggernaut_health" ] = level.juggHealthBonus;	
+	level.cmPerkJuggHealthBonus = getDvarIntDefault( "cmPerkJuggHealthBonus", 160 );
+	level.zombie_vars[ "zombie_perk_juggernaut_health" ] = level.cmPerkJuggHealthBonus;	
 	//perma jugg health bonus 
-	level.permaJuggHealthBonus = getDvarIntDefault( "permaJuggHealthBonus", 190 );
-	level.zombie_vars[ "zombie_perk_juggernaut_health_upgrade" ] = level.permaJuggHealthBonus;
+	level.cmPerkPermaJuggHealthBonus = getDvarIntDefault( "cmPerkPermaJuggHealthBonus", 90 );
+	level.zombie_vars[ "zombie_perk_juggernaut_health_upgrade" ] = level.cmPerkPermaJuggHealthBonus;
 	//phd min explosion damage
-	level.minPhdExplosionDamage = getDvarIntDefault( "minPhdExplosionDamage", 1000 );
-	level.zombie_vars[ "zombie_perk_divetonuke_min_damage" ] = level.minPhdExplosionDamage;
+	level.cmPerkMinPhdExplosionDamage = getDvarIntDefault( "cmPerkMinPhdExplosionDamage", 2000 );
+	level.zombie_vars[ "zombie_perk_divetonuke_min_damage" ] = level.cmPerkMinPhdExplosionDamage;
 	//phd max explosion damage
-	level.maxPhdExplosionDamage = getDvarIntDefault( "maxPhdExplosionDamage", 5000 );
-	level.zombie_vars[ "zombie_perk_divetonuke_max_damage" ] = level.maxPhdExplosionDamage;
+	level.cmPerkMaxPhdExplosionDamage = getDvarIntDefault( "cmPerkMaxPhdExplosionDamage", 5000 );
+	level.zombie_vars[ "zombie_perk_divetonuke_max_damage" ] = level.cmPerkMaxPhdExplosionDamage;
 	//phd explosion radius
-	level.phdDamageRadius = getDvarIntDefault( "phdDamageRadius", 300 );
-	level.zombie_vars[ "zombie_perk_divetonuke_radius" ] = level.phdDamageRadius;
+	level.cmPerkPhdDamageRadius = getDvarIntDefault( "cmPerkPhdDamageRadius", 300 );
+	level.zombie_vars[ "zombie_perk_divetonuke_radius" ] = level.cmPerkPhdDamageRadius;
+	//cheat protected dvars. these can only be set in gsc so we set the values with a different dvars
+	//sets speed colas reload multiplier lower is better WARNING: animation doesn't sync
+	level.cmPerkSpeedColaReloadSpeed = getDvarFloatDefault( "cmPerkSpeedColaReloadSpeed", 0.5 );
+	setdvar( "perk_weapReloadMultiplier", level.cmPerkSpeedColaReloadSpeed );
+	//sets double taps firing speed multiplier lower is better
+	level.cmPerkDoubleTapFireRate = getDvarFloatDefault( "cmPerkDoubleTapFireRate", 0.75 );
+	setdvar( "perk_weapRateMultiplier", level.cmPerkDoubleTapFireRate );
+	//sets deadshot crosshair size multiplier lower is better
+	level.cmPerkDeadshotAccuracyModifier = getDvarFloatDefault( "cmPerkDeadshotAccuracyModifier", 0.70 );
+	setdvar( "perk_weapSpreadMultiplier", level.cmPerkDeadshotAccuracyModifier );	
+	//sets how close players have to be to revive another player
+	level.cmPlayerReviveTriggerRadius = getDvarIntDefault( "cmPlayerReviveTriggerRadius", 75 );
+	setdvar( "revive_trigger_radius", level.cmPlayerReviveTriggerRadius );
+	//sets the amount time before a player will bleedout after going down
+	level.cmPlayerLaststandBleedoutTime = getDvarIntDefault( "cmPlayerLaststandBleedoutTime", 45 );
+	setdvar( "player_lastStandBleedoutTime", level.cmPlayerLaststandBleedoutTime );
+	
+	init_custom_zm_powerups_gsc_exclusive_dvars();
 	disable_specific_powerups();
 	checks();
 	thread zombies_always_drop_powerups();
@@ -218,18 +241,30 @@ init()
 	thread zombie_health_cap_override();
 	thread zombie_spawn_delay_fix();
 	thread zombie_speed_fix();
+	level thread onplayerconnect();
+}
+
+onplayerconnect()
+{
+	level waittill( "connected", player );
+	player thread onplayerspawned();
+}
+
+onplayerspawned()
+{
+	self waittill( "spawned_player" );
+	self thread watch_for_respawn();
 }
 
 checks()
 {
 	if ( level.mixed_rounds_enabled )
 	{
-		if ( level.script != "zm_transit" || is_classic() || level.scr_zm_ui_gametype == "zgrief" )
+		if ( level.script != "zm_transit" || maps/mp/zombies/_zm_utility::is_classic() || level.scr_zm_ui_gametype == "zgrief" )
 		{
 			level.mixed_rounds_enabled = 0;
 		}
 	}
-
 	if ( level.start_weapon == "" || level.start_weapon== "m1911_zm" )
 	{
 		level.start_weapon = "m1911_zm";
@@ -259,50 +294,50 @@ checks()
 
 disable_specific_powerups()
 {
-	level.powerupNames = array( "nuke", "insta_kill", "full_ammo", "double_points", "fire_sale", "free_perk", "carpenter", "zombie_blood" );
-	array = level.powerupNames;
+	level.cmPowerupNames = array( "nuke", "insta_kill", "full_ammo", "double_points", "fire_sale", "free_perk", "carpenter", "zombie_blood" );
+	array = level.cmPowerupNames;
 	//all powerups are enabled by default disable them manually
 	//remove nukes from the drop cycle and special drops
-	level.zmPowerupsEnabled = [];
-	level.zmPowerupsEnabled[ "nuke" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "nuke" ].name = "nuke";
-	level.zmPowerupsEnabled[ "nuke" ].active = getDvarIntDefault( "zmPowerupsNukeEnabled", 1 );
+	level.cmPowerupEnabled = [];
+	level.cmPowerupEnabled[ "nuke" ] = spawnstruct();
+	level.cmPowerupEnabled[ "nuke" ].name = "nuke";
+	level.cmPowerupEnabled[ "nuke" ].active = getDvarIntDefault( "cmPowerupNukeEnabled", 1 );
 	//remove insta kills from the drop cycle and special drops
-	level.zmPowerupsEnabled[ "insta_kill" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "insta_kill" ].name = "insta_kill";
-	level.zmPowerupsEnabled[ "insta_kill" ].active = getDvarIntDefault( "zmPowerupsInstaKillEnabled", 1 );
+	level.cmPowerupEnabled[ "insta_kill" ] = spawnstruct();
+	level.cmPowerupEnabled[ "insta_kill" ].name = "insta_kill";
+	level.cmPowerupEnabled[ "insta_kill" ].active = getDvarIntDefault( "cmPowerupInstaKillEnabled", 1 );
 	//remove max ammos from the drop cycle and special drops
-	level.zmPowerupsEnabled[ "full_ammo" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "full_ammo" ].name = "full_ammo";
-	level.zmPowerupsEnabled[ "full_ammo" ].active = getDvarIntDefault( "zmPowerupsMaxAmmoEnabled", 1 );
+	level.cmPowerupEnabled[ "full_ammo" ] = spawnstruct();
+	level.cmPowerupEnabled[ "full_ammo" ].name = "full_ammo";
+	level.cmPowerupEnabled[ "full_ammo" ].active = getDvarIntDefault( "cmPowerupMaxAmmoEnabled", 1 );
 	//remove carpenter from the drop cycle and special drops
-	level.zmPowerupsEnabled[ "double_points" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "double_points" ].name = "double_points";
-	level.zmPowerupsEnabled[ "double_points" ].active = getDvarIntDefault( "zmPowerupsDoublePointsEnabled", 1 );
+	level.cmPowerupEnabled[ "double_points" ] = spawnstruct();
+	level.cmPowerupEnabled[ "double_points" ].name = "double_points";
+	level.cmPowerupEnabled[ "double_points" ].active = getDvarIntDefault( "cmPowerupDoublePointsEnabled", 1 );
 	//remove fire sale from the drop cycle and special drops NOTE: fire sale isn't on all maps already this being enabled won't make it spawn
-	level.zmPowerupsEnabled[ "fire_sale" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "fire_sale" ].name = "fire_sale";
-	level.zmPowerupsEnabled[ "fire_sale" ].active = getDvarIntDefault( "zmPowerupsFireSaleEnabled", 1 );
+	level.cmPowerupEnabled[ "fire_sale" ] = spawnstruct();
+	level.cmPowerupEnabled[ "fire_sale" ].name = "fire_sale";
+	level.cmPowerupEnabled[ "fire_sale" ].active = getDvarIntDefault( "cmPowerupFireSaleEnabled", 1 );
 	//remove the perk bottle from the drop cycle and special drops
-	level.zmPowerupsEnabled[ "free_perk" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "free_perk" ].name = "free_perk";
-	level.zmPowerupsEnabled[ "free_perk" ].active = getDvarIntDefault( "zmPowerupsPerkBottleEnabled", 1 );
+	level.cmPowerupEnabled[ "free_perk" ] = spawnstruct();
+	level.cmPowerupEnabled[ "free_perk" ].name = "free_perk";
+	level.cmPowerupEnabled[ "free_perk" ].active = getDvarIntDefault( "cmPowerupPerkBottleEnabled", 1 );
 	//removes carpenter from the drop cycle and special drops
-	level.zmPowerupsEnabled[ "carpenter" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "carpenter" ].name = "carpenter";
-	level.zmPowerupsEnabled[ "carpenter" ].active = getDvarIntDefault( "zmPowerupsCarpenterEnabled", 1 );
+	level.cmPowerupEnabled[ "carpenter" ] = spawnstruct();
+	level.cmPowerupEnabled[ "carpenter" ].name = "carpenter";
+	level.cmPowerupEnabled[ "carpenter" ].active = getDvarIntDefault( "cmPowerupCarpenterEnabled", 1 );
 	//removes zombie blood from the drop cycle and special drops
-	level.zmPowerupsEnabled[ "zombie_blood" ] = spawnstruct();
-	level.zmPowerupsEnabled[ "zombie_blood" ].name = "zombie_blood";
-	level.zmPowerupsEnabled[ "zombie_blood" ].active = getDvarIntDefault( "zmPowerupsZombieBloodEnabled", 1 );
+	level.cmPowerupEnabled[ "zombie_blood" ] = spawnstruct();
+	level.cmPowerupEnabled[ "zombie_blood" ].name = "zombie_blood";
+	level.cmPowerupEnabled[ "zombie_blood" ].active = getDvarIntDefault( "cmPowerupZombieBloodEnabled", 1 );
 	
 	//you can expand this list with custom powerups if you'd like just add a new spawnstruct() and add to the array at the top
 	
 	for ( i = 0; i < array.size; i++ )
 	{	
-		if ( !level.zmPowerupsEnabled[ array[ i ] ].active )
+		if ( !level.cmPowerupEnabled[ array[ i ] ].active )
 		{
-			name = level.zmPowerupsEnabled[ array[ i ] ].name;
+			name = level.cmPowerupEnabled[ array[ i ] ].name;
 			if ( isInArray( level.zombie_include_powerups, name ) )
 			{
 				arrayremovevalue( level.zombie_include_powerups, name );
@@ -321,7 +356,7 @@ disable_specific_powerups()
 
 disable_all_powerups()
 {
-	if ( level.zmPowerupsNoPowerupDrops )
+	if ( level.cmPowerupNoPowerupDrops )
 	{
 		flag_clear( "zombie_drop_powerups" );
 	}
@@ -329,13 +364,13 @@ disable_all_powerups()
 
 zombies_always_drop_powerups()
 {
-	if ( !level.zombiesAlwaysDropPowerups )
+	if ( !level.cmPowerupAlwaysDrop )
 	{
 		return;
 	}
 	while ( 1 )
 	{
-		level.zombie_vars[ "zombie_drop_item" ] = level.zombiesAlwaysDropPowerups;
+		level.zombie_vars[ "zombie_drop_item" ] = level.cmPowerupAlwaysDrop;
 		wait 0.05;
 	}
 }
@@ -356,65 +391,65 @@ onplayerspawned()
 
 zombies_per_round_override()
 {
-	if ( !level.overrideZombieTotalPermanently )
+	if ( !level.cmZombieTotalPermanentOverride )
 	{
 		return;
 	}
 	while ( 1 )
 	{
 		level waittill( "start_of_round" );
-		level.zombie_total = getDvarIntDefault( "overrideZombieTotalPermanentlyValue", 6 );
+		level.zombie_total = level.cmZombieTotalPermanentOverrideValue;
 	}
 }
 
 zombie_health_override()
 {
-	if ( !level.overrideZombieHealthPermanently )
+	if ( !level.cmZombieHealthPermanentOverride )
 	{
 		return;
 	}
 	while ( 1 )
 	{
 		level waittill( "start_of_round" );
-		level.zombie_health = getDvarIntDefault( "overrideZombieHealthPermanentlyValue", 150 );
+		level.zombie_health = level.cmZombieHealthPermanentOverrideValue;
 	}
 }
 
 zombie_health_cap_override()
 {
-	if ( !level.overrideZombieMaxHealth )
+	if ( !level.cmZombieMaxHealthOverride )
 	{
 		return;
 	}
 	while ( 1 )
 	{
 		level waittill( "start_of_round" );
-		if ( level.zombie_health > level.overrideZombieMaxHealthValue )
+		if ( level.zombie_health > level.cmZombieMaxHealthOverrideValue )
 		{
-			level.zombie_health = getDvarIntDefault( "overrideZombieHealthMaxHealthValue", 150 );
+			level.zombie_health = level.cmZombieMaxHealthOverrideValue;
 		}
 	}
 }
 
 zombie_spawn_delay_fix()
 {
-	if ( level.zombieSpawnRateLocked )
+	if ( level.cmZombieSpawnRateLocked )
 	{
 		return;
 	}
 	i = 1;
 	while ( i <= level.round_number )
 	{
-		timer = level.zombieSpawnRate;
+		timer = level.cmZombieSpawnRate;
 		if ( timer > 0.08 )
 		{
-			level.zombieSpawnRate = timer * level.zombieSpawnRateMultiplier;
+			level.cmZombieSpawnRate = timer * level.cmZombieSpawnRateMultiplier;
 			i++;
 			continue;
 		}
-		else if ( timer < 0.08 )
+		if ( timer < 0.08 )
 		{
-			level.zombieSpawnRate = 0.08;
+			level.cmZombieSpawnRate = 0.08;
 			break;
 		}
 		i++;
@@ -422,17 +457,17 @@ zombie_spawn_delay_fix()
 	while ( 1 )
 	{
 		level waittill( "start_of_round" );
-		if ( level.zombieSpawnRate > 0.08 )
+		if ( level.cmZombieSpawnRate > 0.08 )
 		{
-			level.zombieSpawnRate = level.zombieSpawnRate * level.zombieSpawnRateMultiplier;
+			level.cmZombieSpawnRate = level.cmZombieSpawnRate * level.cmZombieSpawnRateMultiplier;
 		}
-		level.zombie_vars[ "zombie_spawn_delay" ] = level.zombieSpawnRate;
+		level.zombie_vars[ "zombie_spawn_delay" ] = level.cmZombieSpawnRate;
 	}
 }
 
 zombie_speed_fix()
 {
-	if ( level.zombieMoveSpeedLocked )
+	if ( level.cmZombieMoveSpeedLocked )
 	{
 		return;
 	}
@@ -448,29 +483,104 @@ zombie_speed_fix()
 
 zombie_speed_override()
 {
-	if ( !level.zombieMoveSpeedLocked )
+	if ( !level.cmZombieMoveSpeedLocked )
 	{
 		return;
 	}
 	while ( 1 )
 	{
 		level waittill( "start_of_round" );
-		level.zombie_move_speed = getDvarIntDefault( "zombieMoveSpeed", 1 );
+		level.zombie_move_speed = getDvarIntDefault( "cmZombieMoveSpeed", 1 );
 	}
 }
 
 zombie_speed_cap_override()
 {
-	if ( !level.zombieMoveSpeedCap )
+	if ( !level.cmZombieMoveSpeedCap )
 	{
 		return;
 	}
 	while ( 1 )
 	{
 		level waittill( "start_of_round" );
-		if ( level.zombie_move_speed > level.zombieMoveSpeedCapValue )
+		if ( level.zombie_move_speed > level.cmZombieMoveSpeedCapValue )
 		{
-			level.zombie_move_speed = level.zombieMoveSpeedCapValue;
+			level.zombie_move_speed = level.cmZombieMoveSpeedCapValue;
 		}
 	}
 }
+
+zombie_move_animation_override()
+{
+	if ( level.cmZombieMoveAnimation == "" )
+	{
+		return;
+	}
+	
+	while ( 1 )
+	{
+		zombies = getAiArray( level.zombie_team );
+		foreach( zombie in zombies )
+		{
+			if ( zombie in_enabled_playable_area() )
+			{
+				zombie maps/mp/zombies/_zm_utility::set_zombie_run_cycle( level.cmZombieMoveAnimation );
+			}
+		}
+		wait 1;
+	}
+}
+
+watch_for_respawn()
+{
+	self endon( "disconnect" );
+	self._retain_perks = getDvarIntDefault( "cmPlayerRetainPerks", 0 );
+	while ( 1 )
+	{
+		self waittill_any( "spawned_player", "player_revived" );
+		wait_network_frame();
+		if ( self._retain_perks && self hasPerk( "specialty_armorvest" ) )
+		{
+			self setMaxHealth( level.cmPerkJuggHealthBonus );
+		}
+		else if ( self.pers_upgrades_awarded[ "jugg" ] )
+		{
+			self setMaxHealth( level.cmPerkPermaJuggHealthBonus );
+		}
+		else
+		{
+			self setMaxHealth( level.cmPlayerMaxHealth );
+		}
+	}
+}
+
+init_custom_zm_powerups_gsc_exclusive_dvars()
+{
+	//%chance that a powerup will drop everytime a zombie is killed
+	level.cmPowerupRandomDropChance = getDvarIntDefault( "cmPowerupRandomDropChance", 2 );
+	//time before a powerup starts to blink and then disappear if not grabbed
+	level.cmPowerupFieldLifetime = getDvarIntDefault( "cmPowerupFieldLifetime", 15 );
+	//duration of fire sale
+	level.cmPowerupFireSaleDuration = getDvarIntDefault( "cmPowerupFireSaleDuration", 30 );
+	//duration of double points
+	level.cmPowerupDoublePointsDuration = getDvarIntDefault( "cmPowerupDoublePointsDuration", 30 );
+	//double points points scalar
+	level.cmPowerupDoublePointsScalar = getDvarIntDefault( "cmPowerupDoublePointsScalar", 2 );
+	//duration of insta kill
+	level.cmPowerupInstaKillDuration = getDvarIntDefault( "cmPowerupInstaKillDuration", 30 );
+	
+	//points given by carpenter
+	level.cmPowerupCarpenterPoints = getDvarIntDefault( "cmPowerupCarpenterPoints", 200 );
+	//points given by nuke
+	level.cmPowerupNukePoints = getDvarIntDefault( "cmPowerupCarpenterPoints", 400 );
+	//whether nukes should take their time killing zombies off
+	level.cmPowerupNukeShouldWaitToKillZombies = getDvarIntDefault( "cmPowerupNukeShouldWaitToKillZombies", 1 );
+	//minimum time before a nuked zombie dies
+	level.cmPowerupNukeMinTimeToKill = getDvarFloatDefault( "cmPowerupNukeMinTimeToKill", 0.1 );
+	//maximum time before a nuked zombie dies
+	level.cmPowerupNukeMaxTimeToKill = getDvarFloatDefault( "cmPowerupNukeMaxTimeToKill", 0.7 );
+	//should max ammo affect players in laststand
+	level.cmPowerupMaxAmmoAffectsLaststandPlayers = getDvarIntDefault( "cmPowerupMaxAmmoAffectsLastandPlayers", 0 );
+}
+
+

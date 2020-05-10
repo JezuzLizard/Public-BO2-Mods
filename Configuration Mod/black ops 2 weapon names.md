@@ -35,6 +35,8 @@ m32_upgraded_zm
 m32_zm //war machine
 python_upgraded_zm
 python_zm //python
+qcw05_upgraded_zm
+qcw05_zm //chicom
 sf_qcw05_upgraded_zm
 riotshield_zm //zombie shield
 rottweil72_upgraded_zm
@@ -100,6 +102,8 @@ mp5k_upgraded_zm
 mp5k_zm
 python_upgraded_zm
 python_zm
+qcw05_upgraded_zm
+qcw05_zm //chicom
 sf_qcw05_upgraded_zm
 rpd_upgraded_zm
 rpd_zm
@@ -160,6 +164,8 @@ pdw57_upgraded_zm
 pdw57_zm
 python_upgraded_zm
 python_zm
+qcw05_upgraded_zm
+qcw05_zm //chicom
 sf_qcw05_upgraded_zm
 rpd_upgraded_zm
 rpd_zm
@@ -220,6 +226,8 @@ m32_upgraded_zm
 m32_zm
 pdw57_upgraded_zm
 pdw57_zm
+qcw05_upgraded_zm
+qcw05_zm //chicom
 sf_qcw05_upgraded_zm
 rnma_upgraded_zm
 rnma_zm
@@ -333,6 +341,8 @@ one_inch_punch_upgraded_zm
 one_inch_punch_zm
 python_upgraded_zm
 python_zm
+qcw05_upgraded_zm
+qcw05_zm //chicom
 sf_qcw05_upgraded_zm
 scar_upgraded_zm
 scar_zm
@@ -391,8 +401,6 @@ galil_upgraded_zm
 galil_zm //galil
 m14_upgraded_zm
 m14_zm
-qcw05_upgraded_zm
-qcw05_zm //chicom
 ray_gun_upgraded_zm
 ray_gun_zm
 raygun_mark2_upgraded_zm
