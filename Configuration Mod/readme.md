@@ -20,44 +20,6 @@ Install _zm_powerups.gsc in in maps/mp/zombies
 
 This will add support for changing a few aspects of the vanilla powerups
 
-# Update 4/10/20
-
-#### New dvars
-
-##### Powerups
-
-Added support for disabling individual powerups
-
-Added the ability to disable all powerup drops
-
-Added the ability to make all zombies drop a powerup
-
-##### Spawnrate
-
-Added the ability to set the zombie spawn rate
-
-Added the ability to lock the zombie spawn rate
-
-Added the ability to change the spawn rate multiplier
-
-Added the ability for the zombie spawn rate to automatically adjust if the roundNumber dvar was used
-
-###### Zombie Movespeed
-
-Added the ability to lock the zombie movespeed
-
-Added the ability to set a cap to the zombie movespeed
-
-##### Zombie Health
-
-Added the ability to set a health cap
-
-Added tha ability to lock the zombie health
-
-##### Zombies Per Round
-
-Added the ability to lock the zombies per round
-
 # Update 5/9/20
 
 ## Main Changes
@@ -103,3 +65,39 @@ Added a dvar allowing you to control whether nukes instantly kill zombies
 Added dvars which allow you to control the minimum and maximum time it takes for a zombie to die to a nuke
 
 Added a dvar that allows max ammo to apply to downed players
+
+# Update 4/10/20
+
+### Powerups
+
+Added support for disabling individual powerups
+
+Added the ability to disable all powerup drops
+
+Added the ability to make all zombies drop a powerup
+
+### Spawnrate
+
+Added the ability to set the zombie spawn rate
+
+Added the ability to lock the zombie spawn rate
+
+Added the ability to change the spawn rate multiplier
+
+Added the ability for the zombie spawn rate to automatically adjust if the roundNumber dvar was used
+
+### Zombie Movespeed
+
+Added the ability to lock the zombie movespeed
+
+Added the ability to set a cap to the zombie movespeed
+
+### Zombie Health
+
+Added the ability to set a health cap
+
+Added tha ability to lock the zombie health
+
+### Zombies Per Round
+
+Added the ability to lock the zombies per round
