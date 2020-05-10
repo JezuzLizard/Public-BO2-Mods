@@ -20,6 +20,20 @@ Install _zm_powerups.gsc in in maps/mp/zombies
 
 This will add support for changing a few aspects of the vanilla powerups
 
+# Update 5/10/20
+
+## Main Changes
+
+Organized variables by type so its easier for mod developers to find whats there
+
+Removed zombie below world check value since it can interfere with MoTD
+
+Fixed the nuke points dvar having the same name as the carpenter points dvar
+
+Changed some powerup dvars to player type dvars since they deal with points earned by players
+
+Added another check for the _zm_powerups.gsc exclusive dvars
+
 # Update 5/9/20
 
 ## Main Changes
