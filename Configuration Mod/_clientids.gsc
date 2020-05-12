@@ -88,11 +88,11 @@ init()
 	level.cmEquipmentRiotshieldHitPoints = getDvarIntDefault( "cmEquipmentRiotshieldHitPoints", 2250 );
 	level.zombie_vars[ "riotshield_hit_points" ] = level.cmEquipmentRiotshieldHitPoints;
 	//jugg health bonus
-	level.cmPerkJuggHealthBonus = getDvarIntDefault( "cmPerkJuggHealthBonus", 160 );
-	level.zombie_vars[ "zombie_perk_juggernaut_health" ] = level.cmPerkJuggHealthBonus;	
+	level.cmPerkJuggHealth = getDvarIntDefault( "cmPerkJuggHealth", 250 );
+	level.zombie_vars[ "zombie_perk_juggernaut_health" ] = level.cmPerkJuggHealth;	
 	//perma jugg health bonus 
-	level.cmPerkPermaJuggHealthBonus = getDvarIntDefault( "cmPerkPermaJuggHealthBonus", 90 );
-	level.zombie_vars[ "zombie_perk_juggernaut_health_upgrade" ] = level.cmPerkPermaJuggHealthBonus;
+	level.cmPerkPermaJuggHealth = getDvarIntDefault( "cmPerkPermaJuggHealth", 190 );
+	level.zombie_vars[ "zombie_perk_juggernaut_health_upgrade" ] = level.cmPerkPermaJuggHealth;
 	//phd min explosion damage
 	level.cmPerkMinPhdExplosionDamage = getDvarIntDefault( "cmPerkMinPhdExplosionDamage", 2000 );
 	level.zombie_vars[ "zombie_perk_divetonuke_min_damage" ] = level.cmPerkMinPhdExplosionDamage;
@@ -244,14 +244,23 @@ init()
 
 onplayerconnect()
 {
-	level waittill( "connected", player );
-	player thread onplayerspawned();
+	level endon( "end_game" );
+	self endon( "disconnect" );
+	while ( 1 )
+	{
+		level waittill( "connected", player );
+		player thread onplayerspawned();
+	}
 }
 
 onplayerspawned()
 {
 	self waittill( "spawned_player" );
+	self._retain_perks = getDvarIntDefault( "cmPlayerRetainPerks", 0 );
 	self thread watch_for_respawn();
+	self.health = level.cmPlayerMaxHealth;
+	self.maxHealth = self.health;
+	self setMaxHealth( level.cmPlayerMaxHealth );
 }
 
 checks()
@@ -532,22 +541,27 @@ zombie_move_animation_override()
 watch_for_respawn()
 {
 	self endon( "disconnect" );
-	self._retain_perks = getDvarIntDefault( "cmPlayerRetainPerks", 0 );
 	while ( 1 )
 	{
 		self waittill_any( "spawned_player", "player_revived" );
 		wait_network_frame();
 		if ( self._retain_perks && self hasPerk( "specialty_armorvest" ) )
 		{
-			self setMaxHealth( level.cmPerkJuggHealthBonus );
+			self setMaxHealth( level.cmPerkJuggHealth );
+			self.health = level.cmPerkJuggHealth;
+			self.maxHealth = self.health;
 		}
-		else if ( self.pers_upgrades_awarded[ "jugg" ] )
+		else if ( self.pers_upgrades_awarded[ "jugg" ] && maps/mp/zombies/_zm_utility::is_classic() )
 		{
-			self setMaxHealth( level.cmPerkPermaJuggHealthBonus );
+			self setMaxHealth( level.cmPerkPermaJuggHealth );
+			self.health = level.cmPerkPermaJuggHealth;
+			self.maxHealth = self.health;
 		}
 		else
 		{
 			self setMaxHealth( level.cmPlayerMaxHealth );
+			self.health = level.cmPlayerMaxHealth;
+			self.maxHealth = self.health;
 		}
 	}
 }
@@ -584,6 +598,8 @@ init_custom_zm_powerups_gsc_exclusive_dvars()
 	//should max ammo affect players in laststand
 	level.cmPowerupMaxAmmoAffectsLaststandPlayers = getDvarIntDefault( "cmPowerupMaxAmmoAffectsLastandPlayers", 0 );
 }
+
+
 
 
 

@@ -20,6 +20,14 @@ Install _zm_powerups.gsc in in maps/mp/zombies
 
 This will add support for changing a few aspects of the vanilla powerups
 
+# Update 5/12/20
+
+## Main Changes
+
+Changed the names of jugg type perk health bonuses to be more accurate to their usage.
+
+Now sets each players health on first spawn and subsequent respawns and revives.
+
 # Update 5/10/20
 
 ## Main Changes
