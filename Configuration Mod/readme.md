@@ -26,6 +26,8 @@ This will add support for changing a few aspects of the vanilla powerups
 
 Hopefully fixed maxhealth not being set for all players
 
+Properly set the variable checking for first spawn to be attached to the player struct
+
 # Update 5/12/20
 
 ## Main Changes
