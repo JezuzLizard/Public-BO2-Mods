@@ -20,6 +20,12 @@ Install _zm_powerups.gsc in in maps/mp/zombies
 
 This will add support for changing a few aspects of the vanilla powerups
 
+# Update 5/18/20
+
+## Main Changes
+
+Hopefully fixed maxhealth not being set for all players
+
 # Update 5/12/20
 
 ## Main Changes

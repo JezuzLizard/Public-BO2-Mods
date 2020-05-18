@@ -255,12 +255,20 @@ onplayerconnect()
 
 onplayerspawned()
 {
-	self waittill( "spawned_player" );
-	self._retain_perks = getDvarIntDefault( "cmPlayerRetainPerks", 0 );
-	self thread watch_for_respawn();
-	self.health = level.cmPlayerMaxHealth;
-	self.maxHealth = self.health;
-	self setMaxHealth( level.cmPlayerMaxHealth );
+	self endon( "disconnect" );
+	while ( 1 )
+	{
+		self waittill( "spawned_player" );
+		self._retain_perks = getDvarIntDefault( "cmPlayerRetainPerks", 0 );
+		if ( !isDefined( isFirstSpawn ) || !isFirstSpawn )
+		{
+			isFirstSpawn = 1;
+			self thread watch_for_respawn();
+			self.health = level.cmPlayerMaxHealth;
+			self.maxHealth = self.health;
+			self setMaxHealth( level.cmPlayerMaxHealth );
+		}
+	}
 }
 
 checks()
@@ -598,6 +606,7 @@ init_custom_zm_powerups_gsc_exclusive_dvars()
 	//should max ammo affect players in laststand
 	level.cmPowerupMaxAmmoAffectsLaststandPlayers = getDvarIntDefault( "cmPowerupMaxAmmoAffectsLastandPlayers", 0 );
 }
+
 
 
 
