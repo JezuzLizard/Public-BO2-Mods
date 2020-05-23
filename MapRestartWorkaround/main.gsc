@@ -20,7 +20,7 @@ init()
 gscRestart()
 {
 	level waittill( "end_game" );
-      	wait 20; //20 is ideal
+      	wait 12;
         map_restart( false );
 }
 
