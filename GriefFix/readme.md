@@ -75,7 +75,7 @@ Town, Farm and Bus Depot //requires one of these maps to be loaded initially and
 ## Requirements
 Grief requires gts teamCount "2" to work properly in the server config turn it off when loading non-grief maps
 
-## Better waiting hud
+## Better countdown hud
 An addon for grief regarding countdown ui, to enable this copy the lines from better-countdown-hud.gsc and replace lines 243 - 246 on main.gsc
 
 ### Changelog
