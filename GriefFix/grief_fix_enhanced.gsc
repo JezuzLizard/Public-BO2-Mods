@@ -79,8 +79,6 @@ griefFunctionsAndVars()
    	for(;;)
     {
     	level waittill("connected", player);
-    	level.playerTeamNameTag = player getTeamNameTag();
-    	player teamPicking();
        	player teamBalancing();
 		player [[ level.givecustomcharacters ]]();
     }
@@ -97,47 +95,8 @@ round_prestart_func()
 	wait level.wait_time;
 }
 
-getTeamNameTag()
-{
-	name = self.name;
-	return name[0] + name[1] + name[2];
-}
-
-teamPicking()
-{
-	teamplayersallies = countplayers( "allies");
-	teamplayersaxis = countplayers( "axis");
-	if ( level.playerTeamNameTag == "cdc" && teamplayersallies < 4 && !level.isresetting_grief )
-	{
-		self.team = "allies";
-		self.sessionteam = "allies";
-		self [[level.allies]]();
-		self.pers["team"] = "allies";
-		self._encounters_team = "B";
-		return true;
-	}
-	else if ( level.playerTeamNameTag == "cia" && teamplayersaxis < 4 && !level.isresetting_grief )
-	{
-		self.team = "axis";
-		self.sessionteam = "axis";
-		self [[level.axis]]();
-	 	self.pers["team"] = "axis";
-		self._encounters_team = "A";
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
 teamBalancing()
 {
-	teamChosen = teamPicking();
-	if ( teamChosen )
-	{
-		return;
-	}
 	teamplayersallies = countplayers( "allies");
 	teamplayersaxis = countplayers( "axis");
 	if (teamplayersallies > teamplayersaxis && !level.isresetting_grief)
@@ -243,27 +202,27 @@ countdownTimer()
 	Remaining = create_simple_hud();
   	Remaining.horzAlign = "center";
   	Remaining.vertAlign = "middle";
-   	Remaining.alignX = "Left";
+   	Remaining.alignX = "center";
    	Remaining.alignY = "middle";
-   	Remaining.y = 0;
-   	Remaining.x = 135;
+   	Remaining.y = 20;
+   	Remaining.x = 0;
    	Remaining.foreground = 1;
-   	Remaining.fontscale = 3.0;
+   	Remaining.fontscale = 2.0;
    	Remaining.alpha = 1;
-   	Remaining.color = ( 1.000, 1.000, 1.000 );
+   	Remaining.color = ( 0.98, 0.549, 0 );
 
    	Countdown = create_simple_hud();
    	Countdown.horzAlign = "center"; 
    	Countdown.vertAlign = "middle";
    	Countdown.alignX = "center";
    	Countdown.alignY = "middle";
-   	Countdown.y = 0;
-   	Countdown.x = -1;
+   	Countdown.y = -20;
+   	Countdown.x = 0;
    	Countdown.foreground = 1;
-   	Countdown.fontscale = 3.0;
+   	Countdown.fontscale = 2.0;
    	Countdown.alpha = 1;
    	Countdown.color = ( 1.000, 1.000, 1.000 );
-   	Countdown SetText( "Time until game starts:" );
+   	Countdown SetText( "Match begins in" );
    	
    	timer = level.wait_time;
 	while ( level.countdown_start == 1 )
@@ -283,28 +242,18 @@ countdownTimer()
 deleteBuyableDoors()
 {
     doors_trigs = getentarray( "zombie_door", "targetname" );
-    _a41 = doors_trigs;
-    _k41 = getFirstArrayKey( _a41 );
-    while ( isDefined( _k41 ) )
-    {
-        door = _a41[ _k41 ];
-        //deletes the depot main door trigger
+	foreach ( door in doors_trigs )
         door self_delete();
-        _k41 = getNextArrayKey( _a41, _k41 );
     }
 }
 
 deleteBuyableDebris()
 {
     debris_trigs = getentarray( "zombie_debris", "targetname" );
-    _a41 = debris_trigs;
-    _k41 = getFirstArrayKey( _a41 );
-    while ( isDefined( _k41 ) )
-    {
-        debris = _a41[ _k41 ];
+	foreach ( debris in debris_trigs )
+	{
         //deletes the depot main door trigger
         debris self_delete();
-        _k41 = getNextArrayKey( _a41, _k41 );
     }
 }
 
@@ -315,7 +264,7 @@ gscRestart()
 		return;
 	}
 	level waittill( "end_game" );
-	wait 20;
+	wait 12;
 	map_restart( false );
 }
 
