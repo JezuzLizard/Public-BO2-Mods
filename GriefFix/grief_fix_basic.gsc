@@ -10,7 +10,7 @@
 init()
 {
 	thread griefFunctionsAndVars();
-	gameDelayFunctionsAndVars()
+	gameDelayFunctionsAndVars();
 	thread setPlayersToSpectator();
 	thread gscRestart();
 	thread emptyLobbyRestart();
