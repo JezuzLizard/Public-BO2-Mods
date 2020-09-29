@@ -15,14 +15,14 @@ Compile grief_fix_enhanced.gsc as _clientids.gsc and place it maps/mp/gametypes_
 
 ### Loading up Grief
 
-Make sure you have the dedicated_zm.cfg and the grief.cfg in gamesettings added from here:
+Make sure you have the dedicated_zm.cfg and the relevant zm_grief_<location>.cfg in gamesettings added from here:
 https://github.com/xerxes-at/T6ServerConfigs
 Next make an sv_maprotation in the dedicated_zm.cfg with only 1 map loading up the grief map of your choice.
 It should look like this 
 ```
-sv_maprotation "exec zgrief.cfg gametype zgrief loc town map zm_transit"
+sv_maprotation "exec zm_grief_town.cfg map zm_transit"
 map_rotate
 ```
 Double check if you have another sv_maprotation set already since that can cause errors.
 
-Feel free to modify the zgrief.cfg to change a few settings like start round or magic
+Feel free to modify the zgrief.cfg to change a few settings like start round or magic.
