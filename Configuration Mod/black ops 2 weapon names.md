@@ -1,7 +1,5 @@
 ## Tranzit
 ```
-870mcs_upgraded_zm
-870mcs_zm //remington shotgun
 ak74u_upgraded_zm
 ak74u_zm
 bowie_knife_zm
@@ -63,8 +61,6 @@ xm8_zm //m8a1
 
 ## Nuketown
 ```
-870mcs_upgraded_zm
-870mcs_zm
 ak74u_upgraded_zm
 ak74u_zm
 bowie_knife_zm
@@ -129,8 +125,6 @@ xm8_zm
 ```
 ## Die Rise
 ```
-870mcs_upgraded_zm
-870mcs_zm
 ak74u_upgraded_zm
 ak74u_zm
 an94_upgraded_zm
@@ -253,8 +247,6 @@ usrpg_zm
 ```
 ## Mob of The Dead
 ```
-870mcs_upgraded_zm
-870mcs_zm
 ak47_upgraded_zm
 ak47_zm
 alcatraz_shield_zm
@@ -299,8 +291,6 @@ uzi_zm
 ```
 ## Origins
 ```
-870mcs_upgraded_zm
-870mcs_zm
 ak74u_upgraded_zm
 ak74u_zm
 ak74u_extclip_upgraded_zm
@@ -381,6 +371,8 @@ type95_zm
 ```
 ## All maps
 ```
+870mcs_upgraded_zm
+870mcs_zm //remington shotgun
 barretm82_upgraded_zm
 barretm82_zm
 beretta93r_upgraded_zm
