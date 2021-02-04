@@ -4,5 +4,5 @@ Some Plutonium GSC mods
 
 * Grief Mode
 * Tombstone Fix
-* Map_restart Workaround
+* Hellhounds Only
 * Configuration Mod
