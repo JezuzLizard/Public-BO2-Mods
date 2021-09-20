@@ -31,6 +31,33 @@ main()
 	replaceFunc( maps/mp/zombies/_zm_magicbox::treasure_chest_weapon_spawn, ::treasure_chest_weapon_spawn_o );
 	replaceFunc( maps/mp/zombies/_zm_magicbox::timer_til_despawn, ::timer_til_despawn_o );
 	replaceFunc( maps/mp/zombies/_zm_magicbox::treasure_chest_give_weapon, ::treasure_chest_give_weapon_o );
+	level.bt_allow_dupes = getDvarIntDefault( "bt_allow_dupes", 0 );
+	level.bt_custom_weapon_list = "";
+	if ( getDvar( "bt_custom_weapon_list" ) != "" )
+	{
+		level.bt_custom_weapon_list = getDvar( "bt_custom_weapon_list" );
+	}
+	level.bt_all_active = getDvarIntDefault( "bt_all_active", 0 );
+	level.bt_share_allowed = getDvarIntDefault( "bt_share_allowed", 0 );
+	level.bt_box_start_locs = "";
+	if ( getDvar( "bt_box_start_locs" ) != "" )
+	{
+		level.bt_box_start_locs = getDvar( "bt_box_start_locs" );
+	}
+	level.bt_box_cost = getDvarIntDefault( "bt_box_cost", 950 );
+	level.bt_box_summon = getDvarIntDefault( "bt_box_summon", 0 );
+	level.bt_box_summon_cost = getDvarIntDefault( "bt_box_summon_cost", 5000 );
+	level.bt_box_summon_max_hits = getDvarIntDefault( "bt_box_summon_max_hits", 4 );
+	level.bt_box_theft = getDvarIntDefault( "bt_box_theft", 0 );
+	level.bt_unlock_cost_motd = getDvarIntDefault( "bt_unlock_cost_motd", 2000 );
+	level.bt_emp = getDvarIntDefault( "bt_emp", 1 );
+	level.bt_can_move = getDvarIntDefault( "bt_can_move", 1 );
+	level.bt_fire_sale_duration = getDvarIntDefault( "bt_infinite_fire_sale", 30 );
+	level.bt_spin_time = getDvarIntDefault( "bt_spin_time", 4 );
+	level.bt_weapon_timeout = getDvarIntDefault( "bt_weapon_timeout", 12 );
+	level.bt_no_move_rng = getDvarIntDefault( "bt_no_move_rng", 0 );
+	level.bt_move_min = getDvarIntDefault( "bt_move_min", 4 );
+	level.bt_move_max = getDvarIntDefault( "bt_move_max", 99 );
 }
 
 treasure_chest_init_o( start_chest_name ) //checked changed to match cerberus output
@@ -831,22 +858,21 @@ treasure_chest_weapon_spawn_o( chest, player, respin ) //checked changed to matc
 	}
 	for ( i = 0; i < number_cycles; i++ )
 	{
-
 		if ( i < 20 )
 		{
-			wait 0.05 ; 
+			wait 0.05; //1 second total 1
 		}
 		else if ( i < 30 )
 		{
-			wait 0.1 ; 
+			wait 0.1; //1 second total 2
 		}
 		else if ( i < 35 )
 		{
-			wait 0.2 ; 
+			wait 0.2; //1 second total 3
 		}
 		else if ( i < 38 )
 		{
-			wait 0.3 ; 
+			wait 0.3; //1 second total 4
 		}
 	}
 	if ( isDefined( level.custom_magic_box_weapon_wait ) )
