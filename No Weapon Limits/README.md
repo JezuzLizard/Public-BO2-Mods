@@ -1,7 +1,7 @@
 Compile box_tweaker.gsc amd place it in scripts/zm
 
 It lets you easily customize the mystery boxes important behaviors.
-
+```
 Features:
 -- Customize the weapon limits.
 -- Customize the box contents.
@@ -18,3 +18,4 @@ Features:
 -- Change box spin time.
 -- Change box timeout.
 -- Change maximum and minimum rolls until the box may move.
+```
