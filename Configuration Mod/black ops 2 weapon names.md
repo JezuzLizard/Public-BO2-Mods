@@ -2,6 +2,8 @@
 ```
 ak74u_upgraded_zm
 ak74u_zm
+barretm82_upgraded_zm
+barretm82_zm
 bowie_knife_zm
 cymbal_monkey_zm
 gl_type95_zm
@@ -63,6 +65,8 @@ xm8_zm //m8a1
 ```
 ak74u_upgraded_zm
 ak74u_zm
+barretm82_upgraded_zm
+barretm82_zm
 bowie_knife_zm
 cymbal_monkey_zm
 gl_tar21_zm
@@ -129,6 +133,8 @@ ak74u_upgraded_zm
 ak74u_zm
 an94_upgraded_zm
 an94_zm
+barretm82_upgraded_zm
+barretm82_zm
 bowie_knife_zm
 cymbal_monkey_zm
 gl_tar21_zm
@@ -195,6 +201,8 @@ ak74u_upgraded_zm
 ak74u_zm
 an94_upgraded_zm
 an94_zm
+barretm82_upgraded_zm
+barretm82_zm
 bowie_knife_zm
 cymbal_monkey_zm
 gl_tar21_zm
@@ -250,6 +258,8 @@ usrpg_zm
 ak47_upgraded_zm
 ak47_zm
 alcatraz_shield_zm
+barretm82_upgraded_zm
+barretm82_zm
 blundergat_upgraded_zm
 blundergat_zm
 blundersplat_bullet_zm
@@ -373,8 +383,6 @@ type95_zm
 ```
 870mcs_upgraded_zm
 870mcs_zm //remington shotgun
-barretm82_upgraded_zm
-barretm82_zm
 beretta93r_upgraded_zm
 beretta93r_zm
 claymore_zm
