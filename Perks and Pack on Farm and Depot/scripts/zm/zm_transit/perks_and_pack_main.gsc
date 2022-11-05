@@ -101,7 +101,7 @@ struct_class_init_o()
 		register_perk_struct( "specialty_rof", "zombie_vending_doubletap2", ( 0, 227, 0 ), ( -6026, 4188, -41 ) );
 		register_perk_struct( "specialty_longersprint", "zombie_vending_marathon", ( 0, 175, 0 ), ( -7426, 4147, -63 ) );
 		register_perk_struct( "specialty_scavenger", "zombie_vending_tombstone", ( 0, 136, 0 ), ( -8098, 4467, -48 ) );
-		register_perk_struct( "specialty_weapupgrade", "p6_anim_zm_buildable_pap_on", ( 0, 213, 0), ( 9960, -1288, -217 ) );
+		register_perk_struct( "specialty_weapupgrade", "p6_anim_zm_buildable_pap_on", ( 0, 102, 0), ( -7631, 4347, -52 ) );
 		register_perk_struct( "specialty_quickrevive", "zombie_vending_quickrevive", ( 0, 175, 0 ), ( -6719, 4996, -55 ) );
 		register_perk_struct( "specialty_fastreload", "zombie_vending_sleight", ( 0, 85, 0 ), ( -6304, 5470, -55 ) );
 	}
