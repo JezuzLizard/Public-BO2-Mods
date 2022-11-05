@@ -124,8 +124,8 @@ register_perk_struct( perk_name, perk_model, perk_angles, perk_coordinates )
 		flag_struct = spawnStruct();
 		flag_struct.targetname = "weapupgrade_flag_targ";
 		flag_struct.model = "zombie_sign_please_wait";
-		flag_struct.angles = angles + ( 0, 180, 180 );
-		flag_struct.origin = origin + ( anglesToForward( angles ) * 29 ) + ( anglesToRight( angles ) * -13.5 ) + ( anglesToUp( angles ) * 49.5 );
+		flag_struct.angles = perk_angles + ( 0, 180, 180 );
+		flag_struct.origin = perk_coordinates + ( anglesToForward( perk_angles ) * 29 ) + ( anglesToRight( perk_angles ) * -13.5 ) + ( anglesToUp( perk_angles ) * 49.5 );
 		perk_struct.target = flag_struct.targetname;
 		add_struct( flag_struct );
 	}
