@@ -1,6 +1,6 @@
-#include maps/mp/zombies/_zm_utility;
-#include maps/mp/_utility;
-#include common_scripts/utility;
+#include maps\mp\zombies\_zm_utility;
+#include maps\mp\_utility;
+#include common_scripts\utility;
 
 main()
 {
@@ -10,9 +10,9 @@ main()
 	{
 		if ( location == "farm" || location == "transit" )
 		{
-			replaceFunc( common_scripts/utility::struct_class_init, ::struct_class_init_o );
-			replaceFunc( maps/mp/zm_transit_utility::solo_tombstone_removal, ::solo_tombstone_removal );
-			replaceFunc( maps/mp/zombies/_zm_perks::perk_machine_removal, ::perk_machine_removal );
+			replaceFunc( common_scripts\utility::struct_class_init, ::struct_class_init_o );
+			replaceFunc( maps\mp\zm_transit_utility::solo_tombstone_removal, ::solo_tombstone_removal );
+			replaceFunc( maps\mp\zombies\_zm_perks::perk_machine_removal, ::perk_machine_removal );
 			level thread turn_perks_on();
 		}
 	}
